@@ -1,0 +1,819 @@
+{
+  "fontToolsVersion": "4.63.0",
+  "roots": [
+    "avar",
+    "AxisSegmentMap",
+    "VarIdxMap",
+    "HVAR",
+    "VVAR",
+    "MVAR",
+    "VARC",
+    "STAT",
+    "FeatureVariations",
+    "ConditionList",
+    "ConditionSet",
+    "VarStore",
+    "VarRegionList",
+    "VarRegion",
+    "VarRegionAxis",
+    "VarData",
+    "DeltaSetIndexMapFormat0",
+    "DeltaSetIndexMapFormat1",
+    "MultiVarStore",
+    "MultiVarData",
+    "SparseVarRegionList",
+    "SparseVarRegion",
+    "SparseVarRegionAxis",
+    "AxisIndicesList",
+    "VarCompositeGlyphs"
+  ],
+  "definitions": {
+    "AxisIndicesList": [
+      {
+        "type": "TupleList",
+        "name": "Item",
+        "repeat": "",
+        "aux": 0,
+        "description": ""
+      }
+    ],
+    "AxisRecord": [
+      {
+        "type": "Tag",
+        "name": "AxisTag",
+        "repeat": null,
+        "aux": null,
+        "description": "A tag identifying the axis of design variation"
+      },
+      {
+        "type": "NameID",
+        "name": "AxisNameID",
+        "repeat": null,
+        "aux": null,
+        "description": "The name ID for entries in the \"name\" table that provide a display string for this axis"
+      },
+      {
+        "type": "uint16",
+        "name": "AxisOrdering",
+        "repeat": null,
+        "aux": null,
+        "description": "A value that applications can use to determine primary sorting of face names, or for ordering of descriptors when composing family or face names"
+      },
+      {
+        "type": "uint8",
+        "name": "MoreBytes",
+        "repeat": "DesignAxisRecordSize",
+        "aux": -8,
+        "description": "Extra bytes.  Set to empty array."
+      }
+    ],
+    "AxisRecordArray": [
+      {
+        "type": "AxisRecord",
+        "name": "Axis",
+        "repeat": "DesignAxisCount",
+        "aux": 0,
+        "description": "Axis records"
+      }
+    ],
+    "AxisSegmentMap": [
+      {
+        "type": "uint16",
+        "name": "PositionMapCount",
+        "repeat": null,
+        "aux": null,
+        "description": "The number of correspondence pairs for this axis"
+      },
+      {
+        "type": "AxisValueMap",
+        "name": "AxisValueMap",
+        "repeat": "PositionMapCount",
+        "aux": 0,
+        "description": "The array of axis value map records for this axis"
+      }
+    ],
+    "AxisValueArray": [
+      {
+        "type": "Offset",
+        "name": "AxisValue",
+        "repeat": "AxisValueCount",
+        "aux": 0,
+        "description": "Axis values"
+      }
+    ],
+    "AxisValueMap": [
+      {
+        "type": "F2Dot14",
+        "name": "FromCoordinate",
+        "repeat": null,
+        "aux": null,
+        "description": "A normalized coordinate value obtained using default normalization"
+      },
+      {
+        "type": "F2Dot14",
+        "name": "ToCoordinate",
+        "repeat": null,
+        "aux": null,
+        "description": "The modified, normalized coordinate value"
+      }
+    ],
+    "ConditionList": [
+      {
+        "type": "uint32",
+        "name": "ConditionCount",
+        "repeat": null,
+        "aux": null,
+        "description": "Number of condition tables in the ConditionTable array"
+      },
+      {
+        "type": "LOffset",
+        "name": "ConditionTable",
+        "repeat": "ConditionCount",
+        "aux": 0,
+        "description": "Array of offset to condition tables, from the beginning of the ConditionList table."
+      }
+    ],
+    "ConditionSet": [
+      {
+        "type": "uint16",
+        "name": "ConditionCount",
+        "repeat": null,
+        "aux": null,
+        "description": "Number of condition tables in the ConditionTable array"
+      },
+      {
+        "type": "LOffset",
+        "name": "ConditionTable",
+        "repeat": "ConditionCount",
+        "aux": 0,
+        "description": "Array of offset to condition tables, from the beginning of the ConditionSet table."
+      }
+    ],
+    "DeltaSetIndexMapFormat0": [
+      {
+        "type": "uint8",
+        "name": "Format",
+        "repeat": null,
+        "aux": null,
+        "description": "Format of the DeltaSetIndexMap = 0"
+      },
+      {
+        "type": "uint8",
+        "name": "EntryFormat",
+        "repeat": null,
+        "aux": null,
+        "description": ""
+      },
+      {
+        "type": "uint16",
+        "name": "MappingCount",
+        "repeat": null,
+        "aux": null,
+        "description": ""
+      },
+      {
+        "type": "VarIdxMapValue",
+        "name": "mapping",
+        "repeat": "",
+        "aux": 0,
+        "description": "Array of compressed data"
+      }
+    ],
+    "DeltaSetIndexMapFormat1": [
+      {
+        "type": "uint8",
+        "name": "Format",
+        "repeat": null,
+        "aux": null,
+        "description": "Format of the DeltaSetIndexMap = 1"
+      },
+      {
+        "type": "uint8",
+        "name": "EntryFormat",
+        "repeat": null,
+        "aux": null,
+        "description": ""
+      },
+      {
+        "type": "uint32",
+        "name": "MappingCount",
+        "repeat": null,
+        "aux": null,
+        "description": ""
+      },
+      {
+        "type": "VarIdxMapValue",
+        "name": "mapping",
+        "repeat": "",
+        "aux": 0,
+        "description": "Array of compressed data"
+      }
+    ],
+    "FeatureVariationRecord": [
+      {
+        "type": "LOffset",
+        "name": "ConditionSet",
+        "repeat": null,
+        "aux": null,
+        "description": "Offset to a ConditionSet table, from beginning of the FeatureVariations table."
+      },
+      {
+        "type": "LOffset",
+        "name": "FeatureTableSubstitution",
+        "repeat": null,
+        "aux": null,
+        "description": "Offset to a FeatureTableSubstitution table, from beginning of the FeatureVariations table"
+      }
+    ],
+    "FeatureVariations": [
+      {
+        "type": "Version",
+        "name": "Version",
+        "repeat": null,
+        "aux": null,
+        "description": "Version of the table-initially set to 0x00010000"
+      },
+      {
+        "type": "uint32",
+        "name": "FeatureVariationCount",
+        "repeat": null,
+        "aux": null,
+        "description": "Number of records in the FeatureVariationRecord array"
+      },
+      {
+        "type": "struct",
+        "name": "FeatureVariationRecord",
+        "repeat": "FeatureVariationCount",
+        "aux": 0,
+        "description": "Array of FeatureVariationRecord"
+      }
+    ],
+    "HVAR": [
+      {
+        "type": "Version",
+        "name": "Version",
+        "repeat": null,
+        "aux": null,
+        "description": "Version of the HVAR table-initially = 0x00010000"
+      },
+      {
+        "type": "LOffset",
+        "name": "VarStore",
+        "repeat": null,
+        "aux": null,
+        "description": ""
+      },
+      {
+        "type": "LOffsetTo(VarIdxMap)",
+        "name": "AdvWidthMap",
+        "repeat": null,
+        "aux": null,
+        "description": ""
+      },
+      {
+        "type": "LOffsetTo(VarIdxMap)",
+        "name": "LsbMap",
+        "repeat": null,
+        "aux": null,
+        "description": ""
+      },
+      {
+        "type": "LOffsetTo(VarIdxMap)",
+        "name": "RsbMap",
+        "repeat": null,
+        "aux": null,
+        "description": ""
+      }
+    ],
+    "MVAR": [
+      {
+        "type": "Version",
+        "name": "Version",
+        "repeat": null,
+        "aux": null,
+        "description": "Version of the MVAR table-initially = 0x00010000"
+      },
+      {
+        "type": "uint16",
+        "name": "Reserved",
+        "repeat": null,
+        "aux": null,
+        "description": "Set to 0"
+      },
+      {
+        "type": "uint16",
+        "name": "ValueRecordSize",
+        "repeat": null,
+        "aux": null,
+        "description": ""
+      },
+      {
+        "type": "uint16",
+        "name": "ValueRecordCount",
+        "repeat": null,
+        "aux": null,
+        "description": ""
+      },
+      {
+        "type": "Offset",
+        "name": "VarStore",
+        "repeat": null,
+        "aux": null,
+        "description": ""
+      },
+      {
+        "type": "MetricsValueRecord",
+        "name": "ValueRecord",
+        "repeat": "ValueRecordCount",
+        "aux": 0,
+        "description": ""
+      }
+    ],
+    "MetricsValueRecord": [
+      {
+        "type": "Tag",
+        "name": "ValueTag",
+        "repeat": null,
+        "aux": null,
+        "description": "4-byte font-wide measure identifier"
+      },
+      {
+        "type": "uint32",
+        "name": "VarIdx",
+        "repeat": null,
+        "aux": null,
+        "description": "Combined outer-inner variation index"
+      },
+      {
+        "type": "uint8",
+        "name": "MoreBytes",
+        "repeat": "ValueRecordSize",
+        "aux": -8,
+        "description": "Extra bytes.  Set to empty array."
+      }
+    ],
+    "MultiVarData": [
+      {
+        "type": "uint8",
+        "name": "Format",
+        "repeat": null,
+        "aux": null,
+        "description": "Set to 1."
+      },
+      {
+        "type": "uint16",
+        "name": "VarRegionCount",
+        "repeat": null,
+        "aux": null,
+        "description": ""
+      },
+      {
+        "type": "uint16",
+        "name": "VarRegionIndex",
+        "repeat": "VarRegionCount",
+        "aux": 0,
+        "description": ""
+      },
+      {
+        "type": "TupleList",
+        "name": "Item",
+        "repeat": "",
+        "aux": 0,
+        "description": ""
+      }
+    ],
+    "MultiVarStore": [
+      {
+        "type": "uint16",
+        "name": "Format",
+        "repeat": null,
+        "aux": null,
+        "description": "Set to 1."
+      },
+      {
+        "type": "LOffset",
+        "name": "SparseVarRegionList",
+        "repeat": null,
+        "aux": null,
+        "description": ""
+      },
+      {
+        "type": "uint16",
+        "name": "MultiVarDataCount",
+        "repeat": null,
+        "aux": null,
+        "description": ""
+      },
+      {
+        "type": "LOffset",
+        "name": "MultiVarData",
+        "repeat": "MultiVarDataCount",
+        "aux": 0,
+        "description": ""
+      }
+    ],
+    "STAT": [
+      {
+        "type": "Version",
+        "name": "Version",
+        "repeat": null,
+        "aux": null,
+        "description": "Version of the table-initially set to 0x00010000, currently 0x00010002."
+      },
+      {
+        "type": "uint16",
+        "name": "DesignAxisRecordSize",
+        "repeat": null,
+        "aux": null,
+        "description": "Size in bytes of each design axis record"
+      },
+      {
+        "type": "uint16",
+        "name": "DesignAxisCount",
+        "repeat": null,
+        "aux": null,
+        "description": "Number of design axis records"
+      },
+      {
+        "type": "LOffsetTo(AxisRecordArray)",
+        "name": "DesignAxisRecord",
+        "repeat": null,
+        "aux": null,
+        "description": "Offset in bytes from the beginning of the STAT table to the start of the design axes array"
+      },
+      {
+        "type": "uint16",
+        "name": "AxisValueCount",
+        "repeat": null,
+        "aux": null,
+        "description": "Number of axis value tables"
+      },
+      {
+        "type": "LOffsetTo(AxisValueArray)",
+        "name": "AxisValueArray",
+        "repeat": null,
+        "aux": null,
+        "description": "Offset in bytes from the beginning of the STAT table to the start of the axes value offset array"
+      },
+      {
+        "type": "NameID",
+        "name": "ElidedFallbackNameID",
+        "repeat": null,
+        "aux": "Version >= 0x00010001",
+        "description": "NameID to use when all style attributes are elided."
+      }
+    ],
+    "SparseVarRegion": [
+      {
+        "type": "uint16",
+        "name": "SparseRegionCount",
+        "repeat": null,
+        "aux": null,
+        "description": ""
+      },
+      {
+        "type": "struct",
+        "name": "SparseVarRegionAxis",
+        "repeat": "SparseRegionCount",
+        "aux": 0,
+        "description": ""
+      }
+    ],
+    "SparseVarRegionAxis": [
+      {
+        "type": "uint16",
+        "name": "AxisIndex",
+        "repeat": null,
+        "aux": null,
+        "description": ""
+      },
+      {
+        "type": "F2Dot14",
+        "name": "StartCoord",
+        "repeat": null,
+        "aux": null,
+        "description": ""
+      },
+      {
+        "type": "F2Dot14",
+        "name": "PeakCoord",
+        "repeat": null,
+        "aux": null,
+        "description": ""
+      },
+      {
+        "type": "F2Dot14",
+        "name": "EndCoord",
+        "repeat": null,
+        "aux": null,
+        "description": ""
+      }
+    ],
+    "SparseVarRegionList": [
+      {
+        "type": "uint16",
+        "name": "RegionCount",
+        "repeat": null,
+        "aux": null,
+        "description": ""
+      },
+      {
+        "type": "LOffsetTo(SparseVarRegion)",
+        "name": "Region",
+        "repeat": "RegionCount",
+        "aux": 0,
+        "description": ""
+      }
+    ],
+    "VARC": [
+      {
+        "type": "Version",
+        "name": "Version",
+        "repeat": null,
+        "aux": null,
+        "description": "Version of the HVAR table-initially = 0x00010000"
+      },
+      {
+        "type": "LOffset",
+        "name": "Coverage",
+        "repeat": null,
+        "aux": null,
+        "description": ""
+      },
+      {
+        "type": "LOffset",
+        "name": "MultiVarStore",
+        "repeat": null,
+        "aux": null,
+        "description": "(may be NULL)"
+      },
+      {
+        "type": "LOffset",
+        "name": "ConditionList",
+        "repeat": null,
+        "aux": null,
+        "description": "(may be NULL)"
+      },
+      {
+        "type": "LOffset",
+        "name": "AxisIndicesList",
+        "repeat": null,
+        "aux": null,
+        "description": "(may be NULL)"
+      },
+      {
+        "type": "LOffset",
+        "name": "VarCompositeGlyphs",
+        "repeat": null,
+        "aux": null,
+        "description": ""
+      }
+    ],
+    "VVAR": [
+      {
+        "type": "Version",
+        "name": "Version",
+        "repeat": null,
+        "aux": null,
+        "description": "Version of the VVAR table-initially = 0x00010000"
+      },
+      {
+        "type": "LOffset",
+        "name": "VarStore",
+        "repeat": null,
+        "aux": null,
+        "description": ""
+      },
+      {
+        "type": "LOffsetTo(VarIdxMap)",
+        "name": "AdvHeightMap",
+        "repeat": null,
+        "aux": null,
+        "description": ""
+      },
+      {
+        "type": "LOffsetTo(VarIdxMap)",
+        "name": "TsbMap",
+        "repeat": null,
+        "aux": null,
+        "description": ""
+      },
+      {
+        "type": "LOffsetTo(VarIdxMap)",
+        "name": "BsbMap",
+        "repeat": null,
+        "aux": null,
+        "description": ""
+      },
+      {
+        "type": "LOffsetTo(VarIdxMap)",
+        "name": "VOrgMap",
+        "repeat": null,
+        "aux": null,
+        "description": "Vertical origin mapping."
+      }
+    ],
+    "VarCompositeGlyphs": [
+      {
+        "type": "VarCompositeGlyphList",
+        "name": "VarCompositeGlyph",
+        "repeat": "",
+        "aux": null,
+        "description": ""
+      }
+    ],
+    "VarData": [
+      {
+        "type": "uint16",
+        "name": "ItemCount",
+        "repeat": null,
+        "aux": null,
+        "description": ""
+      },
+      {
+        "type": "uint16",
+        "name": "NumShorts",
+        "repeat": null,
+        "aux": null,
+        "description": ""
+      },
+      {
+        "type": "uint16",
+        "name": "VarRegionCount",
+        "repeat": null,
+        "aux": null,
+        "description": ""
+      },
+      {
+        "type": "uint16",
+        "name": "VarRegionIndex",
+        "repeat": "VarRegionCount",
+        "aux": 0,
+        "description": ""
+      },
+      {
+        "type": "VarDataValue",
+        "name": "Item",
+        "repeat": "ItemCount",
+        "aux": 0,
+        "description": ""
+      }
+    ],
+    "VarIdxMap": [
+      {
+        "type": "uint16",
+        "name": "EntryFormat",
+        "repeat": null,
+        "aux": null,
+        "description": ""
+      },
+      {
+        "type": "uint16",
+        "name": "MappingCount",
+        "repeat": null,
+        "aux": null,
+        "description": ""
+      },
+      {
+        "type": "VarIdxMapValue",
+        "name": "mapping",
+        "repeat": "",
+        "aux": 0,
+        "description": "Array of compressed data"
+      }
+    ],
+    "VarRegion": [
+      {
+        "type": "struct",
+        "name": "VarRegionAxis",
+        "repeat": "RegionAxisCount",
+        "aux": 0,
+        "description": ""
+      }
+    ],
+    "VarRegionAxis": [
+      {
+        "type": "F2Dot14",
+        "name": "StartCoord",
+        "repeat": null,
+        "aux": null,
+        "description": ""
+      },
+      {
+        "type": "F2Dot14",
+        "name": "PeakCoord",
+        "repeat": null,
+        "aux": null,
+        "description": ""
+      },
+      {
+        "type": "F2Dot14",
+        "name": "EndCoord",
+        "repeat": null,
+        "aux": null,
+        "description": ""
+      }
+    ],
+    "VarRegionList": [
+      {
+        "type": "uint16",
+        "name": "RegionAxisCount",
+        "repeat": null,
+        "aux": null,
+        "description": ""
+      },
+      {
+        "type": "uint16",
+        "name": "RegionCount",
+        "repeat": null,
+        "aux": null,
+        "description": ""
+      },
+      {
+        "type": "VarRegion",
+        "name": "Region",
+        "repeat": "RegionCount",
+        "aux": 0,
+        "description": ""
+      }
+    ],
+    "VarStore": [
+      {
+        "type": "uint16",
+        "name": "Format",
+        "repeat": null,
+        "aux": null,
+        "description": "Set to 1."
+      },
+      {
+        "type": "LOffset",
+        "name": "VarRegionList",
+        "repeat": null,
+        "aux": null,
+        "description": ""
+      },
+      {
+        "type": "uint16",
+        "name": "VarDataCount",
+        "repeat": null,
+        "aux": null,
+        "description": ""
+      },
+      {
+        "type": "LOffset",
+        "name": "VarData",
+        "repeat": "VarDataCount",
+        "aux": 0,
+        "description": ""
+      }
+    ],
+    "avar": [
+      {
+        "type": "Version",
+        "name": "Version",
+        "repeat": null,
+        "aux": null,
+        "description": "Version of the avar table- 0x00010000 or 0x00020000"
+      },
+      {
+        "type": "uint16",
+        "name": "Reserved",
+        "repeat": null,
+        "aux": null,
+        "description": "Permanently reserved; set to zero"
+      },
+      {
+        "type": "uint16",
+        "name": "AxisCount",
+        "repeat": null,
+        "aux": null,
+        "description": "The number of variation axes for this font. This must be the same number as axisCount in the \"fvar\" table"
+      },
+      {
+        "type": "AxisSegmentMap",
+        "name": "AxisSegmentMap",
+        "repeat": "AxisCount",
+        "aux": 0,
+        "description": "The segment maps array — one segment map for each axis, in the order of axes specified in the \"fvar\" table"
+      },
+      {
+        "type": "LOffsetTo(DeltaSetIndexMap)",
+        "name": "VarIdxMap",
+        "repeat": null,
+        "aux": "Version >= 0x00020000",
+        "description": ""
+      },
+      {
+        "type": "LOffset",
+        "name": "VarStore",
+        "repeat": null,
+        "aux": "Version >= 0x00020000",
+        "description": ""
+      }
+    ]
+  },
+  "notes": [
+    "This is fontTools otData metadata, not a normative TTX XSD.",
+    "Generic Offset/LOffset fields can resolve to structures using converter context; custom XML handlers can differ from this metadata."
+  ]
+}

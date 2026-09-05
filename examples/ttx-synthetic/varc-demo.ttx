@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ttFont sfntVersion="\x00\x01\x00\x00" ttLibVersion="4.63">
+
+  <fvar>
+
+    <!-- Weight -->
+    <Axis>
+      <AxisTag>wght</AxisTag>
+      <Flags>0x0</Flags>
+      <MinValue>100.0</MinValue>
+      <DefaultValue>400.0</DefaultValue>
+      <MaxValue>900.0</MaxValue>
+      <AxisNameID>256</AxisNameID>
+    </Axis>
+  </fvar>
+
+  <VARC>
+    <Version value="0x00010000"/>
+    <Coverage>
+      <Glyph value="parent"/>
+    </Coverage>
+    <AxisIndicesList>
+      <Item index="0" value="[0]"/>
+    </AxisIndicesList>
+    <VarCompositeGlyphs>
+      <VarCompositeGlyph index="0">
+        <VarComponent index="0">
+          <glyphName value="stem"/>
+          <axisIndicesIndex value="0"/>
+          <axisValues value="[0.5]"/>
+          <translateX value="50.0"/>
+        </VarComponent>
+      </VarCompositeGlyph>
+    </VarCompositeGlyphs>
+  </VARC>
+
+</ttFont>

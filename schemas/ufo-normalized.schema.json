@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:font-format-schema:ufo-normalized",
+  "type": "object",
+  "required": [
+    "glyphCount",
+    "glyphs"
+  ],
+  "properties": {
+    "path": {
+      "type": "string"
+    },
+    "formatVersion": {
+      "type": "integer"
+    },
+    "glyphCount": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "glyphs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "components",
+          "anchors",
+          "variableComponents"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "layer": {
+            "type": "string"
+          },
+          "file": {
+            "type": "string"
+          },
+          "width": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "components": {
+            "type": "array"
+          },
+          "anchors": {
+            "type": "array"
+          },
+          "variableComponents": {
+            "type": "array"
+          },
+          "glyphDesignspace": {}
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}

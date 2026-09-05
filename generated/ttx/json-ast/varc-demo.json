@@ -1,0 +1,147 @@
+{
+  "tag": "ttFont",
+  "attributes": {
+    "sfntVersion": "\\x00\\x01\\x00\\x00",
+    "ttLibVersion": "4.63"
+  },
+  "children": [
+    {
+      "tag": "fvar",
+      "attributes": {},
+      "children": [
+        {
+          "tag": "Axis",
+          "attributes": {},
+          "children": [
+            {
+              "tag": "AxisTag",
+              "attributes": {},
+              "children": [],
+              "text": "wght"
+            },
+            {
+              "tag": "Flags",
+              "attributes": {},
+              "children": [],
+              "text": "0x0"
+            },
+            {
+              "tag": "MinValue",
+              "attributes": {},
+              "children": [],
+              "text": "100.0"
+            },
+            {
+              "tag": "DefaultValue",
+              "attributes": {},
+              "children": [],
+              "text": "400.0"
+            },
+            {
+              "tag": "MaxValue",
+              "attributes": {},
+              "children": [],
+              "text": "900.0"
+            },
+            {
+              "tag": "AxisNameID",
+              "attributes": {},
+              "children": [],
+              "text": "256"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tag": "VARC",
+      "attributes": {},
+      "children": [
+        {
+          "tag": "Version",
+          "attributes": {
+            "value": "0x00010000"
+          },
+          "children": []
+        },
+        {
+          "tag": "Coverage",
+          "attributes": {},
+          "children": [
+            {
+              "tag": "Glyph",
+              "attributes": {
+                "value": "parent"
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "tag": "AxisIndicesList",
+          "attributes": {},
+          "children": [
+            {
+              "tag": "Item",
+              "attributes": {
+                "index": "0",
+                "value": "[0]"
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "tag": "VarCompositeGlyphs",
+          "attributes": {},
+          "children": [
+            {
+              "tag": "VarCompositeGlyph",
+              "attributes": {
+                "index": "0"
+              },
+              "children": [
+                {
+                  "tag": "VarComponent",
+                  "attributes": {
+                    "index": "0"
+                  },
+                  "children": [
+                    {
+                      "tag": "glyphName",
+                      "attributes": {
+                        "value": "stem"
+                      },
+                      "children": []
+                    },
+                    {
+                      "tag": "axisIndicesIndex",
+                      "attributes": {
+                        "value": "0"
+                      },
+                      "children": []
+                    },
+                    {
+                      "tag": "axisValues",
+                      "attributes": {
+                        "value": "[0.5]"
+                      },
+                      "children": []
+                    },
+                    {
+                      "tag": "translateX",
+                      "attributes": {
+                        "value": "50.0"
+                      },
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

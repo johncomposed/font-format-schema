@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<glyph name="varComposite" format="2">
+  <advance width="600"/>
+  <lib>
+    <dict>
+      <key>com.black-foundry.variable-components</key>
+      <array>
+        <dict>
+          <key>base</key>
+          <string>stem</string>
+          <key>location</key>
+          <dict>
+            <key>Weight</key>
+            <integer>700</integer>
+            <key>Width</key>
+            <integer>75</integer>
+          </dict>
+          <key>transformation</key>
+          <dict>
+            <key>translateX</key>
+            <integer>40</integer>
+            <key>translateY</key>
+            <integer>0</integer>
+            <key>rotation</key>
+            <real>0.0</real>
+            <key>scaleX</key>
+            <real>1.0</real>
+            <key>scaleY</key>
+            <real>1.0</real>
+          </dict>
+        </dict>
+      </array>
+    </dict>
+  </lib>
+</glyph>

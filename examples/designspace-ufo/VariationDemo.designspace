@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<designspace format="5.2">
+  <axes>
+    <axis name="Weight" tag="wght" minimum="100" default="400" maximum="900"/>
+    <axis name="Width" tag="wdth" minimum="75" default="100" maximum="125"/>
+    <mappings description="Cross-axis mapping example for avar2">
+      <mapping description="Compress a heavy-wide input toward the center">
+        <input>
+          <dimension name="Weight" xvalue="700"/>
+          <dimension name="Width" xvalue="120"/>
+        </input>
+        <output>
+          <dimension name="Weight" xvalue="650"/>
+          <dimension name="Width" xvalue="110"/>
+        </output>
+      </mapping>
+    </mappings>
+  </axes>
+  <sources>
+    <source filename="masters/VariationDemo-Regular.ufo" name="regular" familyname="Variation Demo" stylename="Regular">
+      <location><dimension name="Weight" xvalue="400"/><dimension name="Width" xvalue="100"/></location>
+    </source>
+    <source filename="masters/VariationDemo-Bold.ufo" name="bold" familyname="Variation Demo" stylename="Bold">
+      <location><dimension name="Weight" xvalue="800"/><dimension name="Width" xvalue="100"/></location>
+    </source>
+    <source filename="masters/VariationDemo-Condensed.ufo" name="condensed" familyname="Variation Demo" stylename="Condensed">
+      <location><dimension name="Weight" xvalue="400"/><dimension name="Width" xvalue="75"/></location>
+    </source>
+    <source filename="masters/VariationDemo-BoldCondensed.ufo" name="bold-condensed" familyname="Variation Demo" stylename="Bold Condensed">
+      <location><dimension name="Weight" xvalue="800"/><dimension name="Width" xvalue="75"/></location>
+    </source>
+  </sources>
+  <instances>
+    <instance name="Regular" familyname="Variation Demo" stylename="Regular">
+      <location><dimension name="Weight" uservalue="400"/><dimension name="Width" uservalue="100"/></location>
+    </instance>
+  </instances>
+</designspace>

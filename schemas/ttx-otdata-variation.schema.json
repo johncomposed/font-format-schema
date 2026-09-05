@@ -1,0 +1,952 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:font-format-schema:ttx-otdata-variation",
+  "title": "fontTools variation-oriented otData semantic structures",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/avar"
+    },
+    {
+      "$ref": "#/$defs/AxisSegmentMap"
+    },
+    {
+      "$ref": "#/$defs/VarIdxMap"
+    },
+    {
+      "$ref": "#/$defs/HVAR"
+    },
+    {
+      "$ref": "#/$defs/VVAR"
+    },
+    {
+      "$ref": "#/$defs/MVAR"
+    },
+    {
+      "$ref": "#/$defs/VARC"
+    },
+    {
+      "$ref": "#/$defs/STAT"
+    },
+    {
+      "$ref": "#/$defs/FeatureVariations"
+    },
+    {
+      "$ref": "#/$defs/ConditionList"
+    },
+    {
+      "$ref": "#/$defs/ConditionSet"
+    },
+    {
+      "$ref": "#/$defs/VarStore"
+    },
+    {
+      "$ref": "#/$defs/VarRegionList"
+    },
+    {
+      "$ref": "#/$defs/VarRegion"
+    },
+    {
+      "$ref": "#/$defs/VarRegionAxis"
+    },
+    {
+      "$ref": "#/$defs/VarData"
+    },
+    {
+      "$ref": "#/$defs/DeltaSetIndexMapFormat0"
+    },
+    {
+      "$ref": "#/$defs/DeltaSetIndexMapFormat1"
+    },
+    {
+      "$ref": "#/$defs/MultiVarStore"
+    },
+    {
+      "$ref": "#/$defs/MultiVarData"
+    },
+    {
+      "$ref": "#/$defs/SparseVarRegionList"
+    },
+    {
+      "$ref": "#/$defs/SparseVarRegion"
+    },
+    {
+      "$ref": "#/$defs/SparseVarRegionAxis"
+    },
+    {
+      "$ref": "#/$defs/AxisIndicesList"
+    },
+    {
+      "$ref": "#/$defs/VarCompositeGlyphs"
+    }
+  ],
+  "$defs": {
+    "AxisIndicesList": {
+      "type": "object",
+      "properties": {
+        "Item": {
+          "x-fonttools-type": "TupleList"
+        }
+      },
+      "required": [
+        "Item"
+      ],
+      "additionalProperties": true
+    },
+    "AxisRecord": {
+      "type": "object",
+      "properties": {
+        "AxisTag": {
+          "type": "string",
+          "x-fonttools-type": "Tag",
+          "description": "A tag identifying the axis of design variation"
+        },
+        "AxisNameID": {
+          "type": "number",
+          "x-fonttools-type": "NameID",
+          "description": "The name ID for entries in the \"name\" table that provide a display string for this axis"
+        },
+        "AxisOrdering": {
+          "type": "number",
+          "x-fonttools-type": "uint16",
+          "description": "A value that applications can use to determine primary sorting of face names, or for ordering of descriptors when composing family or face names"
+        },
+        "MoreBytes": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "x-fonttools-type": "uint8"
+          },
+          "x-fonttools-repeat": "DesignAxisRecordSize",
+          "description": "Extra bytes.  Set to empty array."
+        }
+      },
+      "required": [
+        "AxisTag",
+        "AxisNameID",
+        "AxisOrdering"
+      ],
+      "additionalProperties": true
+    },
+    "AxisRecordArray": {
+      "type": "object",
+      "properties": {
+        "Axis": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/AxisRecord",
+            "x-fonttools-type": "AxisRecord"
+          },
+          "x-fonttools-repeat": "DesignAxisCount",
+          "description": "Axis records"
+        }
+      },
+      "required": [
+        "Axis"
+      ],
+      "additionalProperties": true
+    },
+    "AxisSegmentMap": {
+      "type": "object",
+      "properties": {
+        "PositionMapCount": {
+          "type": "number",
+          "x-fonttools-type": "uint16",
+          "description": "The number of correspondence pairs for this axis"
+        },
+        "AxisValueMap": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/AxisValueMap",
+            "x-fonttools-type": "AxisValueMap"
+          },
+          "x-fonttools-repeat": "PositionMapCount",
+          "description": "The array of axis value map records for this axis"
+        }
+      },
+      "required": [
+        "PositionMapCount",
+        "AxisValueMap"
+      ],
+      "additionalProperties": true
+    },
+    "AxisValueArray": {
+      "type": "object",
+      "properties": {
+        "AxisValue": {
+          "type": "array",
+          "items": {
+            "x-fonttools-type": "Offset",
+            "description": "Context-dependent offset target for AxisValue"
+          },
+          "x-fonttools-repeat": "AxisValueCount",
+          "description": "Axis values"
+        }
+      },
+      "required": [
+        "AxisValue"
+      ],
+      "additionalProperties": true
+    },
+    "AxisValueMap": {
+      "type": "object",
+      "properties": {
+        "FromCoordinate": {
+          "type": "number",
+          "x-fonttools-type": "F2Dot14",
+          "description": "A normalized coordinate value obtained using default normalization"
+        },
+        "ToCoordinate": {
+          "type": "number",
+          "x-fonttools-type": "F2Dot14",
+          "description": "The modified, normalized coordinate value"
+        }
+      },
+      "required": [
+        "FromCoordinate",
+        "ToCoordinate"
+      ],
+      "additionalProperties": true
+    },
+    "ConditionList": {
+      "type": "object",
+      "properties": {
+        "ConditionCount": {
+          "type": "number",
+          "x-fonttools-type": "uint32",
+          "description": "Number of condition tables in the ConditionTable array"
+        },
+        "ConditionTable": {
+          "type": "array",
+          "items": {
+            "x-fonttools-type": "LOffset",
+            "description": "Context-dependent offset target for ConditionTable"
+          },
+          "x-fonttools-repeat": "ConditionCount",
+          "description": "Array of offset to condition tables, from the beginning of the ConditionList table."
+        }
+      },
+      "required": [
+        "ConditionCount",
+        "ConditionTable"
+      ],
+      "additionalProperties": true
+    },
+    "ConditionSet": {
+      "type": "object",
+      "properties": {
+        "ConditionCount": {
+          "type": "number",
+          "x-fonttools-type": "uint16",
+          "description": "Number of condition tables in the ConditionTable array"
+        },
+        "ConditionTable": {
+          "type": "array",
+          "items": {
+            "x-fonttools-type": "LOffset",
+            "description": "Context-dependent offset target for ConditionTable"
+          },
+          "x-fonttools-repeat": "ConditionCount",
+          "description": "Array of offset to condition tables, from the beginning of the ConditionSet table."
+        }
+      },
+      "required": [
+        "ConditionCount",
+        "ConditionTable"
+      ],
+      "additionalProperties": true
+    },
+    "DeltaSetIndexMapFormat0": {
+      "type": "object",
+      "properties": {
+        "Format": {
+          "type": "number",
+          "x-fonttools-type": "uint8",
+          "description": "Format of the DeltaSetIndexMap = 0"
+        },
+        "EntryFormat": {
+          "type": "number",
+          "x-fonttools-type": "uint8"
+        },
+        "MappingCount": {
+          "type": "number",
+          "x-fonttools-type": "uint16"
+        },
+        "mapping": {
+          "x-fonttools-type": "VarIdxMapValue",
+          "description": "Array of compressed data"
+        }
+      },
+      "required": [
+        "Format",
+        "EntryFormat",
+        "MappingCount",
+        "mapping"
+      ],
+      "additionalProperties": true
+    },
+    "DeltaSetIndexMapFormat1": {
+      "type": "object",
+      "properties": {
+        "Format": {
+          "type": "number",
+          "x-fonttools-type": "uint8",
+          "description": "Format of the DeltaSetIndexMap = 1"
+        },
+        "EntryFormat": {
+          "type": "number",
+          "x-fonttools-type": "uint8"
+        },
+        "MappingCount": {
+          "type": "number",
+          "x-fonttools-type": "uint32"
+        },
+        "mapping": {
+          "x-fonttools-type": "VarIdxMapValue",
+          "description": "Array of compressed data"
+        }
+      },
+      "required": [
+        "Format",
+        "EntryFormat",
+        "MappingCount",
+        "mapping"
+      ],
+      "additionalProperties": true
+    },
+    "FeatureVariationRecord": {
+      "type": "object",
+      "properties": {
+        "ConditionSet": {
+          "x-fonttools-type": "LOffset",
+          "description": "Offset to a ConditionSet table, from beginning of the FeatureVariations table."
+        },
+        "FeatureTableSubstitution": {
+          "x-fonttools-type": "LOffset",
+          "description": "Offset to a FeatureTableSubstitution table, from beginning of the FeatureVariations table"
+        }
+      },
+      "required": [
+        "ConditionSet",
+        "FeatureTableSubstitution"
+      ],
+      "additionalProperties": true
+    },
+    "FeatureVariations": {
+      "type": "object",
+      "properties": {
+        "Version": {
+          "type": "number",
+          "x-fonttools-type": "Version",
+          "description": "Version of the table-initially set to 0x00010000"
+        },
+        "FeatureVariationCount": {
+          "type": "number",
+          "x-fonttools-type": "uint32",
+          "description": "Number of records in the FeatureVariationRecord array"
+        },
+        "FeatureVariationRecord": {
+          "type": "array",
+          "items": {
+            "x-fonttools-type": "struct"
+          },
+          "x-fonttools-repeat": "FeatureVariationCount",
+          "description": "Array of FeatureVariationRecord"
+        }
+      },
+      "required": [
+        "Version",
+        "FeatureVariationCount",
+        "FeatureVariationRecord"
+      ],
+      "additionalProperties": true
+    },
+    "HVAR": {
+      "type": "object",
+      "properties": {
+        "Version": {
+          "type": "number",
+          "x-fonttools-type": "Version",
+          "description": "Version of the HVAR table-initially = 0x00010000"
+        },
+        "VarStore": {
+          "x-fonttools-type": "LOffset",
+          "description": "Context-dependent offset target for VarStore"
+        },
+        "AdvWidthMap": {
+          "$ref": "#/$defs/VarIdxMap",
+          "x-fonttools-type": "LOffsetTo(VarIdxMap)"
+        },
+        "LsbMap": {
+          "$ref": "#/$defs/VarIdxMap",
+          "x-fonttools-type": "LOffsetTo(VarIdxMap)"
+        },
+        "RsbMap": {
+          "$ref": "#/$defs/VarIdxMap",
+          "x-fonttools-type": "LOffsetTo(VarIdxMap)"
+        }
+      },
+      "required": [
+        "Version",
+        "VarStore",
+        "AdvWidthMap",
+        "LsbMap",
+        "RsbMap"
+      ],
+      "additionalProperties": true
+    },
+    "MVAR": {
+      "type": "object",
+      "properties": {
+        "Version": {
+          "type": "number",
+          "x-fonttools-type": "Version",
+          "description": "Version of the MVAR table-initially = 0x00010000"
+        },
+        "Reserved": {
+          "type": "number",
+          "x-fonttools-type": "uint16",
+          "description": "Set to 0"
+        },
+        "ValueRecordSize": {
+          "type": "number",
+          "x-fonttools-type": "uint16"
+        },
+        "ValueRecordCount": {
+          "type": "number",
+          "x-fonttools-type": "uint16"
+        },
+        "VarStore": {
+          "x-fonttools-type": "Offset",
+          "description": "Context-dependent offset target for VarStore"
+        },
+        "ValueRecord": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/MetricsValueRecord",
+            "x-fonttools-type": "MetricsValueRecord"
+          },
+          "x-fonttools-repeat": "ValueRecordCount"
+        }
+      },
+      "required": [
+        "Version",
+        "Reserved",
+        "ValueRecordSize",
+        "ValueRecordCount",
+        "VarStore",
+        "ValueRecord"
+      ],
+      "additionalProperties": true
+    },
+    "MetricsValueRecord": {
+      "type": "object",
+      "properties": {
+        "ValueTag": {
+          "type": "string",
+          "x-fonttools-type": "Tag",
+          "description": "4-byte font-wide measure identifier"
+        },
+        "VarIdx": {
+          "type": "number",
+          "x-fonttools-type": "uint32",
+          "description": "Combined outer-inner variation index"
+        },
+        "MoreBytes": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "x-fonttools-type": "uint8"
+          },
+          "x-fonttools-repeat": "ValueRecordSize",
+          "description": "Extra bytes.  Set to empty array."
+        }
+      },
+      "required": [
+        "ValueTag",
+        "VarIdx"
+      ],
+      "additionalProperties": true
+    },
+    "MultiVarData": {
+      "type": "object",
+      "properties": {
+        "Format": {
+          "type": "number",
+          "x-fonttools-type": "uint8",
+          "description": "Set to 1."
+        },
+        "VarRegionCount": {
+          "type": "number",
+          "x-fonttools-type": "uint16"
+        },
+        "VarRegionIndex": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "x-fonttools-type": "uint16"
+          },
+          "x-fonttools-repeat": "VarRegionCount"
+        },
+        "Item": {
+          "x-fonttools-type": "TupleList"
+        }
+      },
+      "required": [
+        "Format",
+        "VarRegionCount",
+        "VarRegionIndex",
+        "Item"
+      ],
+      "additionalProperties": true
+    },
+    "MultiVarStore": {
+      "type": "object",
+      "properties": {
+        "Format": {
+          "type": "number",
+          "x-fonttools-type": "uint16",
+          "description": "Set to 1."
+        },
+        "SparseVarRegionList": {
+          "x-fonttools-type": "LOffset",
+          "description": "Context-dependent offset target for SparseVarRegionList"
+        },
+        "MultiVarDataCount": {
+          "type": "number",
+          "x-fonttools-type": "uint16"
+        },
+        "MultiVarData": {
+          "type": "array",
+          "items": {
+            "x-fonttools-type": "LOffset",
+            "description": "Context-dependent offset target for MultiVarData"
+          },
+          "x-fonttools-repeat": "MultiVarDataCount"
+        }
+      },
+      "required": [
+        "Format",
+        "SparseVarRegionList",
+        "MultiVarDataCount",
+        "MultiVarData"
+      ],
+      "additionalProperties": true
+    },
+    "STAT": {
+      "type": "object",
+      "properties": {
+        "Version": {
+          "type": "number",
+          "x-fonttools-type": "Version",
+          "description": "Version of the table-initially set to 0x00010000, currently 0x00010002."
+        },
+        "DesignAxisRecordSize": {
+          "type": "number",
+          "x-fonttools-type": "uint16",
+          "description": "Size in bytes of each design axis record"
+        },
+        "DesignAxisCount": {
+          "type": "number",
+          "x-fonttools-type": "uint16",
+          "description": "Number of design axis records"
+        },
+        "DesignAxisRecord": {
+          "$ref": "#/$defs/AxisRecordArray",
+          "x-fonttools-type": "LOffsetTo(AxisRecordArray)",
+          "description": "Offset in bytes from the beginning of the STAT table to the start of the design axes array"
+        },
+        "AxisValueCount": {
+          "type": "number",
+          "x-fonttools-type": "uint16",
+          "description": "Number of axis value tables"
+        },
+        "AxisValueArray": {
+          "$ref": "#/$defs/AxisValueArray",
+          "x-fonttools-type": "LOffsetTo(AxisValueArray)",
+          "description": "Offset in bytes from the beginning of the STAT table to the start of the axes value offset array"
+        },
+        "ElidedFallbackNameID": {
+          "type": "number",
+          "x-fonttools-type": "NameID",
+          "description": "NameID to use when all style attributes are elided."
+        }
+      },
+      "required": [
+        "Version",
+        "DesignAxisRecordSize",
+        "DesignAxisCount",
+        "DesignAxisRecord",
+        "AxisValueCount",
+        "AxisValueArray"
+      ],
+      "additionalProperties": true
+    },
+    "SparseVarRegion": {
+      "type": "object",
+      "properties": {
+        "SparseRegionCount": {
+          "type": "number",
+          "x-fonttools-type": "uint16"
+        },
+        "SparseVarRegionAxis": {
+          "type": "array",
+          "items": {
+            "x-fonttools-type": "struct"
+          },
+          "x-fonttools-repeat": "SparseRegionCount"
+        }
+      },
+      "required": [
+        "SparseRegionCount",
+        "SparseVarRegionAxis"
+      ],
+      "additionalProperties": true
+    },
+    "SparseVarRegionAxis": {
+      "type": "object",
+      "properties": {
+        "AxisIndex": {
+          "type": "number",
+          "x-fonttools-type": "uint16"
+        },
+        "StartCoord": {
+          "type": "number",
+          "x-fonttools-type": "F2Dot14"
+        },
+        "PeakCoord": {
+          "type": "number",
+          "x-fonttools-type": "F2Dot14"
+        },
+        "EndCoord": {
+          "type": "number",
+          "x-fonttools-type": "F2Dot14"
+        }
+      },
+      "required": [
+        "AxisIndex",
+        "StartCoord",
+        "PeakCoord",
+        "EndCoord"
+      ],
+      "additionalProperties": true
+    },
+    "SparseVarRegionList": {
+      "type": "object",
+      "properties": {
+        "RegionCount": {
+          "type": "number",
+          "x-fonttools-type": "uint16"
+        },
+        "Region": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SparseVarRegion",
+            "x-fonttools-type": "LOffsetTo(SparseVarRegion)"
+          },
+          "x-fonttools-repeat": "RegionCount"
+        }
+      },
+      "required": [
+        "RegionCount",
+        "Region"
+      ],
+      "additionalProperties": true
+    },
+    "VARC": {
+      "type": "object",
+      "properties": {
+        "Version": {
+          "type": "number",
+          "x-fonttools-type": "Version",
+          "description": "Version of the HVAR table-initially = 0x00010000"
+        },
+        "Coverage": {
+          "x-fonttools-type": "LOffset",
+          "description": "Context-dependent offset target for Coverage"
+        },
+        "MultiVarStore": {
+          "x-fonttools-type": "LOffset",
+          "description": "(may be NULL)"
+        },
+        "ConditionList": {
+          "x-fonttools-type": "LOffset",
+          "description": "(may be NULL)"
+        },
+        "AxisIndicesList": {
+          "x-fonttools-type": "LOffset",
+          "description": "(may be NULL)"
+        },
+        "VarCompositeGlyphs": {
+          "x-fonttools-type": "LOffset",
+          "description": "Context-dependent offset target for VarCompositeGlyphs"
+        }
+      },
+      "required": [
+        "Version",
+        "Coverage",
+        "MultiVarStore",
+        "ConditionList",
+        "AxisIndicesList",
+        "VarCompositeGlyphs"
+      ],
+      "additionalProperties": true
+    },
+    "VVAR": {
+      "type": "object",
+      "properties": {
+        "Version": {
+          "type": "number",
+          "x-fonttools-type": "Version",
+          "description": "Version of the VVAR table-initially = 0x00010000"
+        },
+        "VarStore": {
+          "x-fonttools-type": "LOffset",
+          "description": "Context-dependent offset target for VarStore"
+        },
+        "AdvHeightMap": {
+          "$ref": "#/$defs/VarIdxMap",
+          "x-fonttools-type": "LOffsetTo(VarIdxMap)"
+        },
+        "TsbMap": {
+          "$ref": "#/$defs/VarIdxMap",
+          "x-fonttools-type": "LOffsetTo(VarIdxMap)"
+        },
+        "BsbMap": {
+          "$ref": "#/$defs/VarIdxMap",
+          "x-fonttools-type": "LOffsetTo(VarIdxMap)"
+        },
+        "VOrgMap": {
+          "$ref": "#/$defs/VarIdxMap",
+          "x-fonttools-type": "LOffsetTo(VarIdxMap)",
+          "description": "Vertical origin mapping."
+        }
+      },
+      "required": [
+        "Version",
+        "VarStore",
+        "AdvHeightMap",
+        "TsbMap",
+        "BsbMap",
+        "VOrgMap"
+      ],
+      "additionalProperties": true
+    },
+    "VarCompositeGlyphs": {
+      "type": "object",
+      "properties": {
+        "VarCompositeGlyph": {
+          "x-fonttools-type": "VarCompositeGlyphList"
+        }
+      },
+      "required": [
+        "VarCompositeGlyph"
+      ],
+      "additionalProperties": true
+    },
+    "VarData": {
+      "type": "object",
+      "properties": {
+        "ItemCount": {
+          "type": "number",
+          "x-fonttools-type": "uint16"
+        },
+        "NumShorts": {
+          "type": "number",
+          "x-fonttools-type": "uint16"
+        },
+        "VarRegionCount": {
+          "type": "number",
+          "x-fonttools-type": "uint16"
+        },
+        "VarRegionIndex": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "x-fonttools-type": "uint16"
+          },
+          "x-fonttools-repeat": "VarRegionCount"
+        },
+        "Item": {
+          "type": "array",
+          "items": {
+            "x-fonttools-type": "VarDataValue"
+          },
+          "x-fonttools-repeat": "ItemCount"
+        }
+      },
+      "required": [
+        "ItemCount",
+        "NumShorts",
+        "VarRegionCount",
+        "VarRegionIndex",
+        "Item"
+      ],
+      "additionalProperties": true
+    },
+    "VarIdxMap": {
+      "type": "object",
+      "properties": {
+        "EntryFormat": {
+          "type": "number",
+          "x-fonttools-type": "uint16"
+        },
+        "MappingCount": {
+          "type": "number",
+          "x-fonttools-type": "uint16"
+        },
+        "mapping": {
+          "x-fonttools-type": "VarIdxMapValue",
+          "description": "Array of compressed data"
+        }
+      },
+      "required": [
+        "EntryFormat",
+        "MappingCount",
+        "mapping"
+      ],
+      "additionalProperties": true
+    },
+    "VarRegion": {
+      "type": "object",
+      "properties": {
+        "VarRegionAxis": {
+          "type": "array",
+          "items": {
+            "x-fonttools-type": "struct"
+          },
+          "x-fonttools-repeat": "RegionAxisCount"
+        }
+      },
+      "required": [
+        "VarRegionAxis"
+      ],
+      "additionalProperties": true
+    },
+    "VarRegionAxis": {
+      "type": "object",
+      "properties": {
+        "StartCoord": {
+          "type": "number",
+          "x-fonttools-type": "F2Dot14"
+        },
+        "PeakCoord": {
+          "type": "number",
+          "x-fonttools-type": "F2Dot14"
+        },
+        "EndCoord": {
+          "type": "number",
+          "x-fonttools-type": "F2Dot14"
+        }
+      },
+      "required": [
+        "StartCoord",
+        "PeakCoord",
+        "EndCoord"
+      ],
+      "additionalProperties": true
+    },
+    "VarRegionList": {
+      "type": "object",
+      "properties": {
+        "RegionAxisCount": {
+          "type": "number",
+          "x-fonttools-type": "uint16"
+        },
+        "RegionCount": {
+          "type": "number",
+          "x-fonttools-type": "uint16"
+        },
+        "Region": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/VarRegion",
+            "x-fonttools-type": "VarRegion"
+          },
+          "x-fonttools-repeat": "RegionCount"
+        }
+      },
+      "required": [
+        "RegionAxisCount",
+        "RegionCount",
+        "Region"
+      ],
+      "additionalProperties": true
+    },
+    "VarStore": {
+      "type": "object",
+      "properties": {
+        "Format": {
+          "type": "number",
+          "x-fonttools-type": "uint16",
+          "description": "Set to 1."
+        },
+        "VarRegionList": {
+          "x-fonttools-type": "LOffset",
+          "description": "Context-dependent offset target for VarRegionList"
+        },
+        "VarDataCount": {
+          "type": "number",
+          "x-fonttools-type": "uint16"
+        },
+        "VarData": {
+          "type": "array",
+          "items": {
+            "x-fonttools-type": "LOffset",
+            "description": "Context-dependent offset target for VarData"
+          },
+          "x-fonttools-repeat": "VarDataCount"
+        }
+      },
+      "required": [
+        "Format",
+        "VarRegionList",
+        "VarDataCount",
+        "VarData"
+      ],
+      "additionalProperties": true
+    },
+    "avar": {
+      "type": "object",
+      "properties": {
+        "Version": {
+          "type": "number",
+          "x-fonttools-type": "Version",
+          "description": "Version of the avar table- 0x00010000 or 0x00020000"
+        },
+        "Reserved": {
+          "type": "number",
+          "x-fonttools-type": "uint16",
+          "description": "Permanently reserved; set to zero"
+        },
+        "AxisCount": {
+          "type": "number",
+          "x-fonttools-type": "uint16",
+          "description": "The number of variation axes for this font. This must be the same number as axisCount in the \"fvar\" table"
+        },
+        "AxisSegmentMap": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/AxisSegmentMap",
+            "x-fonttools-type": "AxisSegmentMap"
+          },
+          "x-fonttools-repeat": "AxisCount",
+          "description": "The segment maps array — one segment map for each axis, in the order of axes specified in the \"fvar\" table"
+        },
+        "VarIdxMap": {
+          "x-fonttools-type": "LOffsetTo(DeltaSetIndexMap)"
+        },
+        "VarStore": {
+          "x-fonttools-type": "LOffset",
+          "description": "Context-dependent offset target for VarStore"
+        }
+      },
+      "required": [
+        "Version",
+        "Reserved",
+        "AxisCount",
+        "AxisSegmentMap"
+      ],
+      "additionalProperties": true
+    }
+  }
+}

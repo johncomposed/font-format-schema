@@ -1,0 +1,31 @@
+# Upstreams are deliberately separated from generated output.
+# `fontschema sources sync` clones these to .cache/upstreams/<name>.
+# `scripts/vendor-init.sh` can instead add them as git subtrees under vendor/.
+
+[[source]]
+name = "fonttools"
+url = "https://github.com/fonttools/fonttools.git"
+ref = "4.64.0"
+prefix = "vendor/fonttools"
+role = "TTX implementation, OpenType table schemas, Designspace/UFO readers, tests"
+
+[[source]]
+name = "ufo-spec"
+url = "https://github.com/unified-font-object/ufo-spec.git"
+ref = "main"
+prefix = "vendor/ufo-spec"
+role = "Normative UFO specification source"
+
+[[source]]
+name = "variable-components-in-ufo"
+url = "https://github.com/fontra/variable-components-in-ufo.git"
+ref = "main"
+prefix = "vendor/variable-components-in-ufo"
+role = "Variable component and variable glyph UFO extension"
+
+[[source]]
+name = "boring-expansion-spec"
+url = "https://github.com/harfbuzz/boring-expansion-spec.git"
+ref = "main"
+prefix = "vendor/boring-expansion-spec"
+role = "Public avar2 / VARC design documents and related variation work"

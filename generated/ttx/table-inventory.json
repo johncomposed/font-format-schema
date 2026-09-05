@@ -1,0 +1,89 @@
+{
+  "fontToolsVersion": "4.63.0",
+  "tables": [
+    {
+      "tag": "fvar",
+      "class": "fontTools.ttLib.tables._f_v_a_r.table__f_v_a_r",
+      "otDataRoot": null,
+      "serialization": "custom/table-specific"
+    },
+    {
+      "tag": "avar",
+      "class": "fontTools.ttLib.tables._a_v_a_r.table__a_v_a_r",
+      "otDataRoot": "avar",
+      "serialization": "hybrid: otData + custom XML/substructures"
+    },
+    {
+      "tag": "STAT",
+      "class": "fontTools.ttLib.tables.S_T_A_T_.table_S_T_A_T_",
+      "otDataRoot": "STAT",
+      "serialization": "otData/generated"
+    },
+    {
+      "tag": "gvar",
+      "class": "fontTools.ttLib.tables._g_v_a_r.table__g_v_a_r",
+      "otDataRoot": null,
+      "serialization": "custom/table-specific"
+    },
+    {
+      "tag": "cvar",
+      "class": "fontTools.ttLib.tables._c_v_a_r.table__c_v_a_r",
+      "otDataRoot": null,
+      "serialization": "custom/table-specific"
+    },
+    {
+      "tag": "HVAR",
+      "class": "fontTools.ttLib.tables.H_V_A_R_.table_H_V_A_R_",
+      "otDataRoot": "HVAR",
+      "serialization": "otData/generated"
+    },
+    {
+      "tag": "VVAR",
+      "class": "fontTools.ttLib.tables.V_V_A_R_.table_V_V_A_R_",
+      "otDataRoot": "VVAR",
+      "serialization": "otData/generated"
+    },
+    {
+      "tag": "MVAR",
+      "class": "fontTools.ttLib.tables.M_V_A_R_.table_M_V_A_R_",
+      "otDataRoot": "MVAR",
+      "serialization": "otData/generated"
+    },
+    {
+      "tag": "VARC",
+      "class": "fontTools.ttLib.tables.V_A_R_C_.table_V_A_R_C_",
+      "otDataRoot": "VARC",
+      "serialization": "hybrid: otData + custom XML/substructures"
+    },
+    {
+      "tag": "CFF2",
+      "class": "fontTools.ttLib.tables.C_F_F__2.table_C_F_F__2",
+      "otDataRoot": null,
+      "serialization": "custom/table-specific"
+    },
+    {
+      "tag": "GDEF",
+      "class": "fontTools.ttLib.tables.G_D_E_F_.table_G_D_E_F_",
+      "otDataRoot": "GDEF",
+      "serialization": "otData/generated"
+    },
+    {
+      "tag": "GPOS",
+      "class": "fontTools.ttLib.tables.G_P_O_S_.table_G_P_O_S_",
+      "otDataRoot": "GPOS",
+      "serialization": "otData/generated"
+    },
+    {
+      "tag": "GSUB",
+      "class": "fontTools.ttLib.tables.G_S_U_B_.table_G_S_U_B_",
+      "otDataRoot": "GSUB",
+      "serialization": "otData/generated"
+    },
+    {
+      "tag": "BASE",
+      "class": "fontTools.ttLib.tables.B_A_S_E_.table_B_A_S_E_",
+      "otDataRoot": "BASE",
+      "serialization": "otData/generated"
+    }
+  ]
+}

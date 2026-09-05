@@ -1,0 +1,10 @@
+{
+  "targetFontToolsVersion": "4.64.0",
+  "bootstrapGeneratedWith": "4.63.0",
+  "status": "refresh-on-first-build",
+  "refresh": [
+    "uv run fontschema generate",
+    "uv run python scripts/build-synthetic-fonts.py"
+  ],
+  "note": "The assembly environment contained fontTools 4.63.0 and could not fetch 4.64.0. Source/runtime pins target 4.64.0; checked-in generated snapshots preserve the actual bootstrap generator version instead of relabeling it."
+}

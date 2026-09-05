@@ -1,0 +1,93 @@
+{
+  "path": "examples/designspace-ufo/VariationDemo.designspace",
+  "formatVersion": "5.2",
+  "axes": [
+    {
+      "name": "Weight",
+      "tag": "wght",
+      "default": 400.0,
+      "hidden": false,
+      "map": [],
+      "minimum": 100.0,
+      "maximum": 900.0
+    },
+    {
+      "name": "Width",
+      "tag": "wdth",
+      "default": 100.0,
+      "hidden": false,
+      "map": [],
+      "minimum": 75.0,
+      "maximum": 125.0
+    }
+  ],
+  "mappings": [
+    {
+      "input": {
+        "Weight": 700.0,
+        "Width": 120.0
+      },
+      "output": {
+        "Weight": 650.0,
+        "Width": 110.0
+      },
+      "description": "Compress a heavy-wide input toward the center"
+    }
+  ],
+  "sources": [
+    {
+      "name": "regular",
+      "filename": "masters/VariationDemo-Regular.ufo",
+      "layerName": null,
+      "familyName": "Variation Demo",
+      "styleName": "Regular",
+      "location": {
+        "Weight": 400.0,
+        "Width": 100.0
+      }
+    },
+    {
+      "name": "bold",
+      "filename": "masters/VariationDemo-Bold.ufo",
+      "layerName": null,
+      "familyName": "Variation Demo",
+      "styleName": "Bold",
+      "location": {
+        "Weight": 800.0,
+        "Width": 100.0
+      }
+    },
+    {
+      "name": "condensed",
+      "filename": "masters/VariationDemo-Condensed.ufo",
+      "layerName": null,
+      "familyName": "Variation Demo",
+      "styleName": "Condensed",
+      "location": {
+        "Weight": 400.0,
+        "Width": 75.0
+      }
+    },
+    {
+      "name": "bold-condensed",
+      "filename": "masters/VariationDemo-BoldCondensed.ufo",
+      "layerName": null,
+      "familyName": "Variation Demo",
+      "styleName": "Bold Condensed",
+      "location": {
+        "Weight": 800.0,
+        "Width": 75.0
+      }
+    }
+  ],
+  "instances": [
+    {
+      "name": "Regular",
+      "filename": null,
+      "familyName": "Variation Demo",
+      "styleName": "Regular",
+      "location": {}
+    }
+  ],
+  "rules": []
+}
