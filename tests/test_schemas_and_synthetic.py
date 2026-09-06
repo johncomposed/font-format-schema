@@ -1,5 +1,5 @@
 import json
-from pathlib import Path
+from typing import Any
 
 import pytest
 from jsonschema import Draft202012Validator
@@ -71,7 +71,7 @@ def test_vf_demo_core_tables():
     assert data["HVAR"]["VarStore"]["VarRegionList"]["Region"][0]["VarRegionAxis"][0]["PeakCoord"] == -1.0
 
 
-def _lenient(schema):
+def _lenient(schema: Any) -> Any:
     """otData describes binary structs; TTX omits null offsets, counts and
     fields written by custom converters (e.g. VarIdxMap -> <Map> records), so
     only check the types of the fields that are present."""
@@ -85,7 +85,7 @@ def _lenient(schema):
 @pytest.mark.parametrize("stem,table", [("hvar-demo", "HVAR"), ("varc-demo", "VARC"), ("vf-demo", "STAT")])
 def test_otdata_json_field_types_match_otdata_schema(stem, table):
     data = ttx_file_to_json(SYNTHETIC / f"{stem}.full.ttx")[table]
-    schema = _lenient(_schema("ttx-otdata-variation"))
+    schema: dict[str, Any] = _lenient(_schema("ttx-otdata-variation"))
     schema.pop("oneOf")
     validator = Draft202012Validator({**schema, "$ref": f"#/$defs/{table}"})
     errors = [e.message for e in validator.iter_errors(data)]

@@ -14,6 +14,9 @@ varc-demo   VARC with AxisIndicesList and a VarCompositeGlyph
 """
 from __future__ import annotations
 
+# fontTools table objects are built dynamically and ship no type stubs.
+# pyright: reportAttributeAccessIssue=false, reportCallIssue=false, reportArgumentType=false
+
 import array
 from collections import OrderedDict
 from pathlib import Path

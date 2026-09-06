@@ -183,7 +183,7 @@ def inspect(path: str | Path) -> dict[str, Any]:
     info = SimpleNamespace()
     reader.readInfo(info)
 
-    metainfo = _read_plist(path / "metainfo.plist") or {"formatVersion": reader.formatVersionTuple.major}
+    metainfo = _read_plist(path / "metainfo.plist") or {"formatVersion": reader.formatVersion}
     layercontents = _read_plist(path / "layercontents.plist") or [["public.default", "glyphs"]]
 
     package: dict[str, Any] = {"path": str(path), "metainfo": metainfo}

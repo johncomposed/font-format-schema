@@ -39,7 +39,8 @@ def parse_value(text: str | None) -> Any:
         return s
 
 
-def _int(text: str | None, default: int | None = None) -> int | None:
+def _int(text: str | None, default: int | None = None) -> Any:
+    """Integer when the text is integral; falls through to the parsed value otherwise."""
     v = parse_value(text)
     if v is None:
         return default
@@ -230,7 +231,7 @@ def _glyf(el: ET.Element) -> dict[str, Any]:
     return {"glyphs": glyphs}
 
 
-def _cvt(el: ET.Element) -> list[int]:
+def _cvt(el: ET.Element) -> list[Any]:
     return [_int(c.attrib["value"]) for c in el if c.tag == "cv"]
 
 

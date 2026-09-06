@@ -14,10 +14,10 @@ def dump_font(font_path: str | Path, out_dir: str | Path, tables: list[str] | No
     selected = [tag for tag in (tables or DEFAULT_TABLES) if tag in font]
     outputs: list[Path] = []
     full = out_dir / "variation.ttx"
-    font.saveXML(full, tables=selected)
+    font.saveXML(full, tables=selected)  # type: ignore[call-arg]  # fontTools signature misread by pyright
     outputs.append(full)
     for tag in selected:
         p = out_dir / f"{tag}.ttx"
-        font.saveXML(p, tables=[tag])
+        font.saveXML(p, tables=[tag])  # type: ignore[call-arg]
         outputs.append(p)
     return outputs

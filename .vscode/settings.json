@@ -1,0 +1,12 @@
+{
+  "python.defaultInterpreterPath": "${workspaceFolder}/.venv/Scripts/python.exe",
+  "python.terminal.activateEnvironment": true,
+  "python.testing.pytestEnabled": true,
+  "python.testing.pytestArgs": ["tests"],
+  "python.analysis.extraPaths": ["src"],
+  "python.analysis.typeCheckingMode": "standard",
+  "python.analysis.exclude": ["vendor", "node_modules", ".venv", ".cache"],
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "files.exclude": { "**/__pycache__": true, "**/.pytest_cache": true },
+  "search.exclude": { "vendor": true, "node_modules": true, ".venv": true }
+}

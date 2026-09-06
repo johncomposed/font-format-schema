@@ -25,3 +25,12 @@ packages = ["src/fontschema"]
 [tool.pytest.ini_options]
 pythonpath = ["src"]
 testpaths = ["tests"]
+
+[tool.pyright]
+include = ["src", "tests", "scripts"]
+exclude = ["vendor", "node_modules", ".venv", ".cache"]
+extraPaths = ["src"]
+venvPath = "."
+venv = ".venv"
+typeCheckingMode = "standard"
+pythonVersion = "3.11"

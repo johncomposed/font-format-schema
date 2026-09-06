@@ -23,10 +23,11 @@ TABLE_TAGS = ["fvar", "avar", "STAT", "gvar", "cvar", "HVAR", "VVAR", "MVAR", "V
 
 
 def _field_dict(field: Any) -> dict[str, Any]:
-    if is_dataclass(field):
+    if is_dataclass(field) and not isinstance(field, type):
         return asdict(field)
-    if hasattr(field, "_asdict"):
-        return field._asdict()
+    as_dict: Any = getattr(field, "_asdict", None)  # namedtuple
+    if as_dict is not None:
+        return dict(as_dict())
     return {
         "type": getattr(field, "type", None),
         "name": getattr(field, "name", None),
