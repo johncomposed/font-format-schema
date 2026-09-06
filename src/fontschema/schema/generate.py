@@ -1,10 +1,38 @@
+"""Generate every schema and example JSON document in the repository.
+
+Outputs (all deterministic for the pinned fontTools version):
+
+schemas/
+  ufo.schema.json                  UFO 3 package model (fontinfo, GLIF, lib, groups, kerning, layers)
+  designspace.schema.json          Designspace 5 document model
+  ttx.schema.json                  JSON projection of TTX for the core variable-font tables
+  ttx-otdata-variation.schema.json fontTools otData structures for variation tables
+  xml-ast.schema.json              generic ordered XML AST
+generated/
+  ttx/otdata-variation.json        raw otData metadata
+  ttx/table-inventory.json         which tables are otData driven vs custom
+  ttx/json/<stem>.json             examples/ttx-synthetic/*.full.ttx converted to the TTX JSON model
+  ttx/json-ast/<stem>.json         the focused .ttx examples as XML AST
+  designspace/example.json         examples/designspace-ufo/VariationDemo.designspace
+  ufo/<master>.json                every master UFO in examples/designspace-ufo
+
+TypeScript types and Zod schemas are generated from the schemas by the Node
+toolchain (``npm run generate``), see tools/.
+"""
 from __future__ import annotations
 
 from pathlib import Path
 from typing import Any
 
 from ..common import dump_json, repo_root
-from ..ttx.otdata import extract_variation_otdata, otdata_json_schema, otdata_typescript, table_inventory
+from ..designspace.reader import inspect as inspect_designspace
+from ..ttx.otdata import extract_variation_otdata, otdata_json_schema, table_inventory
+from ..ttx.tojson import ttx_file_to_json
+from ..ufo.reader import inspect as inspect_ufo
+from ..xmlast import xml_file_to_ast
+from .designspace import designspace_schema
+from .ttx import ttx_schema
+from .ufo import ufo_schema
 
 
 def xml_ast_schema() -> dict[str, Any]:
@@ -12,16 +40,16 @@ def xml_ast_schema() -> dict[str, Any]:
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "$id": "urn:font-format-schema:xml-ast",
         "title": "Ordered XML AST",
-        "$ref": "#/$defs/element",
+        "$ref": "#/$defs/XmlElement",
         "$defs": {
-            "element": {
+            "XmlElement": {
                 "type": "object",
                 "required": ["tag", "attributes", "children"],
                 "properties": {
                     "tag": {"type": "string"},
                     "attributes": {"type": "object", "additionalProperties": {"type": "string"}},
                     "text": {"type": "string"},
-                    "children": {"type": "array", "items": {"$ref": "#/$defs/element"}},
+                    "children": {"type": "array", "items": {"$ref": "#/$defs/XmlElement"}},
                 },
                 "additionalProperties": False,
             }
@@ -29,236 +57,66 @@ def xml_ast_schema() -> dict[str, Any]:
     }
 
 
-def variation_schema() -> dict[str, Any]:
-    num = {"type": "number"}
-    transform = {
-        "type": "object",
-        "properties": {
-            "translateX": num, "translateY": num, "rotation": num,
-            "scaleX": num, "scaleY": num, "skewX": num, "skewY": num,
-            "tCenterX": num, "tCenterY": num,
-        },
-        "additionalProperties": False,
+SCHEMAS = {
+    "ufo": ufo_schema,
+    "designspace": designspace_schema,
+    "ttx": ttx_schema,
+    "xml-ast": xml_ast_schema,
+}
+
+
+def generate_schemas(root: Path) -> list[Path]:
+    outputs: list[Path] = []
+    meta = extract_variation_otdata()
+    payloads: dict[Path, Any] = {
+        root / "generated/ttx/otdata-variation.json": meta,
+        root / "generated/ttx/table-inventory.json": table_inventory(),
+        root / "schemas/ttx-otdata-variation.schema.json": otdata_json_schema(meta),
     }
-    return {
-        "$schema": "https://json-schema.org/draft/2020-12/schema",
-        "$id": "urn:font-format-schema:canonical-variation",
-        "title": "Canonical variation-oriented font source model",
-        "$defs": {
-            "Axis": {
-                "type": "object", "required": ["name", "tag", "default"],
-                "properties": {
-                    "name": {"type": "string"}, "tag": {"type": "string", "minLength": 4, "maxLength": 4},
-                    "minimum": num, "default": num, "maximum": num,
-                }, "additionalProperties": False,
-            },
-            "DecomposedTransform": transform,
-            "VariableComponent": {
-                "type": "object", "required": ["base"],
-                "properties": {
-                    "base": {"type": "string"},
-                    "location": {"type": "object", "additionalProperties": num},
-                    "transformation": {"$ref": "#/$defs/DecomposedTransform"},
-                    "resetUnspecifiedAxes": {"type": "boolean"},
-                }, "additionalProperties": False,
-            },
-            "AffineComponent": {
-                "type": "object", "required": ["base", "transform"],
-                "properties": {
-                    "base": {"type": "string"},
-                    "transform": {
-                        "type": "object",
-                        "required": ["xScale", "xyScale", "yxScale", "yScale", "xOffset", "yOffset"],
-                        "properties": {k: num for k in ["xScale", "xyScale", "yxScale", "yScale", "xOffset", "yOffset"]},
-                        "additionalProperties": False,
-                    },
-                }, "additionalProperties": True,
-            },
-        },
-        "oneOf": [
-            {"$ref": "#/$defs/Axis"},
-            {"$ref": "#/$defs/VariableComponent"},
-            {"$ref": "#/$defs/AffineComponent"},
-        ],
-    }
+    for name, builder in SCHEMAS.items():
+        payloads[root / f"schemas/{name}.schema.json"] = builder()
+    for path, data in payloads.items():
+        dump_json(data, path)
+        outputs.append(path)
+    return outputs
 
 
-def designspace_schema() -> dict[str, Any]:
-    num = {"type": ["number", "null"]}
-    location = {"type": "object", "additionalProperties": {"type": "number"}}
-    return {
-        "$schema": "https://json-schema.org/draft/2020-12/schema",
-        "$id": "urn:font-format-schema:designspace-normalized",
-        "type": "object", "required": ["formatVersion", "axes", "mappings", "sources", "instances", "rules"],
-        "properties": {
-            "path": {"type": "string"}, "formatVersion": {"type": "string"},
-            "axes": {"type": "array", "items": {"type": "object", "required": ["name", "tag", "default"], "properties": {
-                "name": {"type": "string"}, "tag": {"type": "string"}, "minimum": num, "default": {"type": "number"}, "maximum": num,
-                "hidden": {"type": "boolean"}, "map": {"type": "array"}, "values": {"type": "array", "items": {"type": "number"}},
-            }, "additionalProperties": True}},
-            "mappings": {"type": "array", "items": {"type": "object", "required": ["input", "output"], "properties": {"input": location, "output": location, "description": {"type": ["string", "null"]}}, "additionalProperties": False}},
-            "sources": {"type": "array", "items": {"type": "object", "required": ["location"], "properties": {"location": location}, "additionalProperties": True}},
-            "instances": {"type": "array", "items": {"type": "object", "required": ["location"], "properties": {"location": location}, "additionalProperties": True}},
-            "rules": {"type": "array"},
-        }, "additionalProperties": True,
-    }
-
-
-def ufo_schema() -> dict[str, Any]:
-    return {
-        "$schema": "https://json-schema.org/draft/2020-12/schema",
-        "$id": "urn:font-format-schema:ufo-normalized",
-        "type": "object", "required": ["glyphCount", "glyphs"],
-        "properties": {
-            "path": {"type": "string"}, "formatVersion": {"type": "integer"}, "glyphCount": {"type": "integer", "minimum": 0},
-            "glyphs": {"type": "array", "items": {"type": "object", "required": ["name", "components", "anchors", "variableComponents"], "properties": {
-                "name": {"type": "string"}, "layer": {"type": "string"}, "file": {"type": "string"}, "width": {"type": ["number", "null"]},
-                "components": {"type": "array"}, "anchors": {"type": "array"}, "variableComponents": {"type": "array"},
-                "glyphDesignspace": {},
-            }, "additionalProperties": True}},
-        }, "additionalProperties": True,
-    }
-
-
-def canonical_typescript() -> str:
-    return '''// Generated. Canonical source-oriented types.
-
-export type AxisTag = string;
-export type Location = Record<string, number>;
-
-export interface Axis {
-  name: string;
-  tag: AxisTag;
-  minimum?: number | null;
-  default: number;
-  maximum?: number | null;
-  hidden?: boolean;
-  map?: [number, number][];
-  values?: number[];
-}
-
-export interface DecomposedTransform {
-  translateX?: number;
-  translateY?: number;
-  rotation?: number;
-  scaleX?: number;
-  scaleY?: number;
-  skewX?: number;
-  skewY?: number;
-  tCenterX?: number;
-  tCenterY?: number;
-}
-
-export interface VariableComponent {
-  base: string;
-  location?: Location;
-  transformation?: DecomposedTransform;
-  resetUnspecifiedAxes?: boolean;
-}
-
-export interface AffineTransform {
-  xScale: number;
-  xyScale: number;
-  yxScale: number;
-  yScale: number;
-  xOffset: number;
-  yOffset: number;
-}
-
-export interface AffineComponent {
-  base: string;
-  transform: AffineTransform;
-  identifier?: string | null;
-}
-
-export interface Anchor {
-  name?: string | null;
-  x: number;
-  y: number;
-  identifier?: string | null;
-}
-
-export interface NormalizedGlyph {
-  name: string;
-  layer: string;
-  file: string;
-  width: number | null;
-  components: AffineComponent[];
-  anchors: Anchor[];
-  variableComponents: VariableComponent[];
-  glyphDesignspace?: unknown;
-}
-
-export interface UfoNormalized {
-  path: string;
-  formatVersion: number;
-  glyphCount: number;
-  glyphs: NormalizedGlyph[];
-}
-
-export interface DesignspaceMapping {
-  input: Location;
-  output: Location;
-  description?: string | null;
-}
-
-export interface DesignspaceSource {
-  name?: string | null;
-  filename?: string | null;
-  layerName?: string | null;
-  familyName?: string | null;
-  styleName?: string | null;
-  location: Location;
-}
-
-export interface DesignspaceInstance {
-  name?: string | null;
-  filename?: string | null;
-  familyName?: string | null;
-  styleName?: string | null;
-  location: Location;
-}
-
-export interface DesignspaceNormalized {
-  path: string;
-  formatVersion: string;
-  axes: Axis[];
-  mappings: DesignspaceMapping[];
-  sources: DesignspaceSource[];
-  instances: DesignspaceInstance[];
-  rules: unknown[];
-}
-
-export interface XmlAstElement {
-  tag: string;
-  attributes: Record<string, string>;
-  text?: string;
-  children: XmlAstElement[];
-}
-'''
+def generate_examples(root: Path) -> list[Path]:
+    outputs: list[Path] = []
+    examples = root / "examples"
+    ds = examples / "designspace-ufo" / "VariationDemo.designspace"
+    if ds.exists():
+        out = root / "generated/designspace/example.json"
+        dump_json(inspect_designspace(ds.relative_to(root).as_posix()), out)
+        outputs.append(out)
+    for ufo in sorted((examples / "designspace-ufo" / "masters").glob("*.ufo")):
+        out = root / "generated/ufo" / f"{ufo.stem}.json"
+        dump_json(inspect_ufo(ufo.relative_to(root).as_posix()), out)
+        outputs.append(out)
+    for ttx in sorted((examples / "ttx-synthetic").glob("*.full.ttx")):
+        stem = ttx.name[: -len(".full.ttx")]
+        out = root / "generated/ttx/json" / f"{stem}.json"
+        dump_json(ttx_file_to_json(ttx), out)
+        outputs.append(out)
+    for ttx in sorted((examples / "ttx-synthetic").glob("*.ttx")):
+        if ttx.name.endswith(".full.ttx"):
+            continue
+        out = root / "generated/ttx/json-ast" / f"{ttx.stem}.json"
+        dump_json(xml_file_to_ast(ttx), out)
+        outputs.append(out)
+    return outputs
 
 
 def generate_all() -> list[Path]:
     root = repo_root()
-    meta = extract_variation_otdata()
-    outputs: list[Path] = []
-    payloads = {
-        root / "generated/ttx/otdata-variation.json": meta,
-        root / "generated/ttx/table-inventory.json": table_inventory(),
-        root / "schemas/ttx-otdata-variation.schema.json": otdata_json_schema(meta),
-        root / "schemas/xml-ast.schema.json": xml_ast_schema(),
-        root / "schemas/canonical-variation.schema.json": variation_schema(),
-        root / "schemas/designspace-normalized.schema.json": designspace_schema(),
-        root / "schemas/ufo-normalized.schema.json": ufo_schema(),
-    }
-    for path, data in payloads.items():
-        dump_json(data, path)
-        outputs.append(path)
-    ts1 = root / "generated/typescript/font-variation.ts"
-    ts1.parent.mkdir(parents=True, exist_ok=True)
-    ts1.write_text(canonical_typescript(), encoding="utf-8")
-    outputs.append(ts1)
-    ts2 = root / "generated/typescript/opentype-variation-otdata.ts"
-    ts2.write_text(otdata_typescript(meta), encoding="utf-8")
-    outputs.append(ts2)
+    # Paths are relative to the repository so the JSON is stable across machines.
+    import os
+
+    cwd = os.getcwd()
+    os.chdir(root)
+    try:
+        outputs = generate_schemas(root)
+        outputs += generate_examples(root)
+    finally:
+        os.chdir(cwd)
     return outputs

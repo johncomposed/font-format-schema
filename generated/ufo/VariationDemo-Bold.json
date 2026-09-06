@@ -1,0 +1,201 @@
+{
+  "path": "examples\\designspace-ufo\\masters\\VariationDemo-Bold.ufo",
+  "metainfo": {
+    "creator": "org.openai.font-format-schema",
+    "formatVersion": 3
+  },
+  "fontinfo": {
+    "familyName": "Variation Demo",
+    "styleName": "Bold",
+    "unitsPerEm": 1000,
+    "descender": -200,
+    "ascender": 800,
+    "openTypeOS2WeightClass": 800
+  },
+  "layercontents": [
+    [
+      "public.default",
+      "glyphs"
+    ]
+  ],
+  "layers": [
+    {
+      "name": "public.default",
+      "directory": "glyphs",
+      "contents": {
+        ".notdef": "notdef.glif",
+        "stem": "stem.glif",
+        "acute": "acute.glif",
+        "composite": "composite.glif",
+        "varComposite": "varComposite.glif"
+      },
+      "glyphs": {
+        ".notdef": {
+          "name": ".notdef",
+          "format": 2,
+          "advance": {
+            "width": 600
+          },
+          "outline": {
+            "contours": [
+              {
+                "points": [
+                  {
+                    "x": 50,
+                    "y": 0,
+                    "type": "line"
+                  },
+                  {
+                    "x": 550,
+                    "y": 0,
+                    "type": "line"
+                  },
+                  {
+                    "x": 550,
+                    "y": 700,
+                    "type": "line"
+                  },
+                  {
+                    "x": 50,
+                    "y": 700,
+                    "type": "line"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "stem": {
+          "name": "stem",
+          "format": 2,
+          "advance": {
+            "width": 600
+          },
+          "outline": {
+            "contours": [
+              {
+                "points": [
+                  {
+                    "x": 100,
+                    "y": 0,
+                    "type": "line"
+                  },
+                  {
+                    "x": 240,
+                    "y": 0,
+                    "type": "line"
+                  },
+                  {
+                    "x": 240,
+                    "y": 700,
+                    "type": "line"
+                  },
+                  {
+                    "x": 100,
+                    "y": 700,
+                    "type": "line"
+                  }
+                ]
+              }
+            ]
+          },
+          "anchors": [
+            {
+              "x": 150,
+              "y": 700,
+              "name": "top"
+            }
+          ]
+        },
+        "acute": {
+          "name": "acute",
+          "format": 2,
+          "advance": {
+            "width": 600
+          },
+          "outline": {
+            "contours": [
+              {
+                "points": [
+                  {
+                    "x": 0,
+                    "y": 0,
+                    "type": "line"
+                  },
+                  {
+                    "x": 180,
+                    "y": 0,
+                    "type": "line"
+                  },
+                  {
+                    "x": 180,
+                    "y": 80,
+                    "type": "line"
+                  },
+                  {
+                    "x": 0,
+                    "y": 80,
+                    "type": "line"
+                  }
+                ]
+              }
+            ]
+          },
+          "anchors": [
+            {
+              "x": 90,
+              "y": 0,
+              "name": "_top"
+            }
+          ]
+        },
+        "composite": {
+          "name": "composite",
+          "format": 2,
+          "advance": {
+            "width": 600
+          },
+          "outline": {
+            "components": [
+              {
+                "base": "stem",
+                "xOffset": 30,
+                "yOffset": 0
+              },
+              {
+                "base": "acute",
+                "xOffset": 210,
+                "yOffset": 700
+              }
+            ]
+          }
+        },
+        "varComposite": {
+          "name": "varComposite",
+          "format": 2,
+          "advance": {
+            "width": 600
+          },
+          "lib": {
+            "com.black-foundry.variable-components": [
+              {
+                "base": "stem",
+                "location": {
+                  "Weight": 700,
+                  "Width": 75
+                },
+                "transformation": {
+                  "translateX": 40,
+                  "translateY": 0,
+                  "rotation": 0.0,
+                  "scaleX": 1.0,
+                  "scaleY": 1.0
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

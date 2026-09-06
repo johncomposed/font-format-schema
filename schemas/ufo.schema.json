@@ -1,0 +1,2056 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:font-format-schema:ufo",
+  "title": "UFO 3 package",
+  "description": "JSON model of a UFO 3 package: metainfo, fontinfo, lib, groups, kerning, layers and GLIF glyphs, plus the variable-components-in-ufo glyph.lib extension. Descriptions quote the UFO specification at commit ffb351f0248a4670e9223bb7d13c8be443eb392c.",
+  "$ref": "#/$defs/UfoPackage",
+  "$defs": {
+    "Color": {
+      "type": "string",
+      "pattern": "^\\s*(0|1|0?\\.\\d+|1\\.0+)\\s*,\\s*(0|1|0?\\.\\d+|1\\.0+)\\s*,\\s*(0|1|0?\\.\\d+|1\\.0+)\\s*,\\s*(0|1|0?\\.\\d+|1\\.0+)\\s*$",
+      "description": "UFO color definition: four comma separated numbers (red, green, blue, alpha), each between 0 and 1."
+    },
+    "Identifier": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100,
+      "pattern": "^[\\x20-\\x7E]{1,100}$",
+      "description": "Object identifier per the UFO conventions: 1 to 100 characters drawn from printable ASCII (0x20-0x7E), unique within its scope."
+    },
+    "GlyphName": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Glyph name. At least one character, no control characters."
+    },
+    "LayerName": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Layer name. At least one character, no control characters."
+    },
+    "AxisName": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Designspace axis name (the human readable name, not the four letter tag)."
+    },
+    "Location": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "number"
+      },
+      "description": "Designspace location: axis name to axis value."
+    },
+    "PlistValue": {
+      "description": "Any XML property list value: string, number, boolean, date (ISO string), data (base64 string), array or dictionary."
+    },
+    "PlistDict": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/PlistValue"
+      },
+      "description": "Property list dictionary."
+    },
+    "FontInfo": {
+      "type": "object",
+      "properties": {
+        "ascender": {
+          "type": "number",
+          "description": "Ascender value. *Note: The specification is agnostic about the relationship to the more specific vertical metric values.* [spec type: integer or float]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "capHeight": {
+          "type": "number",
+          "description": "Cap height value. [spec type: integer or float]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "copyright": {
+          "type": "string",
+          "description": "Copyright statement. [spec type: string]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "descender": {
+          "type": "number",
+          "description": "Descender value. *Note: The specification is agnostic about the relationship to the more specific vertical metric values.* [spec type: integer or float]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "familyName": {
+          "type": "string",
+          "description": "Family name. *Note: The specification is agnostic about how this value relates to `openTypeNamePreferredFamilyName`.* [spec type: string]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "guidelines": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Guideline"
+          },
+          "description": "A list of guideline definitions that apply to all glyphs in all layers in the font. This attribute is optional. [spec type: list]",
+          "x-ufolib-validator": "guidelinesValidator"
+        },
+        "italicAngle": {
+          "type": "number",
+          "description": "Italic angle. This must be an angle in counter-clockwise degrees from the vertical. [spec type: integer or float]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "macintoshFONDFamilyID": {
+          "type": "integer",
+          "description": "Family ID number. Corresponds to the ffFamID in the FOND resource. [spec type: integer]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "macintoshFONDName": {
+          "type": "string",
+          "description": "Font name for the FOND resource. [spec type: string]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "note": {
+          "type": "string",
+          "description": "Arbitrary note about the font. [spec type: string]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "openTypeGaspRangeRecords": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/GaspRangeRecord"
+          },
+          "description": "A list of gasp Range Records. These must be sorted in ascending order based on the `rangeMaxPPEM` value of the record. [spec type: list]",
+          "x-ufolib-validator": "fontInfoOpenTypeGaspRangeRecordsValidator"
+        },
+        "openTypeHeadCreated": {
+          "type": "string",
+          "pattern": "^\\d{4}/\\d{2}/\\d{2} \\d{2}:\\d{2}:\\d{2}$",
+          "description": "Creation date. Expressed as a string of the format \"YYYY/MM/DD HH:MM:SS\". \"YYYY/MM/DD\" is year/month/day. The month must be in the range 1-12 and the day must be in the range 1-end of month. \"HH:MM:SS\" is hour:minute:second. The hour must be in the range 0:23. The minute and second must each be in the range 0-59. The timezone is UTC. [spec type: string]",
+          "x-ufolib-validator": "fontInfoOpenTypeHeadCreatedValidator"
+        },
+        "openTypeHeadFlags": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "uniqueItems": true,
+          "description": "A list of bit numbers indicating the flags. The bit numbers are listed in the OpenType head specification. Corresponds to the OpenType head table `flags` field. [spec type: list]",
+          "x-ufolib-validator": "genericIntListValidator"
+        },
+        "openTypeHeadLowestRecPPEM": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Smallest readable size in pixels. Corresponds to the OpenType head table `lowestRecPPEM` field. [spec type: non-negative integer]",
+          "x-ufolib-validator": "genericNonNegativeNumberValidator"
+        },
+        "openTypeHheaAscender": {
+          "type": "integer",
+          "description": "Ascender value. Corresponds to the OpenType hhea table `Ascender` field. [spec type: integer]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "openTypeHheaCaretOffset": {
+          "type": "integer",
+          "description": "Caret offset value. Corresponds to the OpenType hhea table `caretOffset` field. [spec type: integer]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "openTypeHheaCaretSlopeRise": {
+          "type": "integer",
+          "description": "Caret slope rise value. Corresponds to the OpenType hhea table `caretSlopeRise` field. [spec type: integer]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "openTypeHheaCaretSlopeRun": {
+          "type": "integer",
+          "description": "Caret slope run value. Corresponds to the OpenType hhea table `caretSlopeRun` field. [spec type: integer]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "openTypeHheaDescender": {
+          "type": "integer",
+          "description": "Descender value. Corresponds to the OpenType hhea table `Descender` field. [spec type: integer]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "openTypeHheaLineGap": {
+          "type": "integer",
+          "description": "Line gap value. Corresponds to the OpenType hhea table `LineGap` field. [spec type: integer]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "openTypeNameCompatibleFullName": {
+          "type": "string",
+          "description": "Compatible full name. Corresponds to the OpenType name table name ID 18. [spec type: string]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "openTypeNameDescription": {
+          "type": "string",
+          "description": "Description of the font. Corresponds to the OpenType name table name ID 10. [spec type: string]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "openTypeNameDesigner": {
+          "type": "string",
+          "description": "Designer name. Corresponds to the OpenType name table name ID 9. [spec type: string]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "openTypeNameDesignerURL": {
+          "type": "string",
+          "description": "URL for the designer. Corresponds to the OpenType name table name ID 12. [spec type: string]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "openTypeNameLicense": {
+          "type": "string",
+          "description": "License text. Corresponds to the OpenType name table name ID 13. [spec type: string]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "openTypeNameLicenseURL": {
+          "type": "string",
+          "description": "URL for the license. Corresponds to the OpenType name table name ID 14. [spec type: string]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "openTypeNameManufacturer": {
+          "type": "string",
+          "description": "Manufacturer name. Corresponds to the OpenType name table name ID 8. [spec type: string]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "openTypeNameManufacturerURL": {
+          "type": "string",
+          "description": "Manufacturer URL. Corresponds to the OpenType name table name ID 11. [spec type: string]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "openTypeNamePreferredFamilyName": {
+          "type": "string",
+          "description": "Preferred family name. Corresponds to the OpenType name table name ID 16. [spec type: string]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "openTypeNamePreferredSubfamilyName": {
+          "type": "string",
+          "description": "Preferred subfamily name. Corresponds to the OpenType name table name ID 17. [spec type: string]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "openTypeNameRecords": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/NameRecord"
+          },
+          "description": "A list of name records. This name record storage area is intended for records that require platform, encoding and or language localization. [spec type: list]",
+          "x-ufolib-validator": "fontInfoOpenTypeNameRecordsValidator"
+        },
+        "openTypeNameSampleText": {
+          "type": "string",
+          "description": "Sample text. Corresponds to the OpenType name table name ID 19. [spec type: string]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "openTypeNameUniqueID": {
+          "type": "string",
+          "description": "Unique ID string. Corresponds to the OpenType name table name ID 3. [spec type: string]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "openTypeNameVersion": {
+          "type": "string",
+          "description": "Version string. Corresponds to the OpenType name table name ID 5. [spec type: string]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "openTypeNameWWSFamilyName": {
+          "type": "string",
+          "description": "WWS family name. Corresponds to the OpenType name table name ID 21. [spec type: string]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "openTypeNameWWSSubfamilyName": {
+          "type": "string",
+          "description": "WWS Subfamily name. Corresponds to the OpenType name table name ID 22. [spec type: string]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "openTypeOS2CodePageRanges": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "uniqueItems": true,
+          "description": "A list of bit numbers that are supported code page ranges in the font. The bit numbers are listed in the OpenType OS/2 specification. Corresponds to the OpenType OS/2 table `ulCodePageRange1` and `ulCodePageRange2` fields. [spec type: list]",
+          "x-ufolib-validator": "genericIntListValidator"
+        },
+        "openTypeOS2FamilyClass": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 14
+            },
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 15
+            }
+          ],
+          "minItems": 2,
+          "maxItems": 2,
+          "items": false,
+          "description": "Two integers representing the IBM font class and font subclass of the font. The first number, representing the class ID, must be in the range 0-14. The second number, representing the subclass, must be in the range 0-15. The numbers are listed in the OpenType OS/2 specification. Corresponds to the OpenType OS/2 table `sFamilyClass` field. [spec type: list]",
+          "x-ufolib-validator": "fontInfoOpenTypeOS2FamilyClassValidator"
+        },
+        "openTypeOS2Panose": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "minItems": 10,
+          "maxItems": 10,
+          "description": "The list must contain 10 non-negative integers that represent the setting for each category in the Panose specification. The integers correspond with the option numbers in each of the Panose categories. This corresponds to the OpenType OS/2 table `Panose` field. [spec type: list]",
+          "x-ufolib-validator": "fontInfoVersion3OpenTypeOS2PanoseValidator"
+        },
+        "openTypeOS2Selection": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "uniqueItems": true,
+          "description": "A list of bit numbers indicating the bits that should be set in fsSelection. The bit numbers are listed in the OpenType OS/2 specification. Corresponds to the OpenType OS/2 table `selection` field. **Note:** Bits 0 (italic), 5 (bold) and 6 (regular) must not be set here. These bits should be taken from the generic *styleMapStyleName* attribute. [spec type: list]",
+          "x-ufolib-validator": "genericIntListValidator"
+        },
+        "openTypeOS2StrikeoutPosition": {
+          "type": "integer",
+          "description": "Strikeout position. Corresponds to the OpenType OS/2 table `yStrikeoutPosition` field. [spec type: integer]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "openTypeOS2StrikeoutSize": {
+          "type": "integer",
+          "description": "Strikeout size. Corresponds to the OpenType OS/2 table `yStrikeoutSize` field. [spec type: integer]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "openTypeOS2SubscriptXOffset": {
+          "type": "integer",
+          "description": "Subscript x offset. Corresponds to the OpenType OS/2 table `ySubscriptXOffset` field. [spec type: integer]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "openTypeOS2SubscriptXSize": {
+          "type": "integer",
+          "description": "Subscript horizontal font size. Corresponds to the OpenType OS/2 table `ySubscriptXSize` field. [spec type: integer]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "openTypeOS2SubscriptYOffset": {
+          "type": "integer",
+          "description": "Subscript y offset. Corresponds to the OpenType OS/2 table `ySubscriptYOffset` field. [spec type: integer]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "openTypeOS2SubscriptYSize": {
+          "type": "integer",
+          "description": "Subscript vertical font size. Corresponds to the OpenType OS/2 table `ySubscriptYSize` field. [spec type: integer]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "openTypeOS2SuperscriptXOffset": {
+          "type": "integer",
+          "description": "Superscript x offset. Corresponds to the OpenType OS/2 table `ySuperscriptXOffset` field. [spec type: integer]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "openTypeOS2SuperscriptXSize": {
+          "type": "integer",
+          "description": "Superscript horizontal font size. Corresponds to the OpenType OS/2 table `ySuperscriptXSize` field. [spec type: integer]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "openTypeOS2SuperscriptYOffset": {
+          "type": "integer",
+          "description": "Superscript y offset. Corresponds to the OpenType OS/2 table `ySuperscriptYOffset` field. [spec type: integer]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "openTypeOS2SuperscriptYSize": {
+          "type": "integer",
+          "description": "Superscript vertical font size. Corresponds to the OpenType OS/2 table `ySuperscriptYSize` field. [spec type: integer]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "openTypeOS2Type": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "uniqueItems": true,
+          "description": "A list of bit numbers indicating the embedding type. The bit numbers are listed in the OpenType OS/2 specification. Corresponds to the OpenType OS/2 table `fsType` field. [spec type: list]",
+          "x-ufolib-validator": "genericIntListValidator"
+        },
+        "openTypeOS2TypoAscender": {
+          "type": "integer",
+          "description": "Ascender value. Corresponds to the OpenType OS/2 table `sTypoAscender` field. [spec type: integer]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "openTypeOS2TypoDescender": {
+          "type": "integer",
+          "description": "Descender value. Corresponds to the OpenType OS/2 table `sTypoDescender` field. [spec type: integer]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "openTypeOS2TypoLineGap": {
+          "type": "integer",
+          "description": "Line gap value. Corresponds to the OpenType OS/2 table `sTypoLineGap` field. [spec type: integer]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "openTypeOS2UnicodeRanges": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "uniqueItems": true,
+          "description": "A list of bit numbers that are supported Unicode ranges in the font. The bit numbers are listed in the OpenType OS/2 specification. Corresponds to the OpenType OS/2 table `ulUnicodeRange1`, `ulUnicodeRange2`, `ulUnicodeRange3` and `ulUnicodeRange4` fields. [spec type: list]",
+          "x-ufolib-validator": "genericIntListValidator"
+        },
+        "openTypeOS2VendorID": {
+          "type": "string",
+          "description": "Four character identifier for the creator of the font. Corresponds to the OpenType OS/2 table `achVendID` field. [spec type: string]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "openTypeOS2WeightClass": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Weight class value. Corresponds to the OpenType OS/2 table `usWeightClass` field. [spec type: non-negative integer]",
+          "x-ufolib-validator": "fontInfoOpenTypeOS2WeightClassValidator"
+        },
+        "openTypeOS2WidthClass": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9,
+          "description": "Width class value. Must be in the range 1-9. Corresponds to the OpenType OS/2 table `usWidthClass` field. [spec type: non-negative integer]",
+          "x-ufolib-validator": "fontInfoOpenTypeOS2WidthClassValidator"
+        },
+        "openTypeOS2WinAscent": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Ascender value. Corresponds to the OpenType OS/2 table `usWinAscent` field. [spec type: non-negative integer]",
+          "x-ufolib-validator": "genericNonNegativeNumberValidator"
+        },
+        "openTypeOS2WinDescent": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Descender value. Corresponds to the OpenType OS/2 table `usWinDescent` field. [spec type: non-negative integer]",
+          "x-ufolib-validator": "genericNonNegativeNumberValidator"
+        },
+        "openTypeVheaCaretOffset": {
+          "type": "integer",
+          "description": "Caret offset value. Corresponds to the OpenType vhea table `caretOffset` field. [spec type: integer]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "openTypeVheaCaretSlopeRise": {
+          "type": "integer",
+          "description": "Caret slope rise value. Corresponds to the OpenType vhea table `caretSlopeRise` field. [spec type: integer]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "openTypeVheaCaretSlopeRun": {
+          "type": "integer",
+          "description": "Caret slope run value. Corresponds to the OpenType vhea table `caretSlopeRun` field. [spec type: integer]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "openTypeVheaVertTypoAscender": {
+          "type": "integer",
+          "description": "Ascender value. Corresponds to the OpenType vhea table `vertTypoAscender` field. [spec type: integer]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "openTypeVheaVertTypoDescender": {
+          "type": "integer",
+          "description": "Descender value. Corresponds to the OpenType vhea table `vertTypoDescender` field. [spec type: integer]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "openTypeVheaVertTypoLineGap": {
+          "type": "integer",
+          "description": "Line gap value. Corresponds to the OpenType vhea table `vertTypoLineGap` field. [spec type: integer]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "postscriptBlueFuzz": {
+          "type": "number",
+          "description": "BlueFuzz value. This corresponds to the Type 1/CFF `BlueFuzz` field. [spec type: integer or float]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "postscriptBlueScale": {
+          "type": "number",
+          "description": "BlueScale value. This corresponds to the Type 1/CFF `BlueScale` field. [spec type: float]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "postscriptBlueShift": {
+          "type": "number",
+          "description": "BlueShift value. This corresponds to the Type 1/CFF `BlueShift` field. [spec type: integer or float]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "postscriptBlueValues": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 14,
+          "description": "A list of up to 14 integers or floats specifying the values that should be in the Type 1/CFF BlueValues field. This list must contain an even number of numbers following the rules defined in the Type 1/CFF specification. [spec type: list]",
+          "x-ufolib-validator": "fontInfoPostscriptBluesValidator"
+        },
+        "postscriptDefaultCharacter": {
+          "type": "string",
+          "description": "The name of the glyph that should be used as the default character in PFM files. [spec type: string]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "postscriptDefaultWidthX": {
+          "type": "number",
+          "description": "Default width for glyphs. [spec type: integer or float]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "postscriptFamilyBlues": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 14,
+          "description": "A list of up to 14 integers or floats specifying the values that should be in the Type 1/CFF FamilyBlues field. This list must contain an even number of numbers following the rules defined in the Type 1/CFF specification. [spec type: list]",
+          "x-ufolib-validator": "fontInfoPostscriptBluesValidator"
+        },
+        "postscriptFamilyOtherBlues": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 10,
+          "description": "A list of up to 10 integers or floats specifying the values that should be in the Type 1/CFF FamilyOtherBlues field. This list must contain an even number of numbers following the rules defined in the Type 1/CFF specification. [spec type: list]",
+          "x-ufolib-validator": "fontInfoPostscriptOtherBluesValidator"
+        },
+        "postscriptFontName": {
+          "type": "string",
+          "description": "Name to be used for the `FontName` field in Type 1/CFF table. [spec type: string]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "postscriptForceBold": {
+          "type": "boolean",
+          "description": "Indicates how the Type 1/CFF `ForceBold` field should be set. [spec type: boolean]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "postscriptFullName": {
+          "type": "string",
+          "description": "Name to be used for the `FullName` field in Type 1/CFF table. [spec type: string]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "postscriptIsFixedPitch": {
+          "type": "boolean",
+          "description": "Indicates if the font is monospaced. An authoring tool could calculate this automatically, but the designer may wish to override this setting. This corresponds to the Type 1/CFF `isFixedPitched` field [spec type: boolean]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "postscriptNominalWidthX": {
+          "type": "number",
+          "description": "Nominal width for glyphs. [spec type: integer or float]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "postscriptOtherBlues": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 10,
+          "description": "A list of up to 10 integers or floats specifying the values that should be in the Type 1/CFF OtherBlues field. This list must contain an even number of numbers following the rules defined in the Type 1/CFF specification. [spec type: list]",
+          "x-ufolib-validator": "fontInfoPostscriptOtherBluesValidator"
+        },
+        "postscriptSlantAngle": {
+          "type": "number",
+          "description": "Artificial slant angle. This must be an angle in counter-clockwise degrees from the vertical. This value is *not* the same as the italic angle. Font authoring tools may use this value to set the FontMatrix in Type 1/CFF table. [spec type: integer or float]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "postscriptStemSnapH": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 12,
+          "description": "List of horizontal stems sorted in the order specified in the Type 1/CFF specification. Up to 12 integers or floats are possible. This corresponds to the Type 1/CFF `StemSnapH` field. [spec type: list]",
+          "x-ufolib-validator": "fontInfoPostscriptStemsValidator"
+        },
+        "postscriptStemSnapV": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 12,
+          "description": "List of vertical stems sorted in the order specified in the Type 1/CFF specification. Up to 12 integers or floats are possible. This corresponds to the Type 1/CFF `StemSnapV` field. [spec type: list]",
+          "x-ufolib-validator": "fontInfoPostscriptStemsValidator"
+        },
+        "postscriptUnderlinePosition": {
+          "type": "number",
+          "description": "Underline position value. Corresponds to the Type 1/CFF/post table `UnderlinePosition` field. *Note: This value is ambiguous as post/CFF2 defines this position from the top, and Type 1/CFF defines it from the middle of the underline. The result of this value depends on which definition a compiler uses.* [spec type: integer or float]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "postscriptUnderlineThickness": {
+          "type": "number",
+          "description": "Underline thickness value. Corresponds to the Type 1/CFF/post table `UnderlineThickness` field. [spec type: integer or float]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "postscriptUniqueID": {
+          "type": "integer",
+          "description": "A unique ID number as defined in the Type 1/CFF specification. [spec type: integer]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "postscriptWeightName": {
+          "type": "string",
+          "description": "A string indicating the overall weight of the font. This corresponds to the Type 1/CFF Weight field. It should have a reasonable value that reflects the `openTypeOS2WeightClass` value. [spec type: string]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "postscriptWindowsCharacterSet": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 20,
+          "description": "The Windows character set. The values are defined below. [spec type: integer]",
+          "x-ufolib-validator": "fontInfoPostscriptWindowsCharacterSetValidator"
+        },
+        "styleMapFamilyName": {
+          "type": "string",
+          "description": "Family name used for bold, italic and bold italic style mapping. [spec type: string]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "styleMapStyleName": {
+          "enum": [
+            "regular",
+            "italic",
+            "bold",
+            "bold italic"
+          ],
+          "description": "Style map style. The possible values are *regular*, *italic*, *bold* and *bold italic*. These are case sensitive. [spec type: string]",
+          "x-ufolib-validator": "fontInfoStyleMapStyleNameValidator"
+        },
+        "styleName": {
+          "type": "string",
+          "description": "Style name. *Note: The specification is agnostic about how this value relates to `openTypeNamePreferredSubfamilyName`.* [spec type: string]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "trademark": {
+          "type": "string",
+          "description": "Trademark statement. [spec type: string]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "unitsPerEm": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Units per em. [spec type: non-negative integer or float]",
+          "x-ufolib-validator": "genericNonNegativeNumberValidator"
+        },
+        "versionMajor": {
+          "type": "integer",
+          "description": "Major version. [spec type: integer]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "versionMinor": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Minor version. [spec type: non-negative integer]",
+          "x-ufolib-validator": "genericNonNegativeIntValidator"
+        },
+        "woffMajorVersion": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Major version of the font. [spec type: non-negative integer]",
+          "x-ufolib-validator": "genericNonNegativeIntValidator"
+        },
+        "woffMetadataCopyright": {
+          "$ref": "#/$defs/WoffMetadataCopyright",
+          "description": "Font copyright. Corresponds to the WOFF `copyright` element. The dictionary must follow the WOFF Metadata Copyright Record structure. [spec type: dictionary]",
+          "x-ufolib-validator": "fontInfoWOFFMetadataCopyrightValidator"
+        },
+        "woffMetadataCredits": {
+          "$ref": "#/$defs/WoffMetadataCredits",
+          "description": "Font credits. Corresponds to the WOFF `credits` element. The dictionary must follow the WOFF Metadata Credits Record structure. [spec type: dictionary]",
+          "x-ufolib-validator": "fontInfoWOFFMetadataCreditsValidator"
+        },
+        "woffMetadataDescription": {
+          "$ref": "#/$defs/WoffMetadataDescription",
+          "description": "Font description. Corresponds to the WOFF `description` element. The dictionary must follow the WOFF Metadata Description Record structure. [spec type: dictionary]",
+          "x-ufolib-validator": "fontInfoWOFFMetadataDescriptionValidator"
+        },
+        "woffMetadataExtensions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/WoffMetadataExtension"
+          },
+          "description": "List of metadata extension records. The dictionaries must follow the WOFF Metadata Extension Record structure. There must be at least one extension record in the list. [spec type: list]",
+          "x-ufolib-validator": "fontInfoWOFFMetadataExtensionsValidator"
+        },
+        "woffMetadataLicense": {
+          "$ref": "#/$defs/WoffMetadataLicense",
+          "description": "Font license. Corresponds to the WOFF `license` element. The dictionary must follow the WOFF Metadata License Record structure. [spec type: dictionary]",
+          "x-ufolib-validator": "fontInfoWOFFMetadataLicenseValidator"
+        },
+        "woffMetadataLicensee": {
+          "$ref": "#/$defs/WoffMetadataLicensee",
+          "description": "Font licensee. Corresponds to the WOFF `licensee` element. The dictionary must follow the WOFF Metadata Licensee Record structure. [spec type: dictionary]",
+          "x-ufolib-validator": "fontInfoWOFFMetadataLicenseeValidator"
+        },
+        "woffMetadataTrademark": {
+          "$ref": "#/$defs/WoffMetadataTrademark",
+          "description": "Font trademark. Corresponds to the WOFF `trademark` element. The dictionary must follow the WOFF Metadata Trademark Record structure. [spec type: dictionary]",
+          "x-ufolib-validator": "fontInfoWOFFMetadataTrademarkValidator"
+        },
+        "woffMetadataUniqueID": {
+          "$ref": "#/$defs/WoffMetadataUniqueID",
+          "description": "Identification string. Corresponds to the WOFF `uniqueid`. The dictionary must follow the WOFF Metadata Unique ID Record structure. [spec type: dictionary]",
+          "x-ufolib-validator": "fontInfoWOFFMetadataUniqueIDValidator"
+        },
+        "woffMetadataVendor": {
+          "$ref": "#/$defs/WoffMetadataVendor",
+          "description": "Font vendor. Corresponds to the WOFF `vendor` element. The dictionary must follow the the WOFF Metadata Vendor Record structure. [spec type: dictionary]",
+          "x-ufolib-validator": "fontInfoWOFFMetadataVendorValidator"
+        },
+        "woffMinorVersion": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Minor version of the font. [spec type: non-negative integer]",
+          "x-ufolib-validator": "genericNonNegativeIntValidator"
+        },
+        "xHeight": {
+          "type": "number",
+          "description": "x-height value. [spec type: integer or float]",
+          "x-ufolib-validator": "genericTypeValidator"
+        },
+        "year": {
+          "type": "integer",
+          "description": "The year the font was created. This attribute is deprecated as of version 2. Its presence should not be relied upon by authoring tools. However, it may occur in a font's info so authoring tools should preserve it if present. [spec type: integer]",
+          "x-ufolib-validator": "genericTypeValidator"
+        }
+      },
+      "additionalProperties": true,
+      "description": "fontinfo.plist: every UFO 3 fontinfo key. Key list and base types come from fontTools.ufoLib.fontInfoAttributesVersion3ValueData; descriptions from the UFO specification."
+    },
+    "GaspRangeRecord": {
+      "type": "object",
+      "properties": {
+        "rangeMaxPPEM": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "The upper limit of the range, in PPEM. If any records are in the list, the final record should use 65535 (0xFFFF) as defined in the OpenType gasp specification. Corresponds to the rangeMaxPPEM field of the GASPRANGE record in the OpenType gasp table."
+        },
+        "rangeGaspBehavior": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 3
+          },
+          "uniqueItems": true,
+          "description": "A list of bit numbers indicating the flags to be set. The bit numbers are defined below. Corresponds to the rangeGaspBehavior field of the GASPRANGE record in the OpenType gasp table."
+        }
+      },
+      "required": [
+        "rangeMaxPPEM",
+        "rangeGaspBehavior"
+      ],
+      "additionalProperties": false
+    },
+    "NameRecord": {
+      "type": "object",
+      "properties": {
+        "nameID": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "The name ID."
+        },
+        "platformID": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "The platform ID."
+        },
+        "encodingID": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "The encoding ID."
+        },
+        "languageID": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "The language ID."
+        },
+        "string": {
+          "type": "string",
+          "description": "The string value for the record."
+        }
+      },
+      "required": [
+        "nameID",
+        "platformID",
+        "encodingID",
+        "languageID",
+        "string"
+      ],
+      "additionalProperties": false
+    },
+    "Guideline": {
+      "type": "object",
+      "properties": {
+        "x": {
+          "type": "number",
+          "description": "The 'x' coordinate. Optional if `y` is provided and `angle` is not provided. See below for details."
+        },
+        "y": {
+          "type": "number",
+          "description": "The 'y' coordinate. Optional if `x` is provided and `angle` is not provided. See below for details."
+        },
+        "angle": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 360,
+          "description": "The angle of the guideline. This must be an angle between 0 and 360 degrees in a counter-clockwise direction from the horizontal. If `x` or `y` are not specified, `angle` must not be specified. See below for details."
+        },
+        "name": {
+          "type": "string",
+          "description": "Font vendor. Corresponds to the WOFF `vendor` element `name` attribute. This is required."
+        },
+        "color": {
+          "$ref": "#/$defs/Color",
+          "description": "The color that should be applied to the guideline. The format follows the color definition standard. This attribute is optional."
+        },
+        "identifier": {
+          "$ref": "#/$defs/Identifier",
+          "description": "Unique identifier for the guideline. This attribute is not required and should only be added to guidelines as needed. However, once an identifier has been assigned to a guideline it must not be unnecessarily removed or changed. Identifiers may be changed in incoming guidelines during editing operations such as \"paste,\" but they should be maintained unless a duplicate identifier will be created. The identifier value must be unique within the fontinfo.plist guidelines list that the guideline belongs to but it is not required to be unique among the identifiers assigned to guidelines in glyphs. The identifier specification is detailed in the conventions."
+        }
+      },
+      "additionalProperties": false,
+      "anyOf": [
+        {
+          "required": [
+            "x"
+          ]
+        },
+        {
+          "required": [
+            "y"
+          ]
+        }
+      ],
+      "description": "Guideline (fontinfo.plist, layerinfo.plist and GLIF share this shape). At least one of x or y is required; angle requires both."
+    },
+    "WoffMetadataUniqueID": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "additionalProperties": false
+    },
+    "WoffMetadataVendor": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "dir": {
+          "enum": [
+            "ltr",
+            "rtl"
+          ]
+        },
+        "class": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "additionalProperties": false
+    },
+    "WoffMetadataCredit": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "dir": {
+          "enum": [
+            "ltr",
+            "rtl"
+          ]
+        },
+        "class": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "additionalProperties": false
+    },
+    "WoffMetadataCredits": {
+      "type": "object",
+      "properties": {
+        "credits": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/WoffMetadataCredit"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "credits"
+      ],
+      "additionalProperties": false
+    },
+    "WoffMetadataTextRecord": {
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string",
+          "description": "A list of WOFF Metadata Text Records for the description. This list must contain at least one text record."
+        },
+        "language": {
+          "type": "string"
+        },
+        "dir": {
+          "enum": [
+            "ltr",
+            "rtl"
+          ]
+        },
+        "class": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "text"
+      ],
+      "additionalProperties": false
+    },
+    "WoffMetadataDescription": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string"
+        },
+        "text": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/WoffMetadataTextRecord"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "text"
+      ],
+      "additionalProperties": false
+    },
+    "WoffMetadataLicense": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "text": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/WoffMetadataTextRecord"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "WoffMetadataCopyright": {
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/WoffMetadataTextRecord"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "text"
+      ],
+      "additionalProperties": false
+    },
+    "WoffMetadataTrademark": {
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/WoffMetadataTextRecord"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "text"
+      ],
+      "additionalProperties": false
+    },
+    "WoffMetadataLicensee": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "dir": {
+          "enum": [
+            "ltr",
+            "rtl"
+          ]
+        },
+        "class": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "additionalProperties": false
+    },
+    "WoffMetadataExtensionName": {
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string",
+          "description": "A list of WOFF Metadata Text Records for the description. This list must contain at least one text record."
+        },
+        "language": {
+          "type": "string"
+        },
+        "dir": {
+          "enum": [
+            "ltr",
+            "rtl"
+          ]
+        },
+        "class": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "text"
+      ],
+      "additionalProperties": false
+    },
+    "WoffMetadataExtensionValue": {
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string",
+          "description": "A list of WOFF Metadata Text Records for the description. This list must contain at least one text record."
+        },
+        "language": {
+          "type": "string"
+        },
+        "dir": {
+          "enum": [
+            "ltr",
+            "rtl"
+          ]
+        },
+        "class": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "text"
+      ],
+      "additionalProperties": false
+    },
+    "WoffMetadataExtensionItem": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "names": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/WoffMetadataExtensionName"
+          },
+          "minItems": 1
+        },
+        "values": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/WoffMetadataExtensionValue"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "names",
+        "values"
+      ],
+      "additionalProperties": false
+    },
+    "WoffMetadataExtension": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "names": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/WoffMetadataExtensionName"
+          }
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/WoffMetadataExtensionItem"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "items"
+      ],
+      "additionalProperties": false
+    },
+    "Point": {
+      "type": "object",
+      "properties": {
+        "x": {
+          "type": "number",
+          "description": "The 'x' coordinate."
+        },
+        "y": {
+          "type": "number",
+          "description": "The 'y' coordinate."
+        },
+        "type": {
+          "enum": [
+            "move",
+            "line",
+            "offcurve",
+            "curve",
+            "qcurve"
+          ],
+          "default": "offcurve",
+          "x-point-types": {
+            "move": "A point of this type must be the first in a `contour`. The reverse is not true: a `contour` does not necessarily start with a `move` point. When a `contour` **does** start with a `move` point, it signifies the beginning of an **open** contour. A **closed** contour does **not** start with a `move` and is defined as a cyclic list of points, with no predominant start point. There is always a *next point* and a *previous point*. For this purpose the list of points can be seen as endless in both directions. The actual list of points can be rotated arbitrarily (by removing the first N points and appending them at the end) while still describing the same outline.",
+            "line": "Draw a straight line from the previous point to this point. The previous point must be a `move`, a `line`, a `curve` or a `qcurve`. It must not be an `offcurve`.",
+            "offcurve": "This point is part of a curve segment that goes up to the next point that is either a `curve` or a `qcurve`.",
+            "curve": "Draw a cubic bezier curve from the last non-*offcurve* point to this point. The number of *offcurve* points can be zero, one or two. If the number of `offcurve` points is zero, a straight line is drawn. If it is one, a quadratic curve is drawn. If it is two, a regular cubic bezier is drawn.",
+            "qcurve": "Similar to curve, but uses quadratic curves, using the TrueType \"implied on-curve points\" principle. The number of *offcurve* points preceding this point can be zero, in which case a straight line is drawn from the last non-*offcurve* point to this point."
+          },
+          "description": "The point and/or segment type. The options are detailed below."
+        },
+        "smooth": {
+          "type": "boolean",
+          "default": false,
+          "description": "This attribute must only be given when `type` indicates the point is on-curve. When set to `yes`, it signifies that a smooth curvature should be maintained at this point, either as a `curve point` or a `tangent point` in Fontographer terms. This attribute may be set for all point types except `offcurve`."
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Arbitrary name or label for this point. The name does not have to be unique within a contour, nor within an outline. It must be at least one character long. There is no maximum name length. A name must not contain control characters."
+        },
+        "identifier": {
+          "$ref": "#/$defs/Identifier",
+          "description": "Unique identifier for the point. This attribute is not required and should only be added to points as needed. However, once an identifier has been assigned to a point it must not be unnecessarily removed or changed. Identifiers may be changed in incoming points during editing operations such as \"paste\" and component decomposition, but they should be maintained unless a duplicate identifier will be created. Identifiers should also be retained when possible during outline manipulation operations such as path direction changes and remove overlap. The identifier value must be unique within all identifiers (including identifiers for elements other than poinys) in the glyph that the point belongs to but it is not required to be unique among the identifiers assigned in other glyphs, in any layerinfo.plist or in fontinfo.plist. The identifier specification is detailed in the conventions."
+        }
+      },
+      "required": [
+        "x",
+        "y"
+      ],
+      "additionalProperties": false,
+      "description": "GLIF <point>: an attributed coordinate pair. `type` defaults to offcurve. A contour whose first point is `move` is open, otherwise it is closed (cyclic). A `curve` is preceded by 0, 1 or 2 offcurve points (line, quadratic, cubic); a `qcurve` by any number (TrueType implied on-curve points). `smooth` is only meaningful on on-curve points."
+    },
+    "Contour": {
+      "type": "object",
+      "properties": {
+        "identifier": {
+          "$ref": "#/$defs/Identifier",
+          "description": "Unique identifier for the contour. This attribute is not required and should only be added to contours as needed. However, once an identifier has been assigned to a contour it must not be unnecessarily removed or changed. Identifiers may be changed in incoming contours during editing operations such as \"paste\" and component decomposition, but they should be maintained unless a duplicate identifier will be created. Identifiers should also be retained when possible during outline manipulation operations such as path direction changes and remove overlap. The identifier value must be unique within all identifiers (including identifiers for elements other than contours) in the glyph that the contour belongs to but it is not required to be unique among the identifiers assigned in other glyphs, in any layerinfo.plist or in fontinfo.plist. The identifier specification is detailed in the conventions."
+        },
+        "points": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Point"
+          },
+          "description": "Ordered points. An empty contour is equivalent to no contour. A contour with only offcurve points is a closed quadratic (TrueType) contour."
+        }
+      },
+      "required": [
+        "points"
+      ],
+      "additionalProperties": false,
+      "description": "GLIF <contour>."
+    },
+    "Component": {
+      "type": "object",
+      "properties": {
+        "base": {
+          "$ref": "#/$defs/GlyphName",
+          "description": "Name of the base glyph"
+        },
+        "xScale": {
+          "type": "number",
+          "default": 1,
+          "description": "See below."
+        },
+        "xyScale": {
+          "type": "number",
+          "default": 0,
+          "description": "See below."
+        },
+        "yxScale": {
+          "type": "number",
+          "default": 0,
+          "description": "See below."
+        },
+        "yScale": {
+          "type": "number",
+          "default": 1,
+          "description": "See below."
+        },
+        "xOffset": {
+          "type": "number",
+          "default": 0,
+          "description": "See below."
+        },
+        "yOffset": {
+          "type": "number",
+          "default": 0,
+          "description": "See below."
+        },
+        "identifier": {
+          "$ref": "#/$defs/Identifier",
+          "description": "Unique identifier for the component. This attribute is not required and should only be added to components as needed. However, once an identifier has been assigned to a component it must not be unnecessarily removed or changed. Identifiers may be changed in incoming components during editing operations such as \"paste,\" but they should be maintained unless a duplicate identifier will be created. The identifier value must be unique within all identifiers (including identifiers for elements other than components) in the glyph that the component belongs to but it is not required to be unique among the identifiers assigned in other glyphs, in any layerinfo.plist or in fontinfo.plist. The identifier specification is detailed in the conventions."
+        }
+      },
+      "required": [
+        "base"
+      ],
+      "additionalProperties": false,
+      "description": "GLIF <component>: insert another glyph, transformed by the affine matrix [xScale xyScale yxScale yScale xOffset yOffset] (default identity). Components must reference glyphs in the same layer and must not be circular."
+    },
+    "Image": {
+      "type": "object",
+      "properties": {
+        "fileName": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The image file name, including any file extension, not an absolute or relative path in the file system."
+        },
+        "xScale": {
+          "type": "number",
+          "default": 1,
+          "description": "See below."
+        },
+        "xyScale": {
+          "type": "number",
+          "default": 0,
+          "description": "See below."
+        },
+        "yxScale": {
+          "type": "number",
+          "default": 0,
+          "description": "See below."
+        },
+        "yScale": {
+          "type": "number",
+          "default": 1,
+          "description": "See below."
+        },
+        "xOffset": {
+          "type": "number",
+          "default": 0,
+          "description": "See below."
+        },
+        "yOffset": {
+          "type": "number",
+          "default": 0,
+          "description": "See below."
+        },
+        "color": {
+          "$ref": "#/$defs/Color",
+          "description": "The color that should be applied to the image. The format follows the color definition standard. This attribute is optional."
+        }
+      },
+      "required": [
+        "fileName"
+      ],
+      "additionalProperties": false,
+      "description": "GLIF <image>: an image reference drawn behind the outline."
+    },
+    "Anchor": {
+      "type": "object",
+      "properties": {
+        "x": {
+          "type": "number",
+          "description": "The 'x' coordinate."
+        },
+        "y": {
+          "type": "number",
+          "description": "The 'y' coordinate."
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "An arbitrary name for the anchor. This attribute is optional. It must be at least one character long. There is no maximum name length. A name must not contain control characters."
+        },
+        "color": {
+          "$ref": "#/$defs/Color",
+          "description": "The color that should be applied to the anchor. The format follows the color definition standard. This attribute is optional."
+        },
+        "identifier": {
+          "$ref": "#/$defs/Identifier",
+          "description": "Unique identifier for the anchor. This attribute is not required and should only be added to anchors as needed. However, once an identifier has been assigned to an anchor it must not be unnecessarily removed or changed. Identifiers may be changed in incoming anchors during editing operations such as \"paste,\" but they should be maintained unless a duplicate identifier will be created. The identifier value must be unique within all identifiers (including identifiers for elements other than anchors) in the glyph that the anchor belongs to but it is not required to be unique among the identifiers assigned in other glyphs or in fontinfo.plist. The identifier specification is detailed in the conventions."
+        }
+      },
+      "required": [
+        "x",
+        "y"
+      ],
+      "additionalProperties": false,
+      "description": "GLIF <anchor>: a named reference position. Names starting with caret_/vcaret_ are ligature carets."
+    },
+    "Advance": {
+      "type": "object",
+      "properties": {
+        "width": {
+          "type": "number",
+          "default": 0,
+          "description": "The advance width. Optional if *height* is defined."
+        },
+        "height": {
+          "type": "number",
+          "default": 0,
+          "description": "The vertical advance. Optional if *width* is defined."
+        }
+      },
+      "additionalProperties": false,
+      "description": "GLIF <advance>: horizontal and vertical advance."
+    },
+    "Unicode": {
+      "type": "object",
+      "properties": {
+        "hex": {
+          "type": "string",
+          "pattern": "^[0-9A-Fa-f]{4,6}$",
+          "description": "A unicode code point as a hexadecimal number. The string is case-insensitive and must contain the hex value without a prefix."
+        }
+      },
+      "required": [
+        "hex"
+      ],
+      "additionalProperties": false,
+      "description": "GLIF <unicode>: a code point as a hexadecimal string without prefix. The first occurrence is the primary code point."
+    },
+    "Outline": {
+      "type": "object",
+      "properties": {
+        "contours": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Contour"
+          }
+        },
+        "components": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Component"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "description": "GLIF <outline>. The XML allows contour and component children in any order; the JSON model separates them (order among contours and among components is preserved)."
+    },
+    "Glyph": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "$ref": "#/$defs/GlyphName",
+          "description": "The name of the glyph. It must be at least one character long. There is no maximum name length. Names must not contain control characters. Different font specifications, such as OpenType, often have their own glyph name restrictions. Authoring tools should not make assumptions about the validity of a glyph's name for a particular font specification."
+        },
+        "format": {
+          "enum": [
+            1,
+            2
+          ],
+          "default": 2,
+          "description": "The major format version. 2 for this version."
+        },
+        "formatMinor": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 0,
+          "description": "The minor format version. Optional if the minor version is 0, must be present if the minor version is not 0."
+        },
+        "advance": {
+          "$ref": "#/$defs/Advance"
+        },
+        "unicodes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Unicode"
+          },
+          "description": "All <unicode> elements in document order."
+        },
+        "note": {
+          "type": "string",
+          "description": "GLIF <note>: arbitrary text."
+        },
+        "image": {
+          "$ref": "#/$defs/Image"
+        },
+        "guidelines": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Guideline"
+          },
+          "description": "Glyph-level guidelines."
+        },
+        "anchors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Anchor"
+          }
+        },
+        "outline": {
+          "$ref": "#/$defs/Outline"
+        },
+        "lib": {
+          "$ref": "#/$defs/GlyphLib"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "additionalProperties": false,
+      "description": "A GLIF 2 glyph. Repeated XML elements are collected into arrays in document order."
+    },
+    "GlyphLib": {
+      "type": "object",
+      "properties": {
+        "public.markColor": {
+          "$ref": "#/$defs/Color",
+          "description": "The 'mark' color seen in font editors."
+        },
+        "public.verticalOrigin": {
+          "type": "number",
+          "description": "Vertical origin of the glyph, used for VORG / vmtx top side bearing."
+        },
+        "public.objectLibs": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "public.truetype.roundOffsetToGrid": {
+                "type": "boolean",
+                "description": "Component: set ROUND_XY_TO_GRID (bit 2) in the glyf composite flags."
+              },
+              "public.truetype.useMyMetrics": {
+                "type": "boolean",
+                "description": "Component: set USE_MY_METRICS (bit 9) in the glyf composite flags."
+              }
+            },
+            "additionalProperties": {
+              "$ref": "#/$defs/PlistValue"
+            }
+          },
+          "description": "public.objectLibs: object identifier -> lib dictionary for a contour, point, component, anchor or guideline."
+        },
+        "public.postscript.hints": {
+          "$ref": "#/$defs/PostscriptHints"
+        },
+        "public.truetype.instructions": {
+          "$ref": "#/$defs/TrueTypeInstructions"
+        },
+        "public.truetype.overlap": {
+          "type": "boolean",
+          "description": "Set OVERLAP_SIMPLE / OVERLAP_COMPOUND in glyf flags."
+        },
+        "com.black-foundry.variable-components": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/VariableComponent"
+          },
+          "minItems": 1,
+          "description": "Variable components (must be non-empty when present)."
+        },
+        "com.black-foundry.glyph-designspace": {
+          "$ref": "#/$defs/GlyphDesignspace"
+        }
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/PlistValue"
+      },
+      "description": "glyph.lib. Public keys are typed; other reverse-domain keys carry arbitrary plist values."
+    },
+    "PostscriptHints": {
+      "type": "object",
+      "properties": {
+        "formatVersion": {
+          "const": "1"
+        },
+        "id": {
+          "type": "string",
+          "description": "Hash of glyph outlines computed when the glyph was hinted."
+        },
+        "hintSetList": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/PostscriptHintSet"
+          }
+        },
+        "flexList": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Point names at which flex hints start."
+        }
+      },
+      "required": [
+        "formatVersion",
+        "id",
+        "hintSetList"
+      ],
+      "additionalProperties": false,
+      "description": "glyph.lib['public.postscript.hints']."
+    },
+    "PostscriptHintSet": {
+      "type": "object",
+      "properties": {
+        "pointTag": {
+          "type": "string",
+          "description": "Unique point name. Must match a point 'name' attribute."
+        },
+        "stems": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^(hstem|vstem)( -?\\d+(\\.\\d+)?)+$"
+          },
+          "description": "Stem strings: 'hstem'/'vstem' followed by an even number of coordinates."
+        }
+      },
+      "required": [
+        "pointTag",
+        "stems"
+      ],
+      "additionalProperties": false
+    },
+    "TrueTypeInstructions": {
+      "type": "object",
+      "properties": {
+        "formatVersion": {
+          "const": "1"
+        },
+        "id": {
+          "type": "string"
+        },
+        "assembly": {
+          "type": "string",
+          "description": "TrueType assembly, one instruction per line."
+        },
+        "coordinates": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "minItems": 2,
+            "maxItems": 2,
+            "items": false
+          }
+        }
+      },
+      "required": [
+        "formatVersion",
+        "id",
+        "assembly"
+      ],
+      "additionalProperties": false,
+      "description": "glyph.lib['public.truetype.instructions']."
+    },
+    "DecomposedTransform": {
+      "type": "object",
+      "properties": {
+        "translateX": {
+          "type": "number",
+          "default": 0,
+          "description": "x translation in font units"
+        },
+        "translateY": {
+          "type": "number",
+          "default": 0,
+          "description": "y translation in font units"
+        },
+        "rotation": {
+          "type": "number",
+          "default": 0,
+          "description": "rotation angle in counter-clockwise degrees"
+        },
+        "scaleX": {
+          "type": "number",
+          "default": 1,
+          "description": "scale factor for the x dimension"
+        },
+        "scaleY": {
+          "type": "number",
+          "default": 1,
+          "description": "scale factor for the y dimension"
+        },
+        "skewX": {
+          "type": "number",
+          "default": 0,
+          "description": "skew angle x in counter-clockwise degrees"
+        },
+        "skewY": {
+          "type": "number",
+          "default": 0,
+          "description": "skew angle y in counter-clockwise degrees"
+        },
+        "tCenterX": {
+          "type": "number",
+          "default": 0,
+          "description": "the x value for the center of transformation"
+        },
+        "tCenterY": {
+          "type": "number",
+          "default": 0,
+          "description": "the y value for the center of transformation"
+        }
+      },
+      "additionalProperties": false,
+      "description": "Decomposed, interpolation friendly transformation (variable-components-in-ufo). Composed as translate(tCenter) translate(translate) rotate scale skew translate(-tCenter)."
+    },
+    "VariableComponent": {
+      "type": "object",
+      "properties": {
+        "base": {
+          "$ref": "#/$defs/GlyphName",
+          "description": "Glyph name of the referenced (variable) glyph."
+        },
+        "transformation": {
+          "$ref": "#/$defs/DecomposedTransform",
+          "description": "Omitted when empty."
+        },
+        "location": {
+          "$ref": "#/$defs/Location",
+          "description": "Designspace location of the referenced glyph. May be sparse; unspecified axes inherit the parent location. Omitted when empty."
+        }
+      },
+      "required": [
+        "base"
+      ],
+      "additionalProperties": false,
+      "description": "Variable component stored in glyph.lib['com.black-foundry.variable-components']."
+    },
+    "GlyphAxis": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "$ref": "#/$defs/AxisName"
+        },
+        "minimum": {
+          "type": "number"
+        },
+        "default": {
+          "type": "number"
+        },
+        "maximum": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "name",
+        "minimum",
+        "default",
+        "maximum"
+      ],
+      "additionalProperties": false,
+      "description": "Glyph-local axis (variable-components-in-ufo)."
+    },
+    "GlyphSource": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "UI name for the source."
+        },
+        "location": {
+          "$ref": "#/$defs/Location",
+          "description": "Location in the augmented (global + local) designspace. Omitted axes take their default."
+        },
+        "layername": {
+          "$ref": "#/$defs/LayerName",
+          "description": "UFO layer holding the source glyph data; default layer if omitted."
+        }
+      },
+      "required": [
+        "name",
+        "location"
+      ],
+      "additionalProperties": false,
+      "description": "Glyph-local variation source (variable-components-in-ufo)."
+    },
+    "GlyphDesignspace": {
+      "type": "object",
+      "properties": {
+        "axes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/GlyphAxis"
+          },
+          "minItems": 1
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/GlyphSource"
+          }
+        }
+      },
+      "required": [
+        "axes"
+      ],
+      "additionalProperties": false,
+      "description": "Glyph-level designspace additions stored in glyph.lib['com.black-foundry.glyph-designspace'] in the default layer."
+    },
+    "MetaInfo": {
+      "type": "object",
+      "properties": {
+        "creator": {
+          "type": "string",
+          "description": "The application or library that created the UFO. This should follow a reverse domain naming scheme. For example, *org.robofab.ufoLib*. Optional."
+        },
+        "formatVersion": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 3,
+          "description": "The major version number of the UFO format. 3 for UFO 3. Required."
+        },
+        "formatVersionMinor": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 0,
+          "description": "The minor version number of the UFO format. Optional if the minor version is 0, must be present if the minor version is not 0."
+        }
+      },
+      "required": [
+        "formatVersion"
+      ],
+      "additionalProperties": false,
+      "description": "metainfo.plist"
+    },
+    "LayerContents": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "prefixItems": [
+          {
+            "$ref": "#/$defs/LayerName"
+          },
+          {
+            "type": "string",
+            "pattern": "^glyphs(\\..+)?$",
+            "description": "Directory name: 'glyphs' for the default layer, otherwise 'glyphs.' followed by a name."
+          }
+        ],
+        "minItems": 2,
+        "maxItems": 2,
+        "items": false
+      },
+      "minItems": 1,
+      "description": "layercontents.plist: ordered [layer name, directory] pairs. The first entry is the default layer; 'public.default' and 'public.background' are the registered layer names."
+    },
+    "LayerInfo": {
+      "type": "object",
+      "properties": {
+        "color": {
+          "$ref": "#/$defs/Color",
+          "description": "The color that should be used for all glyphs in the layer. This attribute is optional."
+        },
+        "guidelines": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Guideline"
+          },
+          "description": "Guidelines that apply to all glyphs in the layer."
+        },
+        "lib": {
+          "$ref": "#/$defs/PlistDict",
+          "description": "A lib specific to the layer. To avoid naming conflicts, keys should use the Reverse Domain Naming Scheme defined for lib.plist."
+        }
+      },
+      "additionalProperties": false,
+      "description": "layerinfo.plist"
+    },
+    "Contents": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^.+\\.glif$",
+        "description": "GLIF file name, derived from the glyph name by the UFO user-name-to-file-name algorithm."
+      },
+      "description": "contents.plist: glyph name to GLIF file name."
+    },
+    "Groups": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "$ref": "#/$defs/GlyphName"
+        }
+      },
+      "description": "groups.plist: group name to glyph names. Kerning groups use the public.kern1. / public.kern2. prefixes and a glyph may appear in only one group per side."
+    },
+    "Kerning": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "number"
+        }
+      },
+      "description": "kerning.plist: first (glyph or public.kern1 group) -> second (glyph or public.kern2 group) -> value."
+    },
+    "FontLib": {
+      "type": "object",
+      "properties": {
+        "public.glyphOrder": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/GlyphName"
+          },
+          "uniqueItems": true,
+          "description": "Preferred glyph order."
+        },
+        "public.groupOrder": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Preferred group order."
+        },
+        "public.postscriptNames": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Glyph name to PostScript (production) name."
+        },
+        "public.openTypeCategories": {
+          "type": "object",
+          "additionalProperties": {
+            "enum": [
+              "unassigned",
+              "base",
+              "ligature",
+              "mark",
+              "component"
+            ]
+          },
+          "description": "Glyph name to GDEF glyph class category."
+        },
+        "public.openTypeMeta": {
+          "type": "object",
+          "additionalProperties": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            ]
+          },
+          "description": "OpenType meta table tags (dlng, slng as string lists; others as strings/data)."
+        },
+        "public.openTypeHeadModified": {
+          "type": "string",
+          "description": "Override for the head.modified timestamp (YYYY/MM/DD HH:MM:SS)."
+        },
+        "public.openTypePostUnderlinePosition": {
+          "type": "integer",
+          "description": "Override for post.underlinePosition."
+        },
+        "public.skipExportGlyphs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/GlyphName"
+          },
+          "description": "Glyphs that must not be exported to binaries (decomposed where referenced)."
+        },
+        "public.unicodeVariationSequences": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/$defs/GlyphName"
+            }
+          },
+          "description": "Variation selector hex -> base code point hex -> glyph name."
+        },
+        "public.objectLibs": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/PlistDict"
+          },
+          "description": "Guideline identifier -> lib for fontinfo.plist guidelines."
+        },
+        "public.truetype.instructions": {
+          "type": "object",
+          "properties": {
+            "formatVersion": {
+              "const": "1"
+            },
+            "controlValue": {
+              "type": "array",
+              "items": {
+                "type": "array",
+                "prefixItems": [
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "integer"
+                  }
+                ],
+                "minItems": 2,
+                "maxItems": 2,
+                "items": false
+              }
+            },
+            "controlValueProgram": {
+              "type": "string"
+            },
+            "fontProgram": {
+              "type": "string"
+            },
+            "maxFunctionDefs": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "maxInstructionDefs": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "maxStackElements": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "maxStorage": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "maxTwilightPoints": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "maxZones": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "formatVersion"
+          ],
+          "additionalProperties": false,
+          "description": "Font-level TrueType hinting data (cvt, prep, fpgm, maxp)."
+        }
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/PlistValue"
+      },
+      "description": "lib.plist. Public keys are typed; other reverse-domain keys carry arbitrary plist values."
+    },
+    "Layer": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "$ref": "#/$defs/LayerName"
+        },
+        "directory": {
+          "type": "string"
+        },
+        "layerinfo": {
+          "$ref": "#/$defs/LayerInfo"
+        },
+        "contents": {
+          "$ref": "#/$defs/Contents"
+        },
+        "glyphs": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/Glyph"
+          },
+          "description": "Glyph name to parsed GLIF."
+        }
+      },
+      "required": [
+        "name",
+        "directory",
+        "glyphs"
+      ],
+      "additionalProperties": false,
+      "description": "One glyph layer: a directory listed in layercontents.plist."
+    },
+    "UfoPackage": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string",
+          "description": "File system path of the .ufo package (informational)."
+        },
+        "metainfo": {
+          "$ref": "#/$defs/MetaInfo"
+        },
+        "fontinfo": {
+          "$ref": "#/$defs/FontInfo"
+        },
+        "groups": {
+          "$ref": "#/$defs/Groups"
+        },
+        "kerning": {
+          "$ref": "#/$defs/Kerning"
+        },
+        "features": {
+          "type": "string",
+          "description": "features.fea: Adobe feature file source."
+        },
+        "lib": {
+          "$ref": "#/$defs/FontLib"
+        },
+        "layercontents": {
+          "$ref": "#/$defs/LayerContents"
+        },
+        "layers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Layer"
+          },
+          "description": "Layers in layercontents order."
+        },
+        "images": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "File names in images/."
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Relative file names in data/."
+        }
+      },
+      "required": [
+        "metainfo",
+        "layercontents",
+        "layers"
+      ],
+      "additionalProperties": false,
+      "description": "A UFO 3 package parsed into JSON."
+    }
+  }
+}

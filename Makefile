@@ -1,30 +1,36 @@
-.PHONY: setup generate test validate examples synthetic sources-sync vendor-init fixture-fonts fixture-fonttools all
+.PHONY: setup generate generate-ts test test-py test-ts validate synthetic spec sources-sync fixture-fonts fixture-fonttools all
 
 setup:
+	git submodule update --init
 	uv sync --extra dev
-
-generate:
-	uv run fontschema generate
+	npm install
 
 synthetic:
 	uv run python scripts/build-synthetic-fonts.py
 
-examples:
-	uv run fontschema designspace inspect examples/designspace-ufo/VariationDemo.designspace --out generated/designspace/example.json
-	uv run fontschema ufo inspect examples/designspace-ufo/masters/VariationDemo-Regular.ufo --out generated/ufo/example.json
+spec:
+	uv run fontschema spec extract
+
+generate:
+	uv run fontschema generate
+
+generate-ts:
+	npm run generate
 
 validate:
 	uv run fontschema designspace validate examples/designspace-ufo/VariationDemo.designspace
 	uv run fontschema ufo validate examples/designspace-ufo/masters/VariationDemo-Regular.ufo
 
-test:
+test-py:
 	uv run pytest -q
+
+test-ts:
+	npm test
+
+test: test-py test-ts
 
 sources-sync:
 	uv run fontschema sources sync
-
-vendor-init:
-	./scripts/vendor-init.sh
 
 fixture-fonts:
 	uv run fontschema fixtures download
@@ -33,4 +39,4 @@ fixture-fonts:
 fixture-fonttools:
 	uv run fontschema fixtures collect-fonttools
 
-all: generate synthetic examples validate test
+all: synthetic generate generate-ts validate test

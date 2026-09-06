@@ -1,230 +1,150 @@
 # font-format-schema
 
-A variation-focused reference and validation pipeline for three related source surfaces:
+Typed models of the three source surfaces in a variable-font pipeline, derived
+from the reference implementation and the specifications, and emitted as JSON
+Schema, TypeScript types and Zod schemas:
 
-1. **TTX / compiled OpenType** — derive structure metadata from fontTools, dump real fonts and fontTools fixtures, round-trip TTX, and run cross-table semantic checks.
-2. **Designspace** — parse current Designspace 5.x constructs, including `<mappings>` used to compile `avar` version 2 behavior.
-3. **UFO / GLIF** — inspect standard components, transforms, anchors and glyph libs, including the variable-components UFO extension.
+| Surface | Schema | What it models | Derived from |
+|---|---|---|---|
+| **UFO 3** (authoring source) | `schemas/ufo.schema.json` | metainfo, every fontinfo key, lib/groups/kerning, layers, full GLIF (points with `move/line/offcurve/curve/qcurve`, `smooth`, identifiers, components, anchors, guidelines, images), the variable-components glyph.lib extension | `fontTools.ufoLib` attribute tables + `vendor/ufo-spec` markdown + `vendor/variable-components-in-ufo` |
+| **Designspace 5** (interpolation source) | `schemas/designspace.schema.json` | axes (continuous and discrete), avar2 `<mappings>`, labels, sources, instances, rules, variable-font subsets | `fontTools.designspaceLib` descriptor attribute lists, asserted at generation time |
+| **TTX** (compiled, fontTools XML) | `schemas/ttx.schema.json` | JSON projection of TTX for `fvar`, `avar` (v1 and v2), `gvar`, `cvar`, `glyf`, `hmtx`/`vmtx`, `cmap`, `name`, `post`, `head`/`hhea`/`vhea`/`maxp`/`OS/2` (field lists parsed from fontTools `sstruct` formats), plus a generic tree for otData tables | pinned fontTools `toXML`/`fromXML` behaviour |
+| OpenType binary structures | `schemas/ttx-otdata-variation.schema.json` | fontTools `otData` struct definitions for `STAT`, `HVAR`, `VVAR`, `MVAR`, `VARC`, `avar`, VarStore, MultiVarStore, FeatureVariations... | `fontTools.ttLib.tables.otData` |
+| Anything else | `schemas/xml-ast.schema.json` | ordered XML AST | – |
 
-The repository intentionally does **not** pretend there is a separate normative “TTX XSD.” TTX is fontTools' XML serialization. For TTX, the build pipeline treats the pinned fontTools implementation and its tests as the executable reference.
+TTX has no XSD: it is whatever the pinned fontTools writes. This repository
+therefore treats fontTools 4.64.0 as the executable reference, checks in
+synthetic fonts built with it, converts their TTX to the JSON model, and
+validates that JSON against the schemas in both Python and TypeScript.
 
 ## Layout
 
 ```text
-sources/                     declared upstream refs + font fixture manifests
-vendor/                      optional git subtrees; ignored by default
-.cache/upstreams/            default cloned upstream cache
-src/fontschema/ttx/          TTX/OpenType extraction + validation
-src/fontschema/designspace/  Designspace normalization + validation
-src/fontschema/ufo/          UFO/GLIF normalization + validation
-src/fontschema/schema/       canonical JSON Schema + TypeScript generation
-examples/designspace-ufo/    small source-format fixtures
-schemas/                     generated JSON Schemas
-generated/typescript/        generated TypeScript declarations
-generated/ttx/               fontTools schema inventory / fixture dumps
+schemas/                     generated JSON Schemas (2020-12)
+generated/typescript/        TypeScript types (json-schema-to-typescript)
+generated/zod/               Zod v4 schemas (tools/jsonschema-to-zod.ts)
+generated/ufo/*.json         example UFO masters parsed into the UFO model
+generated/designspace/       example designspace parsed into the Designspace model
+generated/ttx/json/*.json    synthetic fonts' TTX converted to the TTX model
+generated/ttx/json-ast/      focused TTX examples as XML AST
+generated/ttx/               otData metadata and table inventory
+examples/designspace-ufo/    Designspace 5.2 + four UFO masters (variable component, anchors, avar2 mapping)
+examples/ttx-synthetic/      fontTools-built fonts: vf-demo (varLib), avar2-demo, hvar-demo, varc-demo
+sources/upstreams.toml       upstream refs;  sources/ufo-spec-docs.json  tables extracted from the UFO spec
+vendor/                      git submodules: fonttools @ 4.64.0, ufo-spec, variable-components-in-ufo, boring-expansion-spec
+src/fontschema/schema/       schema builders (ufo.py, designspace.py, ttx.py, js.py helpers)
+src/fontschema/ufo/          UFO reader (full GLIF) + semantic validation
+src/fontschema/designspace/  Designspace reader + validation
+src/fontschema/ttx/          TTX -> JSON (tojson.py), otData extraction, dump, round-trip validation
+src/fontschema/spec/         UFO spec markdown table extractor
+tools/                       Node generators (types, zod) and the JSON-Schema-to-Zod emitter
+tests/  tests-ts/            pytest and node:test suites
 ```
 
 ## Setup
 
 ```bash
+git submodule update --init          # shallow clones of fontTools 4.64.0 and the spec repos
 uv sync --extra dev
-uv run fontschema generate
-uv run pytest -q
+npm install
 ```
 
-No `uv.lock` is fabricated in this archive because the assembly environment could not resolve the 4.64.0 wheel from PyPI. The first networked `uv sync` will resolve the pinned runtime and create the lockfile; commit that lockfile if you want fully frozen application-style builds.
-
-`fonttools==4.64.0` is the target runtime pin. The extraction code depends on the `FieldSpec` representation introduced in 4.63.0; updates are intentionally explicit so generated snapshots can be reviewed. The checked-in bootstrap snapshots were produced with 4.63.0 in the build environment used to assemble this repo; `uv run fontschema generate` and `uv run python scripts/build-synthetic-fonts.py` refresh them under the pinned 4.64.0 runtime.
-
-## Upstream source modes
-
-The tooling supports two ways to reference upstream source.
-
-### Cache clones
-
-This is the default and does not modify your repository history:
+## Build
 
 ```bash
-uv run fontschema sources sync
-uv run fontschema sources status
+uv run python scripts/build-synthetic-fonts.py   # examples/ttx-synthetic/*  (fontTools 4.64.0)
+uv run fontschema generate                        # schemas/ + generated/*.json
+npm run generate                                  # generated/typescript + generated/zod
+uv run pytest -q && npm test                      # both suites
 ```
 
-It clones exact refs from `sources/upstreams.toml` to `.cache/upstreams/`.
+`make all` runs the same sequence. Tests fail if a checked-in schema is stale
+relative to the generator, so regenerate after changing `src/fontschema/schema`.
 
-### Git subtrees
+## How the types are derived
 
-If you want upstream source committed into this repository:
+**UFO.** `fontTools.ufoLib.fontInfoAttributesVersion3ValueData` lists all 108
+fontinfo keys with their Python value type and the validator function bound to
+each key; `schema/ufo.py` maps the types to JSON types and mirrors the
+validators (width class 1–9, panose 10 ints, style map style enum, blue-zone
+list lengths, WOFF metadata records, guideline x/y rules...). Descriptions,
+declared types and defaults are quoted from the UFO specification tables that
+`fontschema spec extract` parses out of `vendor/ufo-spec` into
+`sources/ufo-spec-docs.json`. The GLIF model asserts that it covers exactly the
+attribute sets `glifLib` accepts, and the `Point.type` enum carries the spec's
+description of each point type under `x-point-types`.
+
+**Designspace.** Each `fontTools.designspaceLib` descriptor declares its
+serialisable attributes in `_attrs`; `schema/designspace.py` asserts that every
+declared attribute is modelled, so a fontTools upgrade that adds a field fails
+generation instead of silently dropping it.
+
+**TTX.** Header tables are parsed from the fontTools `sstruct` format strings
+(`headFormat`, `hheaFormat`, `OS2_format_5`, ...). The hand-written tables
+(`fvar`, `avar`, `gvar`, `cvar`, `glyf`, `cmap`, `name`, ...) follow the pinned
+`toXML` implementation and `ttx/tojson.py` documents the element-to-JSON
+mapping. Conventions: repeated elements become arrays; `glyph=`/`axis=` keyed
+elements become objects; hex, binary-string and `[list]` values become numbers.
+otData tables (`STAT`, `HVAR`, `VARC`...) are converted generically into an
+`OtTable` tree whose field names match the otData schema; count fields, null
+offsets and packed formats that TTX omits are optional there.
+
+## Commands
 
 ```bash
-./scripts/vendor-init.sh
-```
-
-That runs `git subtree add --squash` for the same manifest entries. Later:
-
-```bash
-./scripts/vendor-update.sh
-```
-
-Spec repositories declared at `main` intentionally follow upstream development. `fontschema sources sync` records their resolved commit hashes in `.cache/upstreams-lock.json`. For a release/tag such as fontTools, edit the manifest ref deliberately before updating.
-
-## Generate schemas and TypeScript
-
-```bash
-uv run fontschema generate
-```
-
-This creates:
-
-- `generated/ttx/otdata-variation.json` — recursive fontTools `otData` metadata for variation-related tables and structures.
-- `generated/ttx/table-inventory.json` — which variation tables are schema-driven versus custom fontTools handlers.
-- `schemas/canonical-variation.schema.json`
-- `schemas/designspace-normalized.schema.json`
-- `schemas/ufo-normalized.schema.json`
-- `schemas/xml-ast.schema.json`
-- `generated/typescript/font-variation.ts`
-- `generated/typescript/opentype-variation-otdata.ts`
-
-The `otData` output is deliberately metadata-rich rather than claiming to be a perfect schema of TTX XML. Some TTX tables have custom `toXML` / `fromXML` behavior; `VARC`, `avar`, `gvar`, `cvar`, `fvar`, and CFF2-related serialization need implementation-aware handling.
-
-## Checked-in synthetic TTX examples
-
-The repo includes tiny fontTools-generated examples that do not require network access:
-
-```text
-examples/ttx-synthetic/avar2-demo.ttx
-examples/ttx-synthetic/hvar-demo.ttx
-examples/ttx-synthetic/varc-demo.ttx
-```
-
-Each also has a compiled `.ttf` and a `*.full.ttx` round-trippable full-font dump. Regenerate them with:
-
-```bash
-uv run python scripts/build-synthetic-fonts.py
-```
-
-## Real font fixtures
-
-Download the font manifest:
-
-```bash
-uv run fontschema fixtures download
-uv run fontschema fixtures dump-fonts
-```
-
-The second command dumps only variation-relevant tables by default. You can also dump any local font:
-
-```bash
+uv run fontschema ufo inspect  examples/designspace-ufo/masters/VariationDemo-Regular.ufo
+uv run fontschema ufo validate examples/designspace-ufo/masters/VariationDemo-Regular.ufo   # point-sequence, component and identifier checks
+uv run fontschema designspace inspect|validate examples/designspace-ufo/VariationDemo.designspace
+uv run fontschema ttx tojson   examples/ttx-synthetic/vf-demo.full.ttx      # TTX -> ttx.schema.json model
+uv run fontschema ttx xmljson  examples/ttx-synthetic/vf-demo.ttx           # TTX -> XML AST
+uv run fontschema ttx validate examples/ttx-synthetic/vf-demo.ttf           # fontTools round-trip + fvar/VARC semantic checks
 uv run fontschema ttx dump path/to/font.ttf --out generated/ttx/fonts/my-font
+uv run fontschema schema validate schemas/ufo.schema.json generated/ufo/VariationDemo-Regular.json
+uv run fontschema spec extract                                              # refresh sources/ufo-spec-docs.json from vendor/ufo-spec
+uv run fontschema fixtures download | dump-fonts | collect-fonttools        # real fonts (Roboto Flex) and fontTools test fixtures
 ```
 
-Default table set:
+## Using the TypeScript output
 
-```text
-fvar avar STAT gvar cvar HVAR VVAR MVAR VARC CFF2 GDEF GPOS GSUB BASE
+```ts
+import { UfoPackage, Point } from "./generated/zod/ufo.ts";
+import { TtxFont } from "./generated/zod/ttx.ts";
+import type { GlyphTupleVariation } from "./generated/typescript/ttx.ts";
+
+const ufo = UfoPackage.parse(JSON.parse(text));         // validated, with GLIF defaults applied
+const point = Point.parse({ x: 10, y: 20 });            // { x, y, type: "offcurve", smooth: false }
+const font = TtxFont.parse(ttxJson);
+const tuples: GlyphTupleVariation[] = font.gvar!.glyphVariations["A"] ?? [];
 ```
 
-Only tables present in the font are written.
+Every `$defs` entry is exported as a standalone Zod schema and a type of the
+same name. Recursive definitions (`XmlElement`, `OtTable`/`OtValue`) are typed
+against the json-schema-to-typescript output. `tools/jsonschema-to-zod.ts`
+supports exactly the keyword subset the Python builders emit and throws on
+anything else, so a generator change cannot silently weaken the validators.
 
-## fontTools targeted fixtures
+## Extending the model
 
-New structures such as `VARC` and `avar2` may not occur in a production fixture. After syncing or vendoring fontTools:
+The schemas are the contract between authoring, compilation and usage in this
+pipeline. Extensions (for example 3D points, lofts, or per-glyph axes beyond
+what variable-components-in-ufo defines) belong in new `$defs` next to the
+UFO ones — `Point` for a `z` coordinate, `GlyphLib` for new `public.`-style
+keys, `GlyphDesignspace` for local axes — with matching TTX-side structures in
+`schema/ttx.py`. The Python readers, the JSON examples and both test suites
+then verify the round trip the same way they do for the standard formats.
 
-```bash
-uv run fontschema fixtures collect-fonttools
-```
+## Upstreams
 
-The collector searches fontTools tests for variation-related `.ttx`, `.ttf`, `.otf`, `.designspace`, `.ufo` and XML fixtures, copies them into `generated/ttx/fonttools-fixtures/`, and writes an inventory with original paths.
-
-## TTX → JSON AST
-
-For exact XML preservation use the generic XML AST conversion rather than a lossy object conversion:
-
-```bash
-uv run fontschema ttx xmljson input.ttx --out input.ttx.json
-```
-
-Shape:
-
-```json
-{
-  "tag": "VarComponent",
-  "attributes": {"index": "0"},
-  "children": [
-    {"tag": "glyphName", "attributes": {"value": "acute"}, "children": []}
-  ]
-}
-```
-
-This preserves repeated elements and ordering. `schemas/xml-ast.schema.json` validates the representation.
-
-Any generated JSON can be checked against a JSON Schema with:
-
-```bash
-uv run fontschema schema validate schemas/xml-ast.schema.json input.ttx.json
-uv run fontschema schema validate schemas/designspace-normalized.schema.json generated/designspace/example.json
-```
-
-## TTX validation
-
-Binary font:
-
-```bash
-uv run fontschema ttx validate font.ttf
-```
-
-TTX:
-
-```bash
-uv run fontschema ttx validate font.ttx
-```
-
-Validation includes XML parsing, fontTools import/compile round-trip when possible, and variation semantic checks such as `fvar` axis bounds and `VARC` axis-index/axis-value consistency.
-
-## Designspace
-
-Inspect/normalize:
-
-```bash
-uv run fontschema designspace inspect examples/designspace-ufo/VariationDemo.designspace \
-  --out generated/designspace/example.json
-```
-
-Validate:
-
-```bash
-uv run fontschema designspace validate examples/designspace-ufo/VariationDemo.designspace
-```
-
-The included example is Designspace 5.2 and contains a multi-axis `<mappings>` entry as an `avar2`-oriented source example.
-
-## UFO / GLIF
-
-Inspect a UFO into JSON:
-
-```bash
-uv run fontschema ufo inspect examples/designspace-ufo/masters/VariationDemo-Regular.ufo \
-  --out generated/ufo/example.json
-```
-
-The normalized representation includes standard GLIF `<component>` affine transforms and variable components stored under `com.black-foundry.variable-components`.
-
-## Why two validation layers
-
-Structural validation can check shapes and scalar types. Font data also contains cross-references that JSON Schema cannot express conveniently, for example:
-
-- a `VARC` `axisIndicesIndex` must reference an item in `AxisIndicesList`;
-- each variable component's `axisValues` length must match its referenced axis-index tuple;
-- each axis index must be less than the `fvar` axis count;
-- a Designspace mapping can only refer to known axis names.
-
-Those checks live in Python and complement the generated JSON schemas.
-
-## Authoritative/reference inputs
+`vendor/` holds shallow submodules pinned in `.gitmodules`; `sources/upstreams.toml`
+records the intended refs. `fontschema sources sync` can alternatively clone
+them into `.cache/upstreams/` and `sources status` reports what is active.
+Type data always comes from the *installed* fontTools (`uv.lock`), not from the
+submodule; the submodule provides the `Tests/` fixtures for
+`fixtures collect-fonttools` and documentation provenance.
 
 - fontTools: <https://github.com/fonttools/fonttools>
 - Designspace XML docs: <https://fonttools.readthedocs.io/en/latest/designspaceLib/xml.html>
 - UFO specification: <https://github.com/unified-font-object/ufo-spec>
 - Variable Components in UFO: <https://github.com/fontra/variable-components-in-ufo>
-- avar2 / VARC public design docs: <https://github.com/harfbuzz/boring-expansion-spec>
+- avar2 / VARC design docs: <https://github.com/harfbuzz/boring-expansion-spec>
 - Microsoft OpenType spec: <https://learn.microsoft.com/typography/opentype/spec/>
-- ISO/IEC 14496-22:2026: normative Open Font Format edition where applicable; the ISO text is not vendored because it is not an open Git repository.

@@ -59,9 +59,12 @@ def validate(path: str | Path) -> dict[str, object]:
         try:
             font = TTFont()
             font.importXML(path)
-            with tempfile.NamedTemporaryFile(suffix=".ttf") as tmp:
-                font.save(tmp.name)
-                reopened = TTFont(tmp.name, lazy=False)
+            # NamedTemporaryFile cannot be reopened while held open on Windows;
+            # use a temporary directory instead.
+            with tempfile.TemporaryDirectory() as tmpdir:
+                tmp = Path(tmpdir) / "roundtrip.ttf"
+                font.save(tmp)
+                reopened = TTFont(tmp, lazy=False)
                 errors.extend(_validate_font(reopened))
             result["roundTrip"] = True
         except Exception as e:

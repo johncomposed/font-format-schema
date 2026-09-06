@@ -87,9 +87,7 @@
           "x-fonttools-type": "TupleList"
         }
       },
-      "required": [
-        "Item"
-      ],
+      "required": [],
       "additionalProperties": true
     },
     "AxisRecord": {
@@ -140,9 +138,7 @@
           "description": "Axis records"
         }
       },
-      "required": [
-        "Axis"
-      ],
+      "required": [],
       "additionalProperties": true
     },
     "AxisSegmentMap": {
@@ -151,7 +147,8 @@
         "PositionMapCount": {
           "type": "number",
           "x-fonttools-type": "uint16",
-          "description": "The number of correspondence pairs for this axis"
+          "description": "The number of correspondence pairs for this axis",
+          "x-implied-by-array-length": true
         },
         "AxisValueMap": {
           "type": "array",
@@ -163,10 +160,7 @@
           "description": "The array of axis value map records for this axis"
         }
       },
-      "required": [
-        "PositionMapCount",
-        "AxisValueMap"
-      ],
+      "required": [],
       "additionalProperties": true
     },
     "AxisValueArray": {
@@ -182,9 +176,7 @@
           "description": "Axis values"
         }
       },
-      "required": [
-        "AxisValue"
-      ],
+      "required": [],
       "additionalProperties": true
     },
     "AxisValueMap": {
@@ -213,7 +205,8 @@
         "ConditionCount": {
           "type": "number",
           "x-fonttools-type": "uint32",
-          "description": "Number of condition tables in the ConditionTable array"
+          "description": "Number of condition tables in the ConditionTable array",
+          "x-implied-by-array-length": true
         },
         "ConditionTable": {
           "type": "array",
@@ -225,10 +218,7 @@
           "description": "Array of offset to condition tables, from the beginning of the ConditionList table."
         }
       },
-      "required": [
-        "ConditionCount",
-        "ConditionTable"
-      ],
+      "required": [],
       "additionalProperties": true
     },
     "ConditionSet": {
@@ -237,7 +227,8 @@
         "ConditionCount": {
           "type": "number",
           "x-fonttools-type": "uint16",
-          "description": "Number of condition tables in the ConditionTable array"
+          "description": "Number of condition tables in the ConditionTable array",
+          "x-implied-by-array-length": true
         },
         "ConditionTable": {
           "type": "array",
@@ -249,10 +240,7 @@
           "description": "Array of offset to condition tables, from the beginning of the ConditionSet table."
         }
       },
-      "required": [
-        "ConditionCount",
-        "ConditionTable"
-      ],
+      "required": [],
       "additionalProperties": true
     },
     "DeltaSetIndexMapFormat0": {
@@ -265,11 +253,13 @@
         },
         "EntryFormat": {
           "type": "number",
-          "x-fonttools-type": "uint8"
+          "x-fonttools-type": "uint8",
+          "x-implied-by-array-length": true
         },
         "MappingCount": {
           "type": "number",
-          "x-fonttools-type": "uint16"
+          "x-fonttools-type": "uint16",
+          "x-implied-by-array-length": true
         },
         "mapping": {
           "x-fonttools-type": "VarIdxMapValue",
@@ -277,10 +267,7 @@
         }
       },
       "required": [
-        "Format",
-        "EntryFormat",
-        "MappingCount",
-        "mapping"
+        "Format"
       ],
       "additionalProperties": true
     },
@@ -294,11 +281,13 @@
         },
         "EntryFormat": {
           "type": "number",
-          "x-fonttools-type": "uint8"
+          "x-fonttools-type": "uint8",
+          "x-implied-by-array-length": true
         },
         "MappingCount": {
           "type": "number",
-          "x-fonttools-type": "uint32"
+          "x-fonttools-type": "uint32",
+          "x-implied-by-array-length": true
         },
         "mapping": {
           "x-fonttools-type": "VarIdxMapValue",
@@ -306,10 +295,7 @@
         }
       },
       "required": [
-        "Format",
-        "EntryFormat",
-        "MappingCount",
-        "mapping"
+        "Format"
       ],
       "additionalProperties": true
     },
@@ -325,10 +311,7 @@
           "description": "Offset to a FeatureTableSubstitution table, from beginning of the FeatureVariations table"
         }
       },
-      "required": [
-        "ConditionSet",
-        "FeatureTableSubstitution"
-      ],
+      "required": [],
       "additionalProperties": true
     },
     "FeatureVariations": {
@@ -342,7 +325,8 @@
         "FeatureVariationCount": {
           "type": "number",
           "x-fonttools-type": "uint32",
-          "description": "Number of records in the FeatureVariationRecord array"
+          "description": "Number of records in the FeatureVariationRecord array",
+          "x-implied-by-array-length": true
         },
         "FeatureVariationRecord": {
           "type": "array",
@@ -354,9 +338,7 @@
         }
       },
       "required": [
-        "Version",
-        "FeatureVariationCount",
-        "FeatureVariationRecord"
+        "Version"
       ],
       "additionalProperties": true
     },
@@ -386,11 +368,7 @@
         }
       },
       "required": [
-        "Version",
-        "VarStore",
-        "AdvWidthMap",
-        "LsbMap",
-        "RsbMap"
+        "Version"
       ],
       "additionalProperties": true
     },
@@ -409,11 +387,13 @@
         },
         "ValueRecordSize": {
           "type": "number",
-          "x-fonttools-type": "uint16"
+          "x-fonttools-type": "uint16",
+          "x-implied-by-array-length": true
         },
         "ValueRecordCount": {
           "type": "number",
-          "x-fonttools-type": "uint16"
+          "x-fonttools-type": "uint16",
+          "x-implied-by-array-length": true
         },
         "VarStore": {
           "x-fonttools-type": "Offset",
@@ -430,11 +410,7 @@
       },
       "required": [
         "Version",
-        "Reserved",
-        "ValueRecordSize",
-        "ValueRecordCount",
-        "VarStore",
-        "ValueRecord"
+        "Reserved"
       ],
       "additionalProperties": true
     },
@@ -477,7 +453,8 @@
         },
         "VarRegionCount": {
           "type": "number",
-          "x-fonttools-type": "uint16"
+          "x-fonttools-type": "uint16",
+          "x-implied-by-array-length": true
         },
         "VarRegionIndex": {
           "type": "array",
@@ -492,10 +469,7 @@
         }
       },
       "required": [
-        "Format",
-        "VarRegionCount",
-        "VarRegionIndex",
-        "Item"
+        "Format"
       ],
       "additionalProperties": true
     },
@@ -513,7 +487,8 @@
         },
         "MultiVarDataCount": {
           "type": "number",
-          "x-fonttools-type": "uint16"
+          "x-fonttools-type": "uint16",
+          "x-implied-by-array-length": true
         },
         "MultiVarData": {
           "type": "array",
@@ -525,10 +500,7 @@
         }
       },
       "required": [
-        "Format",
-        "SparseVarRegionList",
-        "MultiVarDataCount",
-        "MultiVarData"
+        "Format"
       ],
       "additionalProperties": true
     },
@@ -543,12 +515,14 @@
         "DesignAxisRecordSize": {
           "type": "number",
           "x-fonttools-type": "uint16",
-          "description": "Size in bytes of each design axis record"
+          "description": "Size in bytes of each design axis record",
+          "x-implied-by-array-length": true
         },
         "DesignAxisCount": {
           "type": "number",
           "x-fonttools-type": "uint16",
-          "description": "Number of design axis records"
+          "description": "Number of design axis records",
+          "x-implied-by-array-length": true
         },
         "DesignAxisRecord": {
           "$ref": "#/$defs/AxisRecordArray",
@@ -558,7 +532,8 @@
         "AxisValueCount": {
           "type": "number",
           "x-fonttools-type": "uint16",
-          "description": "Number of axis value tables"
+          "description": "Number of axis value tables",
+          "x-implied-by-array-length": true
         },
         "AxisValueArray": {
           "$ref": "#/$defs/AxisValueArray",
@@ -572,12 +547,7 @@
         }
       },
       "required": [
-        "Version",
-        "DesignAxisRecordSize",
-        "DesignAxisCount",
-        "DesignAxisRecord",
-        "AxisValueCount",
-        "AxisValueArray"
+        "Version"
       ],
       "additionalProperties": true
     },
@@ -586,7 +556,8 @@
       "properties": {
         "SparseRegionCount": {
           "type": "number",
-          "x-fonttools-type": "uint16"
+          "x-fonttools-type": "uint16",
+          "x-implied-by-array-length": true
         },
         "SparseVarRegionAxis": {
           "type": "array",
@@ -596,10 +567,7 @@
           "x-fonttools-repeat": "SparseRegionCount"
         }
       },
-      "required": [
-        "SparseRegionCount",
-        "SparseVarRegionAxis"
-      ],
+      "required": [],
       "additionalProperties": true
     },
     "SparseVarRegionAxis": {
@@ -635,7 +603,8 @@
       "properties": {
         "RegionCount": {
           "type": "number",
-          "x-fonttools-type": "uint16"
+          "x-fonttools-type": "uint16",
+          "x-implied-by-array-length": true
         },
         "Region": {
           "type": "array",
@@ -646,10 +615,7 @@
           "x-fonttools-repeat": "RegionCount"
         }
       },
-      "required": [
-        "RegionCount",
-        "Region"
-      ],
+      "required": [],
       "additionalProperties": true
     },
     "VARC": {
@@ -682,12 +648,7 @@
         }
       },
       "required": [
-        "Version",
-        "Coverage",
-        "MultiVarStore",
-        "ConditionList",
-        "AxisIndicesList",
-        "VarCompositeGlyphs"
+        "Version"
       ],
       "additionalProperties": true
     },
@@ -722,12 +683,7 @@
         }
       },
       "required": [
-        "Version",
-        "VarStore",
-        "AdvHeightMap",
-        "TsbMap",
-        "BsbMap",
-        "VOrgMap"
+        "Version"
       ],
       "additionalProperties": true
     },
@@ -738,9 +694,7 @@
           "x-fonttools-type": "VarCompositeGlyphList"
         }
       },
-      "required": [
-        "VarCompositeGlyph"
-      ],
+      "required": [],
       "additionalProperties": true
     },
     "VarData": {
@@ -748,7 +702,8 @@
       "properties": {
         "ItemCount": {
           "type": "number",
-          "x-fonttools-type": "uint16"
+          "x-fonttools-type": "uint16",
+          "x-implied-by-array-length": true
         },
         "NumShorts": {
           "type": "number",
@@ -756,7 +711,8 @@
         },
         "VarRegionCount": {
           "type": "number",
-          "x-fonttools-type": "uint16"
+          "x-fonttools-type": "uint16",
+          "x-implied-by-array-length": true
         },
         "VarRegionIndex": {
           "type": "array",
@@ -775,11 +731,7 @@
         }
       },
       "required": [
-        "ItemCount",
-        "NumShorts",
-        "VarRegionCount",
-        "VarRegionIndex",
-        "Item"
+        "NumShorts"
       ],
       "additionalProperties": true
     },
@@ -788,22 +740,20 @@
       "properties": {
         "EntryFormat": {
           "type": "number",
-          "x-fonttools-type": "uint16"
+          "x-fonttools-type": "uint16",
+          "x-implied-by-array-length": true
         },
         "MappingCount": {
           "type": "number",
-          "x-fonttools-type": "uint16"
+          "x-fonttools-type": "uint16",
+          "x-implied-by-array-length": true
         },
         "mapping": {
           "x-fonttools-type": "VarIdxMapValue",
           "description": "Array of compressed data"
         }
       },
-      "required": [
-        "EntryFormat",
-        "MappingCount",
-        "mapping"
-      ],
+      "required": [],
       "additionalProperties": true
     },
     "VarRegion": {
@@ -817,9 +767,7 @@
           "x-fonttools-repeat": "RegionAxisCount"
         }
       },
-      "required": [
-        "VarRegionAxis"
-      ],
+      "required": [],
       "additionalProperties": true
     },
     "VarRegionAxis": {
@@ -850,11 +798,13 @@
       "properties": {
         "RegionAxisCount": {
           "type": "number",
-          "x-fonttools-type": "uint16"
+          "x-fonttools-type": "uint16",
+          "x-implied-by-array-length": true
         },
         "RegionCount": {
           "type": "number",
-          "x-fonttools-type": "uint16"
+          "x-fonttools-type": "uint16",
+          "x-implied-by-array-length": true
         },
         "Region": {
           "type": "array",
@@ -865,11 +815,7 @@
           "x-fonttools-repeat": "RegionCount"
         }
       },
-      "required": [
-        "RegionAxisCount",
-        "RegionCount",
-        "Region"
-      ],
+      "required": [],
       "additionalProperties": true
     },
     "VarStore": {
@@ -886,7 +832,8 @@
         },
         "VarDataCount": {
           "type": "number",
-          "x-fonttools-type": "uint16"
+          "x-fonttools-type": "uint16",
+          "x-implied-by-array-length": true
         },
         "VarData": {
           "type": "array",
@@ -898,10 +845,7 @@
         }
       },
       "required": [
-        "Format",
-        "VarRegionList",
-        "VarDataCount",
-        "VarData"
+        "Format"
       ],
       "additionalProperties": true
     },
@@ -921,7 +865,8 @@
         "AxisCount": {
           "type": "number",
           "x-fonttools-type": "uint16",
-          "description": "The number of variation axes for this font. This must be the same number as axisCount in the \"fvar\" table"
+          "description": "The number of variation axes for this font. This must be the same number as axisCount in the \"fvar\" table",
+          "x-implied-by-array-length": true
         },
         "AxisSegmentMap": {
           "type": "array",
@@ -942,9 +887,7 @@
       },
       "required": [
         "Version",
-        "Reserved",
-        "AxisCount",
-        "AxisSegmentMap"
+        "Reserved"
       ],
       "additionalProperties": true
     }

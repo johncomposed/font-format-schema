@@ -1,6 +1,6 @@
 # Upstreams are deliberately separated from generated output.
-# `fontschema sources sync` clones these to .cache/upstreams/<name>.
-# `scripts/vendor-init.sh` can instead add them as git subtrees under vendor/.
+# They are checked in as shallow git submodules at `prefix` (see .gitmodules);
+# `fontschema sources sync` can alternatively clone them to .cache/upstreams/<name>.
 
 [[source]]
 name = "fonttools"

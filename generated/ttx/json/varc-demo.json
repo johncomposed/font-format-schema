@@ -1,0 +1,323 @@
+{
+  "sfntVersion": "\\x00\\x01\\x00\\x00",
+  "ttLibVersion": "4.64",
+  "GlyphOrder": [
+    ".notdef",
+    "stem",
+    "parent"
+  ],
+  "head": {
+    "tableVersion": 1.0,
+    "fontRevision": 1.0,
+    "checkSumAdjustment": 2099691473,
+    "magicNumber": 1594834165,
+    "flags": 1,
+    "unitsPerEm": 1000,
+    "created": "Sat Sep  5 21:25:01 2026",
+    "modified": "Sat Sep  5 21:25:01 2026",
+    "xMin": 100,
+    "yMin": 0,
+    "xMax": 200,
+    "yMax": 700,
+    "macStyle": 0,
+    "lowestRecPPEM": 3,
+    "fontDirectionHint": 2,
+    "indexToLocFormat": 0,
+    "glyphDataFormat": 0
+  },
+  "hhea": {
+    "tableVersion": 65536,
+    "ascent": 800,
+    "descent": -200,
+    "lineGap": 0,
+    "advanceWidthMax": 600,
+    "minLeftSideBearing": 0,
+    "minRightSideBearing": 500,
+    "xMaxExtent": 100,
+    "caretSlopeRise": 1,
+    "caretSlopeRun": 0,
+    "caretOffset": 0,
+    "reserved0": 0,
+    "reserved1": 0,
+    "reserved2": 0,
+    "reserved3": 0,
+    "metricDataFormat": 0,
+    "numberOfHMetrics": 1
+  },
+  "maxp": {
+    "tableVersion": 65536,
+    "numGlyphs": 3,
+    "maxPoints": 4,
+    "maxContours": 1,
+    "maxCompositePoints": 0,
+    "maxCompositeContours": 0,
+    "maxZones": 2,
+    "maxTwilightPoints": 0,
+    "maxStorage": 0,
+    "maxFunctionDefs": 0,
+    "maxInstructionDefs": 0,
+    "maxStackElements": 0,
+    "maxSizeOfInstructions": 0,
+    "maxComponentElements": 0,
+    "maxComponentDepth": 0
+  },
+  "OS_2": {
+    "version": 3,
+    "xAvgCharWidth": 600,
+    "usWeightClass": 400,
+    "usWidthClass": 5,
+    "fsType": 4,
+    "ySubscriptXSize": 0,
+    "ySubscriptYSize": 0,
+    "ySubscriptXOffset": 0,
+    "ySubscriptYOffset": 0,
+    "ySuperscriptXSize": 0,
+    "ySuperscriptYSize": 0,
+    "ySuperscriptXOffset": 0,
+    "ySuperscriptYOffset": 0,
+    "yStrikeoutSize": 0,
+    "yStrikeoutPosition": 0,
+    "sFamilyClass": 0,
+    "panose": {
+      "bFamilyType": 0,
+      "bSerifStyle": 0,
+      "bWeight": 0,
+      "bProportion": 0,
+      "bContrast": 0,
+      "bStrokeVariation": 0,
+      "bArmStyle": 0,
+      "bLetterForm": 0,
+      "bMidline": 0,
+      "bXHeight": 0
+    },
+    "ulUnicodeRange1": 1,
+    "ulUnicodeRange2": 0,
+    "ulUnicodeRange3": 0,
+    "ulUnicodeRange4": 0,
+    "achVendID": "????",
+    "fsSelection": 0,
+    "usFirstCharIndex": 66,
+    "usLastCharIndex": 67,
+    "sTypoAscender": 800,
+    "sTypoDescender": -200,
+    "sTypoLineGap": 0,
+    "usWinAscent": 800,
+    "usWinDescent": 200,
+    "ulCodePageRange1": 0,
+    "ulCodePageRange2": 0,
+    "sxHeight": 0,
+    "sCapHeight": 0,
+    "usDefaultChar": 0,
+    "usBreakChar": 32,
+    "usMaxContext": 0
+  },
+  "hmtx": [
+    {
+      "name": ".notdef",
+      "width": 600,
+      "lsb": 0
+    },
+    {
+      "name": "parent",
+      "width": 600,
+      "lsb": 0
+    },
+    {
+      "name": "stem",
+      "width": 600,
+      "lsb": 0
+    }
+  ],
+  "cmap": {
+    "tableVersion": 0,
+    "subtables": [
+      {
+        "format": 4,
+        "platformID": 0,
+        "platEncID": 3,
+        "language": 0,
+        "map": {
+          "66": "stem",
+          "67": "parent"
+        }
+      },
+      {
+        "format": 4,
+        "platformID": 3,
+        "platEncID": 1,
+        "language": 0,
+        "map": {
+          "66": "stem",
+          "67": "parent"
+        }
+      }
+    ]
+  },
+  "loca": {},
+  "glyf": {
+    "glyphs": {
+      ".notdef": {
+        "name": ".notdef"
+      },
+      "parent": {
+        "name": "parent"
+      },
+      "stem": {
+        "name": "stem",
+        "xMin": 100,
+        "yMin": 0,
+        "xMax": 200,
+        "yMax": 700,
+        "instructions": null,
+        "contours": [
+          {
+            "points": [
+              {
+                "x": 100,
+                "y": 0,
+                "on": true
+              },
+              {
+                "x": 200,
+                "y": 0,
+                "on": true
+              },
+              {
+                "x": 200,
+                "y": 700,
+                "on": true
+              },
+              {
+                "x": 100,
+                "y": 700,
+                "on": true
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "name": {
+    "records": [
+      {
+        "nameID": 1,
+        "platformID": 1,
+        "platEncID": 0,
+        "langID": 0,
+        "text": "VARC Demo",
+        "unicode": true
+      },
+      {
+        "nameID": 2,
+        "platformID": 1,
+        "platEncID": 0,
+        "langID": 0,
+        "text": "Regular",
+        "unicode": true
+      },
+      {
+        "nameID": 4,
+        "platformID": 1,
+        "platEncID": 0,
+        "langID": 0,
+        "text": "VARC Demo Regular",
+        "unicode": true
+      },
+      {
+        "nameID": 256,
+        "platformID": 1,
+        "platEncID": 0,
+        "langID": 0,
+        "text": "Weight",
+        "unicode": true
+      },
+      {
+        "nameID": 1,
+        "platformID": 3,
+        "platEncID": 1,
+        "langID": 1033,
+        "text": "VARC Demo"
+      },
+      {
+        "nameID": 2,
+        "platformID": 3,
+        "platEncID": 1,
+        "langID": 1033,
+        "text": "Regular"
+      },
+      {
+        "nameID": 4,
+        "platformID": 3,
+        "platEncID": 1,
+        "langID": 1033,
+        "text": "VARC Demo Regular"
+      },
+      {
+        "nameID": 256,
+        "platformID": 3,
+        "platEncID": 1,
+        "langID": 1033,
+        "text": "Weight"
+      }
+    ]
+  },
+  "post": {
+    "formatType": 2.0,
+    "italicAngle": 0.0,
+    "underlinePosition": 0,
+    "underlineThickness": 0,
+    "isFixedPitch": 0,
+    "minMemType42": 0,
+    "maxMemType42": 0,
+    "minMemType1": 0,
+    "maxMemType1": 0,
+    "psNames": {},
+    "extraNames": [
+      "stem",
+      "parent"
+    ]
+  },
+  "VARC": {
+    "Version": 65536,
+    "Coverage": {
+      "Glyph": "parent"
+    },
+    "AxisIndicesList": {
+      "Item": [
+        [
+          0
+        ]
+      ]
+    },
+    "VarCompositeGlyphs": {
+      "VarCompositeGlyph": [
+        {
+          "VarComponent": [
+            {
+              "glyphName": "stem",
+              "axisIndicesIndex": 0,
+              "axisValues": [
+                0.5
+              ],
+              "translateX": 50.0
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "fvar": {
+    "axes": [
+      {
+        "axisTag": "wght",
+        "flags": 0,
+        "minValue": 100.0,
+        "defaultValue": 400.0,
+        "maxValue": 900.0,
+        "axisNameID": 256
+      }
+    ],
+    "instances": []
+  }
+}

@@ -1,0 +1,1710 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:font-format-schema:ttx",
+  "title": "TTX font",
+  "description": "JSON projection of fontTools 4.64.0 TTX XML for the core variable-font tables (fvar, avar, gvar, cvar, glyf, metrics, cmap, name, post, head/hhea/maxp/OS/2) plus a generic tree for otData tables.",
+  "$ref": "#/$defs/TtxFont",
+  "$defs": {
+    "GlyphName": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Glyph name as used in GlyphOrder."
+    },
+    "OtValue": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "string"
+        },
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/OtValue"
+          }
+        },
+        {
+          "$ref": "#/$defs/OtTable"
+        }
+      ],
+      "description": "A field of an otData table: scalar (`<Field value=.../>`), list (`value=\"[..]\"`, possibly nested), sub-table, or array of sub-tables (`index=` attribute or repeated element). A repeated element that occurs once (e.g. a single Coverage Glyph) is a scalar, not a one-item array."
+    },
+    "OtTable": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/OtValue"
+      },
+      "description": "Generic JSON projection of fontTools otData XML. Field names match schemas/ttx-otdata-variation.schema.json definitions; count fields that TTX writes as comments are omitted. `Format` attributes become a `Format` field."
+    },
+    "XmlElement": {
+      "type": "object",
+      "properties": {
+        "tag": {
+          "type": "string"
+        },
+        "attributes": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "text": {
+          "type": "string"
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/XmlElement"
+          }
+        }
+      },
+      "required": [
+        "tag",
+        "attributes",
+        "children"
+      ],
+      "additionalProperties": false,
+      "description": "Ordered XML AST used for tables without a dedicated JSON model."
+    },
+    "Panose": {
+      "type": "object",
+      "properties": {
+        "bFamilyType": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255
+        },
+        "bSerifStyle": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255
+        },
+        "bWeight": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255
+        },
+        "bProportion": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255
+        },
+        "bContrast": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255
+        },
+        "bStrokeVariation": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255
+        },
+        "bArmStyle": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255
+        },
+        "bLetterForm": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255
+        },
+        "bMidline": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255
+        },
+        "bXHeight": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255
+        }
+      },
+      "required": [
+        "bFamilyType",
+        "bSerifStyle",
+        "bWeight",
+        "bProportion",
+        "bContrast",
+        "bStrokeVariation",
+        "bArmStyle",
+        "bLetterForm",
+        "bMidline",
+        "bXHeight"
+      ],
+      "additionalProperties": false,
+      "description": "OS/2 panose classification."
+    },
+    "Head": {
+      "type": "object",
+      "properties": {
+        "tableVersion": {
+          "type": "number",
+          "x-sstruct-format": "16.16F"
+        },
+        "fontRevision": {
+          "type": "number",
+          "x-sstruct-format": "16.16F"
+        },
+        "checkSumAdjustment": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "(TTX writes this as a binary or hex string; the JSON model uses the integer value.)",
+          "x-sstruct-format": "I"
+        },
+        "magicNumber": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "(TTX writes this as a binary or hex string; the JSON model uses the integer value.)",
+          "x-sstruct-format": "I"
+        },
+        "flags": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "(TTX writes this as a binary or hex string; the JSON model uses the integer value.)",
+          "x-sstruct-format": "H"
+        },
+        "unitsPerEm": {
+          "type": "integer",
+          "minimum": 0,
+          "x-sstruct-format": "H"
+        },
+        "created": {
+          "type": "string",
+          "x-sstruct-format": "Q"
+        },
+        "modified": {
+          "type": "string",
+          "x-sstruct-format": "Q"
+        },
+        "xMin": {
+          "type": "integer",
+          "x-sstruct-format": "h"
+        },
+        "yMin": {
+          "type": "integer",
+          "x-sstruct-format": "h"
+        },
+        "xMax": {
+          "type": "integer",
+          "x-sstruct-format": "h"
+        },
+        "yMax": {
+          "type": "integer",
+          "x-sstruct-format": "h"
+        },
+        "macStyle": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "(TTX writes this as a binary or hex string; the JSON model uses the integer value.)",
+          "x-sstruct-format": "H"
+        },
+        "lowestRecPPEM": {
+          "type": "integer",
+          "minimum": 0,
+          "x-sstruct-format": "H"
+        },
+        "fontDirectionHint": {
+          "type": "integer",
+          "x-sstruct-format": "h"
+        },
+        "indexToLocFormat": {
+          "type": "integer",
+          "x-sstruct-format": "h"
+        },
+        "glyphDataFormat": {
+          "type": "integer",
+          "x-sstruct-format": "h"
+        }
+      },
+      "required": [
+        "tableVersion",
+        "fontRevision",
+        "checkSumAdjustment",
+        "magicNumber",
+        "flags",
+        "unitsPerEm",
+        "created",
+        "modified",
+        "xMin",
+        "yMin",
+        "xMax",
+        "yMax",
+        "macStyle",
+        "lowestRecPPEM",
+        "fontDirectionHint",
+        "indexToLocFormat",
+        "glyphDataFormat"
+      ],
+      "additionalProperties": false,
+      "description": "Font header. created/modified are TTX date strings (e.g. 'Sat Sep  5 21:03:16 2026')."
+    },
+    "Hhea": {
+      "type": "object",
+      "properties": {
+        "tableVersion": {
+          "type": "integer",
+          "minimum": 0,
+          "x-sstruct-format": "L"
+        },
+        "ascent": {
+          "type": "integer",
+          "x-sstruct-format": "h"
+        },
+        "descent": {
+          "type": "integer",
+          "x-sstruct-format": "h"
+        },
+        "lineGap": {
+          "type": "integer",
+          "x-sstruct-format": "h"
+        },
+        "advanceWidthMax": {
+          "type": "integer",
+          "minimum": 0,
+          "x-sstruct-format": "H"
+        },
+        "minLeftSideBearing": {
+          "type": "integer",
+          "x-sstruct-format": "h"
+        },
+        "minRightSideBearing": {
+          "type": "integer",
+          "x-sstruct-format": "h"
+        },
+        "xMaxExtent": {
+          "type": "integer",
+          "x-sstruct-format": "h"
+        },
+        "caretSlopeRise": {
+          "type": "integer",
+          "x-sstruct-format": "h"
+        },
+        "caretSlopeRun": {
+          "type": "integer",
+          "x-sstruct-format": "h"
+        },
+        "caretOffset": {
+          "type": "integer",
+          "x-sstruct-format": "h"
+        },
+        "reserved0": {
+          "type": "integer",
+          "x-sstruct-format": "h"
+        },
+        "reserved1": {
+          "type": "integer",
+          "x-sstruct-format": "h"
+        },
+        "reserved2": {
+          "type": "integer",
+          "x-sstruct-format": "h"
+        },
+        "reserved3": {
+          "type": "integer",
+          "x-sstruct-format": "h"
+        },
+        "metricDataFormat": {
+          "type": "integer",
+          "x-sstruct-format": "h"
+        },
+        "numberOfHMetrics": {
+          "type": "integer",
+          "minimum": 0,
+          "x-sstruct-format": "H"
+        }
+      },
+      "required": [
+        "tableVersion",
+        "ascent",
+        "descent",
+        "lineGap",
+        "advanceWidthMax",
+        "minLeftSideBearing",
+        "minRightSideBearing",
+        "xMaxExtent",
+        "caretSlopeRise",
+        "caretSlopeRun",
+        "caretOffset",
+        "reserved0",
+        "reserved1",
+        "reserved2",
+        "reserved3",
+        "metricDataFormat",
+        "numberOfHMetrics"
+      ],
+      "additionalProperties": false,
+      "description": "Horizontal header."
+    },
+    "Vhea": {
+      "type": "object",
+      "properties": {
+        "tableVersion": {
+          "type": "integer",
+          "minimum": 0,
+          "x-sstruct-format": "L"
+        },
+        "ascent": {
+          "type": "integer",
+          "x-sstruct-format": "h"
+        },
+        "descent": {
+          "type": "integer",
+          "x-sstruct-format": "h"
+        },
+        "lineGap": {
+          "type": "integer",
+          "x-sstruct-format": "h"
+        },
+        "advanceHeightMax": {
+          "type": "integer",
+          "minimum": 0,
+          "x-sstruct-format": "H"
+        },
+        "minTopSideBearing": {
+          "type": "integer",
+          "x-sstruct-format": "h"
+        },
+        "minBottomSideBearing": {
+          "type": "integer",
+          "x-sstruct-format": "h"
+        },
+        "yMaxExtent": {
+          "type": "integer",
+          "x-sstruct-format": "h"
+        },
+        "caretSlopeRise": {
+          "type": "integer",
+          "x-sstruct-format": "h"
+        },
+        "caretSlopeRun": {
+          "type": "integer",
+          "x-sstruct-format": "h"
+        },
+        "caretOffset": {
+          "type": "integer",
+          "x-sstruct-format": "h"
+        },
+        "reserved1": {
+          "type": "integer",
+          "x-sstruct-format": "h"
+        },
+        "reserved2": {
+          "type": "integer",
+          "x-sstruct-format": "h"
+        },
+        "reserved3": {
+          "type": "integer",
+          "x-sstruct-format": "h"
+        },
+        "reserved4": {
+          "type": "integer",
+          "x-sstruct-format": "h"
+        },
+        "metricDataFormat": {
+          "type": "integer",
+          "x-sstruct-format": "h"
+        },
+        "numberOfVMetrics": {
+          "type": "integer",
+          "minimum": 0,
+          "x-sstruct-format": "H"
+        }
+      },
+      "required": [
+        "tableVersion",
+        "ascent",
+        "descent",
+        "lineGap",
+        "advanceHeightMax",
+        "minTopSideBearing",
+        "minBottomSideBearing",
+        "yMaxExtent",
+        "caretSlopeRise",
+        "caretSlopeRun",
+        "caretOffset",
+        "reserved1",
+        "reserved2",
+        "reserved3",
+        "reserved4",
+        "metricDataFormat",
+        "numberOfVMetrics"
+      ],
+      "additionalProperties": false,
+      "description": "Vertical header."
+    },
+    "Maxp": {
+      "type": "object",
+      "properties": {
+        "tableVersion": {
+          "type": "integer",
+          "x-sstruct-format": "i"
+        },
+        "numGlyphs": {
+          "type": "integer",
+          "minimum": 0,
+          "x-sstruct-format": "H"
+        },
+        "maxPoints": {
+          "type": "integer",
+          "minimum": 0,
+          "x-sstruct-format": "H"
+        },
+        "maxContours": {
+          "type": "integer",
+          "minimum": 0,
+          "x-sstruct-format": "H"
+        },
+        "maxCompositePoints": {
+          "type": "integer",
+          "minimum": 0,
+          "x-sstruct-format": "H"
+        },
+        "maxCompositeContours": {
+          "type": "integer",
+          "minimum": 0,
+          "x-sstruct-format": "H"
+        },
+        "maxZones": {
+          "type": "integer",
+          "minimum": 0,
+          "x-sstruct-format": "H"
+        },
+        "maxTwilightPoints": {
+          "type": "integer",
+          "minimum": 0,
+          "x-sstruct-format": "H"
+        },
+        "maxStorage": {
+          "type": "integer",
+          "minimum": 0,
+          "x-sstruct-format": "H"
+        },
+        "maxFunctionDefs": {
+          "type": "integer",
+          "minimum": 0,
+          "x-sstruct-format": "H"
+        },
+        "maxInstructionDefs": {
+          "type": "integer",
+          "minimum": 0,
+          "x-sstruct-format": "H"
+        },
+        "maxStackElements": {
+          "type": "integer",
+          "minimum": 0,
+          "x-sstruct-format": "H"
+        },
+        "maxSizeOfInstructions": {
+          "type": "integer",
+          "minimum": 0,
+          "x-sstruct-format": "H"
+        },
+        "maxComponentElements": {
+          "type": "integer",
+          "minimum": 0,
+          "x-sstruct-format": "H"
+        },
+        "maxComponentDepth": {
+          "type": "integer",
+          "minimum": 0,
+          "x-sstruct-format": "H"
+        }
+      },
+      "required": [
+        "tableVersion",
+        "numGlyphs"
+      ],
+      "additionalProperties": false,
+      "description": "Maximum profile. Version 0.5 (CFF) has only tableVersion and numGlyphs."
+    },
+    "OS2": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "version",
+          "x-sstruct-format": "H"
+        },
+        "xAvgCharWidth": {
+          "type": "integer",
+          "description": "average character width",
+          "x-sstruct-format": "h"
+        },
+        "usWeightClass": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "degree of thickness of strokes",
+          "x-sstruct-format": "H"
+        },
+        "usWidthClass": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "aspect ratio",
+          "x-sstruct-format": "H"
+        },
+        "fsType": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "type flags (TTX writes this as a binary or hex string; the JSON model uses the integer value.)",
+          "x-sstruct-format": "H"
+        },
+        "ySubscriptXSize": {
+          "type": "integer",
+          "description": "subscript horizontal font size",
+          "x-sstruct-format": "h"
+        },
+        "ySubscriptYSize": {
+          "type": "integer",
+          "description": "subscript vertical font size",
+          "x-sstruct-format": "h"
+        },
+        "ySubscriptXOffset": {
+          "type": "integer",
+          "description": "subscript x offset",
+          "x-sstruct-format": "h"
+        },
+        "ySubscriptYOffset": {
+          "type": "integer",
+          "description": "subscript y offset",
+          "x-sstruct-format": "h"
+        },
+        "ySuperscriptXSize": {
+          "type": "integer",
+          "description": "superscript horizontal font size",
+          "x-sstruct-format": "h"
+        },
+        "ySuperscriptYSize": {
+          "type": "integer",
+          "description": "superscript vertical font size",
+          "x-sstruct-format": "h"
+        },
+        "ySuperscriptXOffset": {
+          "type": "integer",
+          "description": "superscript x offset",
+          "x-sstruct-format": "h"
+        },
+        "ySuperscriptYOffset": {
+          "type": "integer",
+          "description": "superscript y offset",
+          "x-sstruct-format": "h"
+        },
+        "yStrikeoutSize": {
+          "type": "integer",
+          "description": "strikeout size",
+          "x-sstruct-format": "h"
+        },
+        "yStrikeoutPosition": {
+          "type": "integer",
+          "description": "strikeout position",
+          "x-sstruct-format": "h"
+        },
+        "sFamilyClass": {
+          "type": "integer",
+          "description": "font family class and subclass",
+          "x-sstruct-format": "h"
+        },
+        "panose": {
+          "$ref": "#/$defs/Panose"
+        },
+        "ulUnicodeRange1": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "character range (TTX writes this as a binary or hex string; the JSON model uses the integer value.)",
+          "x-sstruct-format": "L"
+        },
+        "ulUnicodeRange2": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "character range (TTX writes this as a binary or hex string; the JSON model uses the integer value.)",
+          "x-sstruct-format": "L"
+        },
+        "ulUnicodeRange3": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "character range (TTX writes this as a binary or hex string; the JSON model uses the integer value.)",
+          "x-sstruct-format": "L"
+        },
+        "ulUnicodeRange4": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "character range (TTX writes this as a binary or hex string; the JSON model uses the integer value.)",
+          "x-sstruct-format": "L"
+        },
+        "achVendID": {
+          "type": "string",
+          "description": "font vendor identification",
+          "x-sstruct-format": "4s"
+        },
+        "fsSelection": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "font selection flags (TTX writes this as a binary or hex string; the JSON model uses the integer value.)",
+          "x-sstruct-format": "H"
+        },
+        "usFirstCharIndex": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "first unicode character index",
+          "x-sstruct-format": "H"
+        },
+        "usLastCharIndex": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "last unicode character index",
+          "x-sstruct-format": "H"
+        },
+        "sTypoAscender": {
+          "type": "integer",
+          "description": "typographic ascender",
+          "x-sstruct-format": "h"
+        },
+        "sTypoDescender": {
+          "type": "integer",
+          "description": "typographic descender",
+          "x-sstruct-format": "h"
+        },
+        "sTypoLineGap": {
+          "type": "integer",
+          "description": "typographic line gap",
+          "x-sstruct-format": "h"
+        },
+        "usWinAscent": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Windows ascender",
+          "x-sstruct-format": "H"
+        },
+        "usWinDescent": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Windows descender",
+          "x-sstruct-format": "H"
+        },
+        "ulCodePageRange1": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "(TTX writes this as a binary or hex string; the JSON model uses the integer value.)",
+          "x-sstruct-format": "L"
+        },
+        "ulCodePageRange2": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "(TTX writes this as a binary or hex string; the JSON model uses the integer value.)",
+          "x-sstruct-format": "L"
+        },
+        "sxHeight": {
+          "type": "integer",
+          "x-sstruct-format": "h"
+        },
+        "sCapHeight": {
+          "type": "integer",
+          "x-sstruct-format": "h"
+        },
+        "usDefaultChar": {
+          "type": "integer",
+          "minimum": 0,
+          "x-sstruct-format": "H"
+        },
+        "usBreakChar": {
+          "type": "integer",
+          "minimum": 0,
+          "x-sstruct-format": "H"
+        },
+        "usMaxContext": {
+          "type": "integer",
+          "minimum": 0,
+          "x-sstruct-format": "H"
+        },
+        "usLowerOpticalPointSize": {
+          "type": "integer",
+          "minimum": 0,
+          "x-sstruct-format": "H"
+        },
+        "usUpperOpticalPointSize": {
+          "type": "integer",
+          "minimum": 0,
+          "x-sstruct-format": "H"
+        }
+      },
+      "required": [
+        "version",
+        "xAvgCharWidth",
+        "usWeightClass",
+        "usWidthClass",
+        "fsType",
+        "ySubscriptXSize",
+        "ySubscriptYSize",
+        "ySubscriptXOffset",
+        "ySubscriptYOffset",
+        "ySuperscriptXSize",
+        "ySuperscriptYSize",
+        "ySuperscriptXOffset",
+        "ySuperscriptYOffset",
+        "yStrikeoutSize",
+        "yStrikeoutPosition",
+        "sFamilyClass",
+        "panose",
+        "ulUnicodeRange1",
+        "ulUnicodeRange2",
+        "ulUnicodeRange3",
+        "ulUnicodeRange4",
+        "achVendID",
+        "fsSelection",
+        "usFirstCharIndex",
+        "usLastCharIndex",
+        "sTypoAscender",
+        "sTypoDescender",
+        "sTypoLineGap",
+        "usWinAscent",
+        "usWinDescent"
+      ],
+      "additionalProperties": false,
+      "description": "OS/2 and Windows metrics. Bit fields are integers; achVendID is a 4 character string."
+    },
+    "Post": {
+      "type": "object",
+      "properties": {
+        "formatType": {
+          "type": "number",
+          "x-sstruct-format": "16.16F"
+        },
+        "italicAngle": {
+          "type": "number",
+          "description": "italic angle in degrees",
+          "x-sstruct-format": "16.16F"
+        },
+        "underlinePosition": {
+          "type": "integer",
+          "x-sstruct-format": "h"
+        },
+        "underlineThickness": {
+          "type": "integer",
+          "x-sstruct-format": "h"
+        },
+        "isFixedPitch": {
+          "type": "integer",
+          "minimum": 0,
+          "x-sstruct-format": "L"
+        },
+        "minMemType42": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "minimum memory if TrueType font is downloaded",
+          "x-sstruct-format": "L"
+        },
+        "maxMemType42": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "maximum memory if TrueType font is downloaded",
+          "x-sstruct-format": "L"
+        },
+        "minMemType1": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "minimum memory if Type1 font is downloaded",
+          "x-sstruct-format": "L"
+        },
+        "maxMemType1": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "maximum memory if Type1 font is downloaded",
+          "x-sstruct-format": "L"
+        },
+        "psNames": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Glyph name -> PostScript name where they differ (format 2.0)."
+        },
+        "extraNames": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Glyph name as used in GlyphOrder."
+          },
+          "description": "Names not in the standard Macintosh glyph order (format 2.0)."
+        },
+        "mapping": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "description": "Glyph name -> character code (format 4.0)."
+        }
+      },
+      "required": [
+        "formatType",
+        "italicAngle",
+        "underlinePosition",
+        "underlineThickness",
+        "isFixedPitch",
+        "minMemType42",
+        "maxMemType42",
+        "minMemType1",
+        "maxMemType1"
+      ],
+      "additionalProperties": false,
+      "description": "PostScript table. formatType 2.0 carries psNames/extraNames; formatType 4.0 carries mapping."
+    },
+    "Hmtx": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Glyph name as used in GlyphOrder."
+          },
+          "width": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "lsb": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "name",
+          "width",
+          "lsb"
+        ],
+        "additionalProperties": false
+      },
+      "description": "Horizontal metrics: one `<mtx>` per glyph in GlyphOrder."
+    },
+    "Vmtx": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Glyph name as used in GlyphOrder."
+          },
+          "height": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "tsb": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "name",
+          "height",
+          "tsb"
+        ],
+        "additionalProperties": false
+      },
+      "description": "Vertical metrics: one `<mtx>` per glyph in GlyphOrder."
+    },
+    "CmapSubtable": {
+      "type": "object",
+      "properties": {
+        "format": {
+          "type": "integer",
+          "enum": [
+            0,
+            2,
+            4,
+            6,
+            10,
+            12,
+            13,
+            14
+          ],
+          "description": "Subtable format (element name cmap_format_N)."
+        },
+        "platformID": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "platEncID": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "language": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "map": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Glyph name as used in GlyphOrder."
+          },
+          "propertyNames": {
+            "pattern": "^\\d+$"
+          },
+          "description": "Character code (decimal string) -> glyph name. Formats 0, 2, 4, 6, 10, 12, 13."
+        },
+        "uvs": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "prefixItems": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "minLength": 1,
+                  "description": "Glyph name as used in GlyphOrder."
+                }
+              ],
+              "minItems": 2,
+              "maxItems": 2,
+              "items": false
+            }
+          },
+          "description": "Format 14: variation selector (decimal string) -> [base code point, glyph name or null for default]."
+        }
+      },
+      "required": [
+        "format",
+        "platformID",
+        "platEncID"
+      ],
+      "additionalProperties": false,
+      "description": "One cmap subtable."
+    },
+    "Cmap": {
+      "type": "object",
+      "properties": {
+        "tableVersion": {
+          "type": "integer",
+          "default": 0
+        },
+        "subtables": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/CmapSubtable"
+          }
+        }
+      },
+      "required": [
+        "subtables"
+      ],
+      "additionalProperties": false,
+      "description": "Character map."
+    },
+    "NameRecord": {
+      "type": "object",
+      "properties": {
+        "nameID": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "platformID": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "platEncID": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "langID": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Language ID (TTX writes hex)."
+        },
+        "unicode": {
+          "type": "boolean",
+          "description": "Present in TTX only when the encoding is not Unicode compatible: whether the text is given decoded."
+        },
+        "text": {
+          "type": "string",
+          "description": "Decoded string."
+        }
+      },
+      "required": [
+        "nameID",
+        "platformID",
+        "platEncID",
+        "langID",
+        "text"
+      ],
+      "additionalProperties": false,
+      "description": "`<namerecord>`."
+    },
+    "Name": {
+      "type": "object",
+      "properties": {
+        "records": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/NameRecord"
+          }
+        }
+      },
+      "required": [
+        "records"
+      ],
+      "additionalProperties": false,
+      "description": "Naming table."
+    },
+    "TTPoint": {
+      "type": "object",
+      "properties": {
+        "x": {
+          "type": "integer"
+        },
+        "y": {
+          "type": "integer"
+        },
+        "on": {
+          "type": "boolean",
+          "description": "On-curve flag. Consecutive off-curve points imply a midpoint on-curve point (quadratic). With `cubic`, pairs of off-curve points are cubic control points."
+        },
+        "overlap": {
+          "type": "boolean",
+          "default": false,
+          "description": "OVERLAP_SIMPLE flag on the first point of the glyph."
+        },
+        "cubic": {
+          "type": "boolean",
+          "default": false,
+          "description": "CUBIC flag (glyf format 1 / boring-expansion)."
+        }
+      },
+      "required": [
+        "x",
+        "y",
+        "on"
+      ],
+      "additionalProperties": false,
+      "description": "`<pt>`: an absolute TrueType outline point."
+    },
+    "TTContour": {
+      "type": "object",
+      "properties": {
+        "points": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/TTPoint"
+          }
+        }
+      },
+      "required": [
+        "points"
+      ],
+      "additionalProperties": false,
+      "description": "`<contour>`: a closed TrueType contour."
+    },
+    "TTComponent": {
+      "type": "object",
+      "properties": {
+        "glyphName": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Glyph name as used in GlyphOrder."
+        },
+        "x": {
+          "type": "integer",
+          "description": "Offset x (when positioned by offsets)."
+        },
+        "y": {
+          "type": "integer",
+          "description": "Offset y."
+        },
+        "firstPt": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Parent point index (when positioned by point matching)."
+        },
+        "secondPt": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Child point index."
+        },
+        "scale": {
+          "type": "number",
+          "description": "Uniform scale (WE_HAVE_A_SCALE)."
+        },
+        "scalex": {
+          "type": "number",
+          "description": "X scale (WE_HAVE_AN_X_AND_Y_SCALE or WE_HAVE_A_TWO_BY_TWO)."
+        },
+        "scale01": {
+          "type": "number",
+          "description": "2x2 matrix component (WE_HAVE_A_TWO_BY_TWO)."
+        },
+        "scale10": {
+          "type": "number",
+          "description": "2x2 matrix component (WE_HAVE_A_TWO_BY_TWO)."
+        },
+        "scaley": {
+          "type": "number",
+          "description": "Y scale."
+        },
+        "flags": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Composite glyph flags (TTX writes hex)."
+        }
+      },
+      "required": [
+        "glyphName",
+        "flags"
+      ],
+      "additionalProperties": false,
+      "description": "`<component>` of a composite TrueType glyph. Either x/y or firstPt/secondPt is present; at most one of scale, scalex+scaley, or the 2x2 set."
+    },
+    "TTGlyph": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Glyph name as used in GlyphOrder."
+        },
+        "xMin": {
+          "type": "integer"
+        },
+        "yMin": {
+          "type": "integer"
+        },
+        "xMax": {
+          "type": "integer"
+        },
+        "yMax": {
+          "type": "integer"
+        },
+        "contours": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/TTContour"
+          },
+          "description": "Simple glyph contours (absent for empty and composite glyphs)."
+        },
+        "components": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/TTComponent"
+          },
+          "description": "Composite glyph components."
+        },
+        "instructions": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "TrueType assembly; null when `<instructions/>` is present but empty."
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "additionalProperties": false,
+      "description": "`<TTGlyph>`. An element with no children is an empty glyph. Bounding box attributes are recalculated by the compiler."
+    },
+    "Glyf": {
+      "type": "object",
+      "properties": {
+        "glyphs": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/TTGlyph"
+          },
+          "description": "Glyph name -> glyph, in GlyphOrder order."
+        }
+      },
+      "required": [
+        "glyphs"
+      ],
+      "additionalProperties": false,
+      "description": "Glyph data."
+    },
+    "FvarAxis": {
+      "type": "object",
+      "properties": {
+        "axisTag": {
+          "type": "string",
+          "minLength": 4,
+          "maxLength": 4,
+          "description": "Four character axis tag."
+        },
+        "flags": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 0,
+          "description": "Axis flags; bit 0 = HIDDEN_AXIS."
+        },
+        "minValue": {
+          "type": "number",
+          "description": "Minimum user coordinate (Fixed)."
+        },
+        "defaultValue": {
+          "type": "number",
+          "description": "Default user coordinate (Fixed)."
+        },
+        "maxValue": {
+          "type": "number",
+          "description": "Maximum user coordinate (Fixed)."
+        },
+        "axisNameID": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "name table ID for the axis name."
+        }
+      },
+      "required": [
+        "axisTag",
+        "minValue",
+        "defaultValue",
+        "maxValue",
+        "axisNameID"
+      ],
+      "additionalProperties": false,
+      "description": "`<Axis>` in fvar (VariationAxisRecord)."
+    },
+    "FvarInstance": {
+      "type": "object",
+      "properties": {
+        "flags": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 0
+        },
+        "subfamilyNameID": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "postscriptNameID": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Absent when 0xFFFF (no PostScript name)."
+        },
+        "coordinates": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "number"
+          },
+          "description": "Axis tag -> user coordinate (`<coord axis= value=/>`)."
+        }
+      },
+      "required": [
+        "subfamilyNameID",
+        "coordinates"
+      ],
+      "additionalProperties": false,
+      "description": "`<NamedInstance>` in fvar (InstanceRecord)."
+    },
+    "Fvar": {
+      "type": "object",
+      "properties": {
+        "axes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FvarAxis"
+          },
+          "minItems": 1
+        },
+        "instances": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FvarInstance"
+          }
+        }
+      },
+      "required": [
+        "axes",
+        "instances"
+      ],
+      "additionalProperties": false,
+      "description": "Font variations table: axis definitions in user space plus named instances."
+    },
+    "AvarMapping": {
+      "type": "object",
+      "properties": {
+        "from": {
+          "type": "number",
+          "minimum": -1,
+          "maximum": 1,
+          "description": "Normalised axis coordinate (F2Dot14) in [-1, 1]."
+        },
+        "to": {
+          "type": "number",
+          "minimum": -1,
+          "maximum": 1,
+          "description": "Normalised axis coordinate (F2Dot14) in [-1, 1]."
+        }
+      },
+      "required": [
+        "from",
+        "to"
+      ],
+      "additionalProperties": false,
+      "description": "`<mapping from= to=/>`: normalised input -> normalised output."
+    },
+    "Avar": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "type": "object",
+          "properties": {
+            "major": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 2
+            },
+            "minor": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "major",
+            "minor"
+          ],
+          "additionalProperties": false
+        },
+        "segments": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/AvarMapping"
+            },
+            "description": "Sorted by `from`; must include -1->-1, 0->0 and 1->1 when non-empty."
+          },
+          "description": "Axis tag -> piecewise linear segment map (`<segment axis=>`), one per fvar axis."
+        },
+        "VarIdxMap": {
+          "$ref": "#/$defs/OtTable",
+          "description": "avar version 2: DeltaSetIndexMap from axis index to VarStore entry."
+        },
+        "VarStore": {
+          "$ref": "#/$defs/OtTable",
+          "description": "avar version 2: item variation store whose deltas move normalised coordinates."
+        }
+      },
+      "required": [
+        "version",
+        "segments"
+      ],
+      "additionalProperties": false,
+      "description": "Axis variations table."
+    },
+    "TupleAxis": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "number",
+          "minimum": -1,
+          "maximum": 1,
+          "description": "Normalised axis coordinate (F2Dot14) in [-1, 1]."
+        },
+        "min": {
+          "type": "number",
+          "minimum": -1,
+          "maximum": 1,
+          "description": "Start of the intermediate region; defaults to min(value, 0)."
+        },
+        "max": {
+          "type": "number",
+          "minimum": -1,
+          "maximum": 1,
+          "description": "End of the intermediate region; defaults to max(value, 0)."
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "additionalProperties": false,
+      "description": "`<coord axis= value= [min= max=]/>`: the peak (and optional intermediate start/end) of a tuple region on one axis. Axes absent from the tuple have peak 0."
+    },
+    "PointDelta": {
+      "type": "object",
+      "properties": {
+        "pt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "x": {
+          "type": "integer"
+        },
+        "y": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "pt",
+        "x",
+        "y"
+      ],
+      "additionalProperties": false,
+      "description": "`<delta pt= x= y=/>`. Points not listed are inferred (IUP). The last four point indices are the phantom points (left, right, top, bottom side bearings)."
+    },
+    "CvtDelta": {
+      "type": "object",
+      "properties": {
+        "cvt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "value": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "cvt",
+        "value"
+      ],
+      "additionalProperties": false,
+      "description": "`<delta cvt= value=/>`."
+    },
+    "GlyphTupleVariation": {
+      "type": "object",
+      "properties": {
+        "axes": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/TupleAxis"
+          },
+          "description": "Axis tag -> region on that axis."
+        },
+        "deltas": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/PointDelta"
+          }
+        }
+      },
+      "required": [
+        "axes",
+        "deltas"
+      ],
+      "additionalProperties": false,
+      "description": "`<tuple>` in gvar: a TupleVariationHeader plus its point deltas."
+    },
+    "CvtTupleVariation": {
+      "type": "object",
+      "properties": {
+        "axes": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/TupleAxis"
+          }
+        },
+        "deltas": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/CvtDelta"
+          }
+        }
+      },
+      "required": [
+        "axes",
+        "deltas"
+      ],
+      "additionalProperties": false,
+      "description": "`<tuple>` in cvar."
+    },
+    "Gvar": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "type": "integer",
+          "default": 1
+        },
+        "reserved": {
+          "type": "integer",
+          "default": 0
+        },
+        "glyphVariations": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/GlyphTupleVariation"
+            }
+          },
+          "description": "Glyph name -> tuple variations (`<glyphVariations glyph=>`). Glyphs without variations are absent."
+        }
+      },
+      "required": [
+        "version",
+        "reserved",
+        "glyphVariations"
+      ],
+      "additionalProperties": false,
+      "description": "Glyph variations table."
+    },
+    "Cvar": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "type": "object",
+          "properties": {
+            "major": {
+              "type": "integer"
+            },
+            "minor": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "major",
+            "minor"
+          ],
+          "additionalProperties": false
+        },
+        "variations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/CvtTupleVariation"
+          }
+        }
+      },
+      "required": [
+        "version",
+        "variations"
+      ],
+      "additionalProperties": false,
+      "description": "CVT variations table."
+    },
+    "Cvt": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      },
+      "description": "Control values (`<cv index= value=/>`)."
+    },
+    "TtxFont": {
+      "type": "object",
+      "properties": {
+        "sfntVersion": {
+          "type": "string",
+          "description": "'\\x00\\x01\\x00\\x00' (TrueType) or 'OTTO' (CFF)."
+        },
+        "ttLibVersion": {
+          "type": "string",
+          "description": "fontTools version that wrote the TTX."
+        },
+        "GlyphOrder": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Glyph name as used in GlyphOrder."
+          },
+          "description": "Glyph names in glyph ID order."
+        },
+        "head": {
+          "$ref": "#/$defs/Head"
+        },
+        "hhea": {
+          "$ref": "#/$defs/Hhea"
+        },
+        "vhea": {
+          "$ref": "#/$defs/Vhea"
+        },
+        "maxp": {
+          "$ref": "#/$defs/Maxp"
+        },
+        "OS_2": {
+          "$ref": "#/$defs/OS2"
+        },
+        "hmtx": {
+          "$ref": "#/$defs/Hmtx"
+        },
+        "vmtx": {
+          "$ref": "#/$defs/Vmtx"
+        },
+        "cmap": {
+          "$ref": "#/$defs/Cmap"
+        },
+        "name": {
+          "$ref": "#/$defs/Name"
+        },
+        "post": {
+          "$ref": "#/$defs/Post"
+        },
+        "glyf": {
+          "$ref": "#/$defs/Glyf"
+        },
+        "loca": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false,
+          "description": "Recalculated by the compiler; carries no data in TTX."
+        },
+        "cvt": {
+          "$ref": "#/$defs/Cvt"
+        },
+        "fvar": {
+          "$ref": "#/$defs/Fvar"
+        },
+        "avar": {
+          "$ref": "#/$defs/Avar"
+        },
+        "gvar": {
+          "$ref": "#/$defs/Gvar"
+        },
+        "cvar": {
+          "$ref": "#/$defs/Cvar"
+        },
+        "STAT": {
+          "$ref": "#/$defs/OtTable"
+        },
+        "HVAR": {
+          "$ref": "#/$defs/OtTable"
+        },
+        "VVAR": {
+          "$ref": "#/$defs/OtTable"
+        },
+        "MVAR": {
+          "$ref": "#/$defs/OtTable"
+        },
+        "VARC": {
+          "$ref": "#/$defs/OtTable"
+        },
+        "GDEF": {
+          "$ref": "#/$defs/OtTable"
+        },
+        "GSUB": {
+          "$ref": "#/$defs/OtTable"
+        },
+        "GPOS": {
+          "$ref": "#/$defs/OtTable"
+        },
+        "BASE": {
+          "$ref": "#/$defs/OtTable"
+        },
+        "tables": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/XmlElement"
+          },
+          "description": "Any other table, keyed by TTX element name, as raw XML."
+        }
+      },
+      "required": [
+        "sfntVersion",
+        "GlyphOrder"
+      ],
+      "additionalProperties": false,
+      "description": "`<ttFont>`: JSON projection of a TTX dump. Table keys use the TTX element names (tagToXML), e.g. OS_2 for 'OS/2' and cvt for 'cvt '."
+    }
+  }
+}

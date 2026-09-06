@@ -96,28 +96,3 @@ def status() -> list[dict[str, str | bool | None]]:
             "commit": commit,
         })
     return rows
-
-
-def subtree_init() -> None:
-    root = repo_root()
-    for src in load_upstreams():
-        prefix = root / src.prefix
-        if prefix.exists():
-            print(f"skip {src.name}: {src.prefix} already exists")
-            continue
-        _run([
-            "git", "subtree", "add", "--squash",
-            f"--prefix={src.prefix}", src.url, src.ref,
-        ], cwd=root)
-
-
-def subtree_update() -> None:
-    root = repo_root()
-    for src in load_upstreams():
-        prefix = root / src.prefix
-        if not prefix.exists():
-            raise SystemExit(f"missing {src.prefix}; run subtree-init first")
-        _run([
-            "git", "subtree", "pull", "--squash",
-            f"--prefix={src.prefix}", src.url, src.ref,
-        ], cwd=root)

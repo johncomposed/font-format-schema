@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ttFont sfntVersion="\x00\x01\x00\x00" ttLibVersion="4.64">
+
+  <fvar>
+
+    <!-- Weight -->
+    <Axis>
+      <AxisTag>wght</AxisTag>
+      <Flags>0x0</Flags>
+      <MinValue>100.0</MinValue>
+      <DefaultValue>400.0</DefaultValue>
+      <MaxValue>900.0</MaxValue>
+      <AxisNameID>256</AxisNameID>
+    </Axis>
+
+    <!-- Width -->
+    <Axis>
+      <AxisTag>wdth</AxisTag>
+      <Flags>0x0</Flags>
+      <MinValue>75.0</MinValue>
+      <DefaultValue>100.0</DefaultValue>
+      <MaxValue>125.0</MaxValue>
+      <AxisNameID>257</AxisNameID>
+    </Axis>
+
+    <!-- Bold -->
+    <!-- PostScript: VFDemo-Bold -->
+    <NamedInstance flags="0x0" postscriptNameID="259" subfamilyNameID="258">
+      <coord axis="wght" value="780.0"/>
+      <coord axis="wdth" value="100.0"/>
+    </NamedInstance>
+  </fvar>
+
+  <avar>
+    <version major="1" minor="0"/>
+    <segment axis="wght">
+      <mapping from="-1.0" to="-1.0"/>
+      <mapping from="0.0" to="0.0"/>
+      <mapping from="0.4" to="0.1667"/>
+      <mapping from="1.0" to="1.0"/>
+    </segment>
+    <segment axis="wdth">
+      <mapping from="-1.0" to="-1.0"/>
+      <mapping from="0.0" to="0.0"/>
+      <mapping from="1.0" to="1.0"/>
+    </segment>
+  </avar>
+
+  <gvar>
+    <version value="1"/>
+    <reserved value="0"/>
+    <glyphVariations glyph=".notdef">
+      <tuple>
+        <coord axis="wght" value="-1.0"/>
+        <delta pt="0" x="0" y="0"/>
+        <delta pt="1" x="-40" y="0"/>
+        <delta pt="2" x="0" y="0"/>
+        <delta pt="3" x="0" y="0"/>
+      </tuple>
+      <tuple>
+        <coord axis="wght" min="0.0" value="0.5" max="1.0"/>
+        <delta pt="0" x="0" y="0"/>
+        <delta pt="1" x="30" y="0"/>
+        <delta pt="2" x="0" y="0"/>
+        <delta pt="3" x="0" y="0"/>
+      </tuple>
+      <tuple>
+        <coord axis="wght" min="0.5" value="1.0" max="1.0"/>
+        <delta pt="0" x="0" y="0"/>
+        <delta pt="1" x="60" y="0"/>
+        <delta pt="2" x="0" y="0"/>
+        <delta pt="3" x="0" y="0"/>
+      </tuple>
+    </glyphVariations>
+    <glyphVariations glyph="arch">
+      <tuple>
+        <coord axis="wght" value="-1.0"/>
+        <delta pt="0" x="0" y="0"/>
+        <delta pt="1" x="0" y="0"/>
+        <delta pt="2" x="0" y="0"/>
+        <delta pt="3" x="0" y="0"/>
+        <delta pt="4" x="-40" y="0"/>
+        <delta pt="5" x="0" y="0"/>
+        <delta pt="6" x="0" y="0"/>
+      </tuple>
+      <tuple>
+        <coord axis="wght" min="0.0" value="0.5" max="1.0"/>
+        <delta pt="0" x="0" y="0"/>
+        <delta pt="1" x="0" y="0"/>
+        <delta pt="2" x="0" y="0"/>
+        <delta pt="3" x="0" y="0"/>
+        <delta pt="4" x="30" y="0"/>
+        <delta pt="5" x="0" y="0"/>
+        <delta pt="6" x="0" y="0"/>
+      </tuple>
+      <tuple>
+        <coord axis="wght" min="0.5" value="1.0" max="1.0"/>
+        <delta pt="0" x="0" y="0"/>
+        <delta pt="1" x="0" y="0"/>
+        <delta pt="2" x="0" y="0"/>
+        <delta pt="3" x="0" y="0"/>
+        <delta pt="4" x="60" y="0"/>
+        <delta pt="5" x="0" y="0"/>
+        <delta pt="6" x="0" y="0"/>
+      </tuple>
+      <tuple>
+        <coord axis="wdth" value="-1.0"/>
+        <delta pt="0" x="0" y="0"/>
+        <delta pt="1" x="0" y="-25"/>
+        <delta pt="2" x="0" y="0"/>
+        <delta pt="3" x="0" y="0"/>
+        <delta pt="4" x="0" y="0"/>
+        <delta pt="5" x="0" y="0"/>
+        <delta pt="6" x="0" y="0"/>
+      </tuple>
+      <tuple>
+        <coord axis="wdth" value="1.0"/>
+        <delta pt="0" x="0" y="0"/>
+        <delta pt="1" x="0" y="25"/>
+        <delta pt="2" x="0" y="0"/>
+        <delta pt="3" x="0" y="0"/>
+        <delta pt="4" x="0" y="0"/>
+        <delta pt="5" x="0" y="0"/>
+        <delta pt="6" x="0" y="0"/>
+      </tuple>
+    </glyphVariations>
+    <glyphVariations glyph="archstem">
+      <tuple>
+        <coord axis="wght" value="-1.0"/>
+        <delta pt="0" x="0" y="0"/>
+        <delta pt="1" x="0" y="0"/>
+        <delta pt="2" x="0" y="0"/>
+        <delta pt="3" x="-40" y="0"/>
+        <delta pt="4" x="0" y="0"/>
+        <delta pt="5" x="0" y="0"/>
+      </tuple>
+      <tuple>
+        <coord axis="wght" min="0.0" value="0.5" max="1.0"/>
+        <delta pt="0" x="0" y="0"/>
+        <delta pt="1" x="0" y="0"/>
+        <delta pt="2" x="0" y="0"/>
+        <delta pt="3" x="30" y="0"/>
+        <delta pt="4" x="0" y="0"/>
+        <delta pt="5" x="0" y="0"/>
+      </tuple>
+      <tuple>
+        <coord axis="wght" min="0.5" value="1.0" max="1.0"/>
+        <delta pt="0" x="0" y="0"/>
+        <delta pt="1" x="0" y="0"/>
+        <delta pt="2" x="0" y="0"/>
+        <delta pt="3" x="60" y="0"/>
+        <delta pt="4" x="0" y="0"/>
+        <delta pt="5" x="0" y="0"/>
+      </tuple>
+      <tuple>
+        <coord axis="wdth" value="-1.0"/>
+        <delta pt="0" x="-25" y="0"/>
+        <delta pt="1" x="0" y="0"/>
+        <delta pt="2" x="0" y="0"/>
+        <delta pt="3" x="0" y="0"/>
+        <delta pt="4" x="0" y="0"/>
+        <delta pt="5" x="0" y="0"/>
+      </tuple>
+      <tuple>
+        <coord axis="wdth" value="1.0"/>
+        <delta pt="0" x="25" y="0"/>
+        <delta pt="1" x="0" y="0"/>
+        <delta pt="2" x="0" y="0"/>
+        <delta pt="3" x="0" y="0"/>
+        <delta pt="4" x="0" y="0"/>
+        <delta pt="5" x="0" y="0"/>
+      </tuple>
+    </glyphVariations>
+    <glyphVariations glyph="stem">
+      <tuple>
+        <coord axis="wght" value="-1.0"/>
+        <delta pt="0" x="0" y="0"/>
+        <delta pt="1" x="-40" y="0"/>
+        <delta pt="2" x="-40" y="0"/>
+        <delta pt="3" x="0" y="0"/>
+        <delta pt="4" x="0" y="0"/>
+        <delta pt="5" x="-40" y="0"/>
+        <delta pt="6" x="0" y="0"/>
+        <delta pt="7" x="0" y="0"/>
+      </tuple>
+      <tuple>
+        <coord axis="wght" min="0.0" value="0.5" max="1.0"/>
+        <delta pt="0" x="0" y="0"/>
+        <delta pt="1" x="30" y="0"/>
+        <delta pt="2" x="30" y="0"/>
+        <delta pt="3" x="0" y="0"/>
+        <delta pt="4" x="0" y="0"/>
+        <delta pt="5" x="30" y="0"/>
+        <delta pt="6" x="0" y="0"/>
+        <delta pt="7" x="0" y="0"/>
+      </tuple>
+      <tuple>
+        <coord axis="wght" min="0.5" value="1.0" max="1.0"/>
+        <delta pt="0" x="0" y="0"/>
+        <delta pt="1" x="60" y="0"/>
+        <delta pt="2" x="60" y="0"/>
+        <delta pt="3" x="0" y="0"/>
+        <delta pt="4" x="0" y="0"/>
+        <delta pt="5" x="60" y="0"/>
+        <delta pt="6" x="0" y="0"/>
+        <delta pt="7" x="0" y="0"/>
+      </tuple>
+    </glyphVariations>
+  </gvar>
+
+  <cvar>
+    <version major="1" minor="0"/>
+    <tuple>
+      <coord axis="wght" value="-1.0"/>
+      <delta cvt="0" value="-40"/>
+      <delta cvt="1" value="0"/>
+    </tuple>
+    <tuple>
+      <coord axis="wght" min="0.0" value="0.5" max="1.0"/>
+      <delta cvt="0" value="30"/>
+      <delta cvt="1" value="0"/>
+    </tuple>
+    <tuple>
+      <coord axis="wght" min="0.5" value="1.0" max="1.0"/>
+      <delta cvt="0" value="60"/>
+      <delta cvt="1" value="0"/>
+    </tuple>
+  </cvar>
+
+  <HVAR>
+    <Version value="0x00010000"/>
+    <VarStore Format="1">
+      <Format value="1"/>
+      <VarRegionList>
+        <!-- RegionAxisCount=2 -->
+        <!-- RegionCount=3 -->
+        <Region index="0">
+          <VarRegionAxis index="0">
+            <StartCoord value="-1.0"/>
+            <PeakCoord value="-1.0"/>
+            <EndCoord value="0.0"/>
+          </VarRegionAxis>
+          <VarRegionAxis index="1">
+            <StartCoord value="0.0"/>
+            <PeakCoord value="0.0"/>
+            <EndCoord value="0.0"/>
+          </VarRegionAxis>
+        </Region>
+        <Region index="1">
+          <VarRegionAxis index="0">
+            <StartCoord value="0.0"/>
+            <PeakCoord value="0.5"/>
+            <EndCoord value="1.0"/>
+          </VarRegionAxis>
+          <VarRegionAxis index="1">
+            <StartCoord value="0.0"/>
+            <PeakCoord value="0.0"/>
+            <EndCoord value="0.0"/>
+          </VarRegionAxis>
+        </Region>
+        <Region index="2">
+          <VarRegionAxis index="0">
+            <StartCoord value="0.5"/>
+            <PeakCoord value="1.0"/>
+            <EndCoord value="1.0"/>
+          </VarRegionAxis>
+          <VarRegionAxis index="1">
+            <StartCoord value="0.0"/>
+            <PeakCoord value="0.0"/>
+            <EndCoord value="0.0"/>
+          </VarRegionAxis>
+        </Region>
+      </VarRegionList>
+      <!-- VarDataCount=1 -->
+      <VarData index="0">
+        <!-- ItemCount=1 -->
+        <NumShorts value="0"/>
+        <!-- VarRegionCount=3 -->
+        <VarRegionIndex index="0" value="0"/>
+        <VarRegionIndex index="1" value="1"/>
+        <VarRegionIndex index="2" value="2"/>
+        <Item index="0" value="[-40, 30, 60]"/>
+      </VarData>
+    </VarStore>
+    <AdvWidthMap>
+      <Map glyph=".notdef" outer="0" inner="0"/>
+      <Map glyph="arch" outer="0" inner="0"/>
+      <Map glyph="archstem" outer="0" inner="0"/>
+      <Map glyph="stem" outer="0" inner="0"/>
+    </AdvWidthMap>
+  </HVAR>
+
+  <STAT>
+    <Version value="0x00010001"/>
+    <DesignAxisRecordSize value="8"/>
+    <!-- DesignAxisCount=2 -->
+    <DesignAxisRecord>
+      <Axis index="0">
+        <AxisTag value="wght"/>
+        <AxisNameID value="256"/>  <!-- Weight -->
+        <AxisOrdering value="0"/>
+      </Axis>
+      <Axis index="1">
+        <AxisTag value="wdth"/>
+        <AxisNameID value="257"/>  <!-- Width -->
+        <AxisOrdering value="1"/>
+      </Axis>
+    </DesignAxisRecord>
+    <!-- AxisValueCount=0 -->
+    <ElidedFallbackNameID value="2"/>  <!-- Regular -->
+  </STAT>
+
+</ttFont>

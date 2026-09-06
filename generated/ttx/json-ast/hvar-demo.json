@@ -1,0 +1,208 @@
+{
+  "tag": "ttFont",
+  "attributes": {
+    "sfntVersion": "\\x00\\x01\\x00\\x00",
+    "ttLibVersion": "4.64"
+  },
+  "children": [
+    {
+      "tag": "fvar",
+      "attributes": {},
+      "children": [
+        {
+          "tag": "Axis",
+          "attributes": {},
+          "children": [
+            {
+              "tag": "AxisTag",
+              "attributes": {},
+              "children": [],
+              "text": "wght"
+            },
+            {
+              "tag": "Flags",
+              "attributes": {},
+              "children": [],
+              "text": "0x0"
+            },
+            {
+              "tag": "MinValue",
+              "attributes": {},
+              "children": [],
+              "text": "100.0"
+            },
+            {
+              "tag": "DefaultValue",
+              "attributes": {},
+              "children": [],
+              "text": "400.0"
+            },
+            {
+              "tag": "MaxValue",
+              "attributes": {},
+              "children": [],
+              "text": "900.0"
+            },
+            {
+              "tag": "AxisNameID",
+              "attributes": {},
+              "children": [],
+              "text": "256"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tag": "HVAR",
+      "attributes": {},
+      "children": [
+        {
+          "tag": "Version",
+          "attributes": {
+            "value": "0x00010000"
+          },
+          "children": []
+        },
+        {
+          "tag": "VarStore",
+          "attributes": {
+            "Format": "1"
+          },
+          "children": [
+            {
+              "tag": "Format",
+              "attributes": {
+                "value": "1"
+              },
+              "children": []
+            },
+            {
+              "tag": "VarRegionList",
+              "attributes": {},
+              "children": [
+                {
+                  "tag": "Region",
+                  "attributes": {
+                    "index": "0"
+                  },
+                  "children": [
+                    {
+                      "tag": "VarRegionAxis",
+                      "attributes": {
+                        "index": "0"
+                      },
+                      "children": [
+                        {
+                          "tag": "StartCoord",
+                          "attributes": {
+                            "value": "0.0"
+                          },
+                          "children": []
+                        },
+                        {
+                          "tag": "PeakCoord",
+                          "attributes": {
+                            "value": "1.0"
+                          },
+                          "children": []
+                        },
+                        {
+                          "tag": "EndCoord",
+                          "attributes": {
+                            "value": "1.0"
+                          },
+                          "children": []
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "tag": "VarData",
+              "attributes": {
+                "index": "0"
+              },
+              "children": [
+                {
+                  "tag": "NumShorts",
+                  "attributes": {
+                    "value": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "VarRegionIndex",
+                  "attributes": {
+                    "index": "0",
+                    "value": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "Item",
+                  "attributes": {
+                    "index": "0",
+                    "value": "[0]"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "Item",
+                  "attributes": {
+                    "index": "1",
+                    "value": "[50]"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "Item",
+                  "attributes": {
+                    "index": "2",
+                    "value": "[100]"
+                  },
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "tag": "AdvWidthMap",
+          "attributes": {},
+          "children": [
+            {
+              "tag": "Map",
+              "attributes": {
+                "glyph": ".notdef",
+                "outer": "0",
+                "inner": "0"
+              },
+              "children": []
+            },
+            {
+              "tag": "Map",
+              "attributes": {
+                "glyph": "A",
+                "outer": "0",
+                "inner": "1"
+              },
+              "children": []
+            },
+            {
+              "tag": "Map",
+              "attributes": {
+                "glyph": "B",
+                "outer": "0",
+                "inner": "2"
+              },
+              "children": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

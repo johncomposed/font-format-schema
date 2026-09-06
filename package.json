@@ -1,0 +1,24 @@
+{
+  "name": "font-format-schema",
+  "version": "0.1.0",
+  "private": true,
+  "description": "TypeScript types and Zod schemas generated from the UFO / Designspace / TTX JSON Schemas in this repository.",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "generate": "npm run generate:types && npm run generate:zod",
+    "generate:types": "tsx tools/generate-types.ts",
+    "generate:zod": "tsx tools/generate-zod.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "npm run typecheck && tsx --test tests-ts/*.test.ts"
+  },
+  "dependencies": {
+    "zod": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "json-schema-to-typescript": "^15.0.4",
+    "tsx": "^4.20.0",
+    "typescript": "^5.9.0"
+  }
+}

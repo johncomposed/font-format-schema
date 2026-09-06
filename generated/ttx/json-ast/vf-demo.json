@@ -1,0 +1,1932 @@
+{
+  "tag": "ttFont",
+  "attributes": {
+    "sfntVersion": "\\x00\\x01\\x00\\x00",
+    "ttLibVersion": "4.64"
+  },
+  "children": [
+    {
+      "tag": "fvar",
+      "attributes": {},
+      "children": [
+        {
+          "tag": "Axis",
+          "attributes": {},
+          "children": [
+            {
+              "tag": "AxisTag",
+              "attributes": {},
+              "children": [],
+              "text": "wght"
+            },
+            {
+              "tag": "Flags",
+              "attributes": {},
+              "children": [],
+              "text": "0x0"
+            },
+            {
+              "tag": "MinValue",
+              "attributes": {},
+              "children": [],
+              "text": "100.0"
+            },
+            {
+              "tag": "DefaultValue",
+              "attributes": {},
+              "children": [],
+              "text": "400.0"
+            },
+            {
+              "tag": "MaxValue",
+              "attributes": {},
+              "children": [],
+              "text": "900.0"
+            },
+            {
+              "tag": "AxisNameID",
+              "attributes": {},
+              "children": [],
+              "text": "256"
+            }
+          ]
+        },
+        {
+          "tag": "Axis",
+          "attributes": {},
+          "children": [
+            {
+              "tag": "AxisTag",
+              "attributes": {},
+              "children": [],
+              "text": "wdth"
+            },
+            {
+              "tag": "Flags",
+              "attributes": {},
+              "children": [],
+              "text": "0x0"
+            },
+            {
+              "tag": "MinValue",
+              "attributes": {},
+              "children": [],
+              "text": "75.0"
+            },
+            {
+              "tag": "DefaultValue",
+              "attributes": {},
+              "children": [],
+              "text": "100.0"
+            },
+            {
+              "tag": "MaxValue",
+              "attributes": {},
+              "children": [],
+              "text": "125.0"
+            },
+            {
+              "tag": "AxisNameID",
+              "attributes": {},
+              "children": [],
+              "text": "257"
+            }
+          ]
+        },
+        {
+          "tag": "NamedInstance",
+          "attributes": {
+            "flags": "0x0",
+            "postscriptNameID": "259",
+            "subfamilyNameID": "258"
+          },
+          "children": [
+            {
+              "tag": "coord",
+              "attributes": {
+                "axis": "wght",
+                "value": "780.0"
+              },
+              "children": []
+            },
+            {
+              "tag": "coord",
+              "attributes": {
+                "axis": "wdth",
+                "value": "100.0"
+              },
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tag": "avar",
+      "attributes": {},
+      "children": [
+        {
+          "tag": "version",
+          "attributes": {
+            "major": "1",
+            "minor": "0"
+          },
+          "children": []
+        },
+        {
+          "tag": "segment",
+          "attributes": {
+            "axis": "wght"
+          },
+          "children": [
+            {
+              "tag": "mapping",
+              "attributes": {
+                "from": "-1.0",
+                "to": "-1.0"
+              },
+              "children": []
+            },
+            {
+              "tag": "mapping",
+              "attributes": {
+                "from": "0.0",
+                "to": "0.0"
+              },
+              "children": []
+            },
+            {
+              "tag": "mapping",
+              "attributes": {
+                "from": "0.4",
+                "to": "0.1667"
+              },
+              "children": []
+            },
+            {
+              "tag": "mapping",
+              "attributes": {
+                "from": "1.0",
+                "to": "1.0"
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "tag": "segment",
+          "attributes": {
+            "axis": "wdth"
+          },
+          "children": [
+            {
+              "tag": "mapping",
+              "attributes": {
+                "from": "-1.0",
+                "to": "-1.0"
+              },
+              "children": []
+            },
+            {
+              "tag": "mapping",
+              "attributes": {
+                "from": "0.0",
+                "to": "0.0"
+              },
+              "children": []
+            },
+            {
+              "tag": "mapping",
+              "attributes": {
+                "from": "1.0",
+                "to": "1.0"
+              },
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tag": "gvar",
+      "attributes": {},
+      "children": [
+        {
+          "tag": "version",
+          "attributes": {
+            "value": "1"
+          },
+          "children": []
+        },
+        {
+          "tag": "reserved",
+          "attributes": {
+            "value": "0"
+          },
+          "children": []
+        },
+        {
+          "tag": "glyphVariations",
+          "attributes": {
+            "glyph": ".notdef"
+          },
+          "children": [
+            {
+              "tag": "tuple",
+              "attributes": {},
+              "children": [
+                {
+                  "tag": "coord",
+                  "attributes": {
+                    "axis": "wght",
+                    "value": "-1.0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "0",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "1",
+                    "x": "-40",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "2",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "3",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                }
+              ]
+            },
+            {
+              "tag": "tuple",
+              "attributes": {},
+              "children": [
+                {
+                  "tag": "coord",
+                  "attributes": {
+                    "axis": "wght",
+                    "min": "0.0",
+                    "value": "0.5",
+                    "max": "1.0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "0",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "1",
+                    "x": "30",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "2",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "3",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                }
+              ]
+            },
+            {
+              "tag": "tuple",
+              "attributes": {},
+              "children": [
+                {
+                  "tag": "coord",
+                  "attributes": {
+                    "axis": "wght",
+                    "min": "0.5",
+                    "value": "1.0",
+                    "max": "1.0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "0",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "1",
+                    "x": "60",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "2",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "3",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "tag": "glyphVariations",
+          "attributes": {
+            "glyph": "arch"
+          },
+          "children": [
+            {
+              "tag": "tuple",
+              "attributes": {},
+              "children": [
+                {
+                  "tag": "coord",
+                  "attributes": {
+                    "axis": "wght",
+                    "value": "-1.0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "0",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "1",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "2",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "3",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "4",
+                    "x": "-40",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "5",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "6",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                }
+              ]
+            },
+            {
+              "tag": "tuple",
+              "attributes": {},
+              "children": [
+                {
+                  "tag": "coord",
+                  "attributes": {
+                    "axis": "wght",
+                    "min": "0.0",
+                    "value": "0.5",
+                    "max": "1.0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "0",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "1",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "2",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "3",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "4",
+                    "x": "30",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "5",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "6",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                }
+              ]
+            },
+            {
+              "tag": "tuple",
+              "attributes": {},
+              "children": [
+                {
+                  "tag": "coord",
+                  "attributes": {
+                    "axis": "wght",
+                    "min": "0.5",
+                    "value": "1.0",
+                    "max": "1.0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "0",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "1",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "2",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "3",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "4",
+                    "x": "60",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "5",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "6",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                }
+              ]
+            },
+            {
+              "tag": "tuple",
+              "attributes": {},
+              "children": [
+                {
+                  "tag": "coord",
+                  "attributes": {
+                    "axis": "wdth",
+                    "value": "-1.0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "0",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "1",
+                    "x": "0",
+                    "y": "-25"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "2",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "3",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "4",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "5",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "6",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                }
+              ]
+            },
+            {
+              "tag": "tuple",
+              "attributes": {},
+              "children": [
+                {
+                  "tag": "coord",
+                  "attributes": {
+                    "axis": "wdth",
+                    "value": "1.0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "0",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "1",
+                    "x": "0",
+                    "y": "25"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "2",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "3",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "4",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "5",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "6",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "tag": "glyphVariations",
+          "attributes": {
+            "glyph": "archstem"
+          },
+          "children": [
+            {
+              "tag": "tuple",
+              "attributes": {},
+              "children": [
+                {
+                  "tag": "coord",
+                  "attributes": {
+                    "axis": "wght",
+                    "value": "-1.0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "0",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "1",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "2",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "3",
+                    "x": "-40",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "4",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "5",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                }
+              ]
+            },
+            {
+              "tag": "tuple",
+              "attributes": {},
+              "children": [
+                {
+                  "tag": "coord",
+                  "attributes": {
+                    "axis": "wght",
+                    "min": "0.0",
+                    "value": "0.5",
+                    "max": "1.0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "0",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "1",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "2",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "3",
+                    "x": "30",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "4",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "5",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                }
+              ]
+            },
+            {
+              "tag": "tuple",
+              "attributes": {},
+              "children": [
+                {
+                  "tag": "coord",
+                  "attributes": {
+                    "axis": "wght",
+                    "min": "0.5",
+                    "value": "1.0",
+                    "max": "1.0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "0",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "1",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "2",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "3",
+                    "x": "60",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "4",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "5",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                }
+              ]
+            },
+            {
+              "tag": "tuple",
+              "attributes": {},
+              "children": [
+                {
+                  "tag": "coord",
+                  "attributes": {
+                    "axis": "wdth",
+                    "value": "-1.0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "0",
+                    "x": "-25",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "1",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "2",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "3",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "4",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "5",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                }
+              ]
+            },
+            {
+              "tag": "tuple",
+              "attributes": {},
+              "children": [
+                {
+                  "tag": "coord",
+                  "attributes": {
+                    "axis": "wdth",
+                    "value": "1.0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "0",
+                    "x": "25",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "1",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "2",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "3",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "4",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "5",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "tag": "glyphVariations",
+          "attributes": {
+            "glyph": "stem"
+          },
+          "children": [
+            {
+              "tag": "tuple",
+              "attributes": {},
+              "children": [
+                {
+                  "tag": "coord",
+                  "attributes": {
+                    "axis": "wght",
+                    "value": "-1.0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "0",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "1",
+                    "x": "-40",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "2",
+                    "x": "-40",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "3",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "4",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "5",
+                    "x": "-40",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "6",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "7",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                }
+              ]
+            },
+            {
+              "tag": "tuple",
+              "attributes": {},
+              "children": [
+                {
+                  "tag": "coord",
+                  "attributes": {
+                    "axis": "wght",
+                    "min": "0.0",
+                    "value": "0.5",
+                    "max": "1.0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "0",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "1",
+                    "x": "30",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "2",
+                    "x": "30",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "3",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "4",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "5",
+                    "x": "30",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "6",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "7",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                }
+              ]
+            },
+            {
+              "tag": "tuple",
+              "attributes": {},
+              "children": [
+                {
+                  "tag": "coord",
+                  "attributes": {
+                    "axis": "wght",
+                    "min": "0.5",
+                    "value": "1.0",
+                    "max": "1.0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "0",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "1",
+                    "x": "60",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "2",
+                    "x": "60",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "3",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "4",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "5",
+                    "x": "60",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "6",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "delta",
+                  "attributes": {
+                    "pt": "7",
+                    "x": "0",
+                    "y": "0"
+                  },
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tag": "cvar",
+      "attributes": {},
+      "children": [
+        {
+          "tag": "version",
+          "attributes": {
+            "major": "1",
+            "minor": "0"
+          },
+          "children": []
+        },
+        {
+          "tag": "tuple",
+          "attributes": {},
+          "children": [
+            {
+              "tag": "coord",
+              "attributes": {
+                "axis": "wght",
+                "value": "-1.0"
+              },
+              "children": []
+            },
+            {
+              "tag": "delta",
+              "attributes": {
+                "cvt": "0",
+                "value": "-40"
+              },
+              "children": []
+            },
+            {
+              "tag": "delta",
+              "attributes": {
+                "cvt": "1",
+                "value": "0"
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "tag": "tuple",
+          "attributes": {},
+          "children": [
+            {
+              "tag": "coord",
+              "attributes": {
+                "axis": "wght",
+                "min": "0.0",
+                "value": "0.5",
+                "max": "1.0"
+              },
+              "children": []
+            },
+            {
+              "tag": "delta",
+              "attributes": {
+                "cvt": "0",
+                "value": "30"
+              },
+              "children": []
+            },
+            {
+              "tag": "delta",
+              "attributes": {
+                "cvt": "1",
+                "value": "0"
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "tag": "tuple",
+          "attributes": {},
+          "children": [
+            {
+              "tag": "coord",
+              "attributes": {
+                "axis": "wght",
+                "min": "0.5",
+                "value": "1.0",
+                "max": "1.0"
+              },
+              "children": []
+            },
+            {
+              "tag": "delta",
+              "attributes": {
+                "cvt": "0",
+                "value": "60"
+              },
+              "children": []
+            },
+            {
+              "tag": "delta",
+              "attributes": {
+                "cvt": "1",
+                "value": "0"
+              },
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tag": "HVAR",
+      "attributes": {},
+      "children": [
+        {
+          "tag": "Version",
+          "attributes": {
+            "value": "0x00010000"
+          },
+          "children": []
+        },
+        {
+          "tag": "VarStore",
+          "attributes": {
+            "Format": "1"
+          },
+          "children": [
+            {
+              "tag": "Format",
+              "attributes": {
+                "value": "1"
+              },
+              "children": []
+            },
+            {
+              "tag": "VarRegionList",
+              "attributes": {},
+              "children": [
+                {
+                  "tag": "Region",
+                  "attributes": {
+                    "index": "0"
+                  },
+                  "children": [
+                    {
+                      "tag": "VarRegionAxis",
+                      "attributes": {
+                        "index": "0"
+                      },
+                      "children": [
+                        {
+                          "tag": "StartCoord",
+                          "attributes": {
+                            "value": "-1.0"
+                          },
+                          "children": []
+                        },
+                        {
+                          "tag": "PeakCoord",
+                          "attributes": {
+                            "value": "-1.0"
+                          },
+                          "children": []
+                        },
+                        {
+                          "tag": "EndCoord",
+                          "attributes": {
+                            "value": "0.0"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "tag": "VarRegionAxis",
+                      "attributes": {
+                        "index": "1"
+                      },
+                      "children": [
+                        {
+                          "tag": "StartCoord",
+                          "attributes": {
+                            "value": "0.0"
+                          },
+                          "children": []
+                        },
+                        {
+                          "tag": "PeakCoord",
+                          "attributes": {
+                            "value": "0.0"
+                          },
+                          "children": []
+                        },
+                        {
+                          "tag": "EndCoord",
+                          "attributes": {
+                            "value": "0.0"
+                          },
+                          "children": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "tag": "Region",
+                  "attributes": {
+                    "index": "1"
+                  },
+                  "children": [
+                    {
+                      "tag": "VarRegionAxis",
+                      "attributes": {
+                        "index": "0"
+                      },
+                      "children": [
+                        {
+                          "tag": "StartCoord",
+                          "attributes": {
+                            "value": "0.0"
+                          },
+                          "children": []
+                        },
+                        {
+                          "tag": "PeakCoord",
+                          "attributes": {
+                            "value": "0.5"
+                          },
+                          "children": []
+                        },
+                        {
+                          "tag": "EndCoord",
+                          "attributes": {
+                            "value": "1.0"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "tag": "VarRegionAxis",
+                      "attributes": {
+                        "index": "1"
+                      },
+                      "children": [
+                        {
+                          "tag": "StartCoord",
+                          "attributes": {
+                            "value": "0.0"
+                          },
+                          "children": []
+                        },
+                        {
+                          "tag": "PeakCoord",
+                          "attributes": {
+                            "value": "0.0"
+                          },
+                          "children": []
+                        },
+                        {
+                          "tag": "EndCoord",
+                          "attributes": {
+                            "value": "0.0"
+                          },
+                          "children": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "tag": "Region",
+                  "attributes": {
+                    "index": "2"
+                  },
+                  "children": [
+                    {
+                      "tag": "VarRegionAxis",
+                      "attributes": {
+                        "index": "0"
+                      },
+                      "children": [
+                        {
+                          "tag": "StartCoord",
+                          "attributes": {
+                            "value": "0.5"
+                          },
+                          "children": []
+                        },
+                        {
+                          "tag": "PeakCoord",
+                          "attributes": {
+                            "value": "1.0"
+                          },
+                          "children": []
+                        },
+                        {
+                          "tag": "EndCoord",
+                          "attributes": {
+                            "value": "1.0"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "tag": "VarRegionAxis",
+                      "attributes": {
+                        "index": "1"
+                      },
+                      "children": [
+                        {
+                          "tag": "StartCoord",
+                          "attributes": {
+                            "value": "0.0"
+                          },
+                          "children": []
+                        },
+                        {
+                          "tag": "PeakCoord",
+                          "attributes": {
+                            "value": "0.0"
+                          },
+                          "children": []
+                        },
+                        {
+                          "tag": "EndCoord",
+                          "attributes": {
+                            "value": "0.0"
+                          },
+                          "children": []
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "tag": "VarData",
+              "attributes": {
+                "index": "0"
+              },
+              "children": [
+                {
+                  "tag": "NumShorts",
+                  "attributes": {
+                    "value": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "VarRegionIndex",
+                  "attributes": {
+                    "index": "0",
+                    "value": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "VarRegionIndex",
+                  "attributes": {
+                    "index": "1",
+                    "value": "1"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "VarRegionIndex",
+                  "attributes": {
+                    "index": "2",
+                    "value": "2"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "Item",
+                  "attributes": {
+                    "index": "0",
+                    "value": "[-40, 30, 60]"
+                  },
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "tag": "AdvWidthMap",
+          "attributes": {},
+          "children": [
+            {
+              "tag": "Map",
+              "attributes": {
+                "glyph": ".notdef",
+                "outer": "0",
+                "inner": "0"
+              },
+              "children": []
+            },
+            {
+              "tag": "Map",
+              "attributes": {
+                "glyph": "arch",
+                "outer": "0",
+                "inner": "0"
+              },
+              "children": []
+            },
+            {
+              "tag": "Map",
+              "attributes": {
+                "glyph": "archstem",
+                "outer": "0",
+                "inner": "0"
+              },
+              "children": []
+            },
+            {
+              "tag": "Map",
+              "attributes": {
+                "glyph": "stem",
+                "outer": "0",
+                "inner": "0"
+              },
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tag": "STAT",
+      "attributes": {},
+      "children": [
+        {
+          "tag": "Version",
+          "attributes": {
+            "value": "0x00010001"
+          },
+          "children": []
+        },
+        {
+          "tag": "DesignAxisRecordSize",
+          "attributes": {
+            "value": "8"
+          },
+          "children": []
+        },
+        {
+          "tag": "DesignAxisRecord",
+          "attributes": {},
+          "children": [
+            {
+              "tag": "Axis",
+              "attributes": {
+                "index": "0"
+              },
+              "children": [
+                {
+                  "tag": "AxisTag",
+                  "attributes": {
+                    "value": "wght"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "AxisNameID",
+                  "attributes": {
+                    "value": "256"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "AxisOrdering",
+                  "attributes": {
+                    "value": "0"
+                  },
+                  "children": []
+                }
+              ]
+            },
+            {
+              "tag": "Axis",
+              "attributes": {
+                "index": "1"
+              },
+              "children": [
+                {
+                  "tag": "AxisTag",
+                  "attributes": {
+                    "value": "wdth"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "AxisNameID",
+                  "attributes": {
+                    "value": "257"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "AxisOrdering",
+                  "attributes": {
+                    "value": "1"
+                  },
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "tag": "ElidedFallbackNameID",
+          "attributes": {
+            "value": "2"
+          },
+          "children": []
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,358 @@
+{
+  "sfntVersion": "\\x00\\x01\\x00\\x00",
+  "ttLibVersion": "4.64",
+  "GlyphOrder": [
+    ".notdef",
+    "A"
+  ],
+  "head": {
+    "tableVersion": 1.0,
+    "fontRevision": 1.0,
+    "checkSumAdjustment": 4169642450,
+    "magicNumber": 1594834165,
+    "flags": 3,
+    "unitsPerEm": 1000,
+    "created": "Sat Sep  5 21:25:01 2026",
+    "modified": "Sat Sep  5 21:25:01 2026",
+    "xMin": 0,
+    "yMin": 0,
+    "xMax": 0,
+    "yMax": 0,
+    "macStyle": 0,
+    "lowestRecPPEM": 3,
+    "fontDirectionHint": 2,
+    "indexToLocFormat": 0,
+    "glyphDataFormat": 0
+  },
+  "hhea": {
+    "tableVersion": 65536,
+    "ascent": 800,
+    "descent": -200,
+    "lineGap": 0,
+    "advanceWidthMax": 600,
+    "minLeftSideBearing": 0,
+    "minRightSideBearing": 0,
+    "xMaxExtent": 0,
+    "caretSlopeRise": 1,
+    "caretSlopeRun": 0,
+    "caretOffset": 0,
+    "reserved0": 0,
+    "reserved1": 0,
+    "reserved2": 0,
+    "reserved3": 0,
+    "metricDataFormat": 0,
+    "numberOfHMetrics": 1
+  },
+  "maxp": {
+    "tableVersion": 65536,
+    "numGlyphs": 2,
+    "maxPoints": 0,
+    "maxContours": 0,
+    "maxCompositePoints": 0,
+    "maxCompositeContours": 0,
+    "maxZones": 2,
+    "maxTwilightPoints": 0,
+    "maxStorage": 0,
+    "maxFunctionDefs": 0,
+    "maxInstructionDefs": 0,
+    "maxStackElements": 0,
+    "maxSizeOfInstructions": 0,
+    "maxComponentElements": 0,
+    "maxComponentDepth": 0
+  },
+  "OS_2": {
+    "version": 3,
+    "xAvgCharWidth": 600,
+    "usWeightClass": 400,
+    "usWidthClass": 5,
+    "fsType": 4,
+    "ySubscriptXSize": 0,
+    "ySubscriptYSize": 0,
+    "ySubscriptXOffset": 0,
+    "ySubscriptYOffset": 0,
+    "ySuperscriptXSize": 0,
+    "ySuperscriptYSize": 0,
+    "ySuperscriptXOffset": 0,
+    "ySuperscriptYOffset": 0,
+    "yStrikeoutSize": 0,
+    "yStrikeoutPosition": 0,
+    "sFamilyClass": 0,
+    "panose": {
+      "bFamilyType": 0,
+      "bSerifStyle": 0,
+      "bWeight": 0,
+      "bProportion": 0,
+      "bContrast": 0,
+      "bStrokeVariation": 0,
+      "bArmStyle": 0,
+      "bLetterForm": 0,
+      "bMidline": 0,
+      "bXHeight": 0
+    },
+    "ulUnicodeRange1": 1,
+    "ulUnicodeRange2": 0,
+    "ulUnicodeRange3": 0,
+    "ulUnicodeRange4": 0,
+    "achVendID": "????",
+    "fsSelection": 0,
+    "usFirstCharIndex": 66,
+    "usLastCharIndex": 66,
+    "sTypoAscender": 800,
+    "sTypoDescender": -200,
+    "sTypoLineGap": 0,
+    "usWinAscent": 800,
+    "usWinDescent": 200,
+    "ulCodePageRange1": 0,
+    "ulCodePageRange2": 0,
+    "sxHeight": 0,
+    "sCapHeight": 0,
+    "usDefaultChar": 0,
+    "usBreakChar": 32,
+    "usMaxContext": 0
+  },
+  "hmtx": [
+    {
+      "name": ".notdef",
+      "width": 600,
+      "lsb": 0
+    },
+    {
+      "name": "A",
+      "width": 600,
+      "lsb": 0
+    }
+  ],
+  "cmap": {
+    "tableVersion": 0,
+    "subtables": [
+      {
+        "format": 4,
+        "platformID": 0,
+        "platEncID": 3,
+        "language": 0,
+        "map": {
+          "66": "A"
+        }
+      },
+      {
+        "format": 4,
+        "platformID": 3,
+        "platEncID": 1,
+        "language": 0,
+        "map": {
+          "66": "A"
+        }
+      }
+    ]
+  },
+  "loca": {},
+  "glyf": {
+    "glyphs": {
+      ".notdef": {
+        "name": ".notdef"
+      },
+      "A": {
+        "name": "A"
+      }
+    }
+  },
+  "name": {
+    "records": [
+      {
+        "nameID": 1,
+        "platformID": 1,
+        "platEncID": 0,
+        "langID": 0,
+        "text": "avar2 Demo",
+        "unicode": true
+      },
+      {
+        "nameID": 2,
+        "platformID": 1,
+        "platEncID": 0,
+        "langID": 0,
+        "text": "Regular",
+        "unicode": true
+      },
+      {
+        "nameID": 4,
+        "platformID": 1,
+        "platEncID": 0,
+        "langID": 0,
+        "text": "avar2 Demo Regular",
+        "unicode": true
+      },
+      {
+        "nameID": 256,
+        "platformID": 1,
+        "platEncID": 0,
+        "langID": 0,
+        "text": "Weight",
+        "unicode": true
+      },
+      {
+        "nameID": 257,
+        "platformID": 1,
+        "platEncID": 0,
+        "langID": 0,
+        "text": "Width",
+        "unicode": true
+      },
+      {
+        "nameID": 1,
+        "platformID": 3,
+        "platEncID": 1,
+        "langID": 1033,
+        "text": "avar2 Demo"
+      },
+      {
+        "nameID": 2,
+        "platformID": 3,
+        "platEncID": 1,
+        "langID": 1033,
+        "text": "Regular"
+      },
+      {
+        "nameID": 4,
+        "platformID": 3,
+        "platEncID": 1,
+        "langID": 1033,
+        "text": "avar2 Demo Regular"
+      },
+      {
+        "nameID": 256,
+        "platformID": 3,
+        "platEncID": 1,
+        "langID": 1033,
+        "text": "Weight"
+      },
+      {
+        "nameID": 257,
+        "platformID": 3,
+        "platEncID": 1,
+        "langID": 1033,
+        "text": "Width"
+      }
+    ]
+  },
+  "post": {
+    "formatType": 2.0,
+    "italicAngle": 0.0,
+    "underlinePosition": 0,
+    "underlineThickness": 0,
+    "isFixedPitch": 0,
+    "minMemType42": 0,
+    "maxMemType42": 0,
+    "minMemType1": 0,
+    "maxMemType1": 0,
+    "psNames": {},
+    "extraNames": []
+  },
+  "avar": {
+    "version": {
+      "major": 2,
+      "minor": 0
+    },
+    "segments": {
+      "wght": [
+        {
+          "from": -1.0,
+          "to": -1.0
+        },
+        {
+          "from": 0.0,
+          "to": 0.0
+        },
+        {
+          "from": 1.0,
+          "to": 1.0
+        }
+      ],
+      "wdth": [
+        {
+          "from": -1.0,
+          "to": -1.0
+        },
+        {
+          "from": 0.0,
+          "to": 0.0
+        },
+        {
+          "from": 1.0,
+          "to": 1.0
+        }
+      ]
+    },
+    "VarIdxMap": {
+      "Format": 0,
+      "Map": [
+        {
+          "outer": 0,
+          "inner": 1
+        },
+        {
+          "outer": 0,
+          "inner": 0
+        }
+      ]
+    },
+    "VarStore": {
+      "Format": 1,
+      "VarRegionList": {
+        "Region": [
+          {
+            "VarRegionAxis": [
+              {
+                "StartCoord": 0.0,
+                "PeakCoord": 0.6,
+                "EndCoord": 1.0
+              },
+              {
+                "StartCoord": 0.0,
+                "PeakCoord": 0.8,
+                "EndCoord": 1.0
+              }
+            ]
+          }
+        ]
+      },
+      "VarData": [
+        {
+          "NumShorts": 1,
+          "VarRegionIndex": [
+            0
+          ],
+          "Item": [
+            [
+              -6554
+            ],
+            [
+              -1638
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  "fvar": {
+    "axes": [
+      {
+        "axisTag": "wght",
+        "flags": 0,
+        "minValue": 100.0,
+        "defaultValue": 400.0,
+        "maxValue": 900.0,
+        "axisNameID": 256
+      },
+      {
+        "axisTag": "wdth",
+        "flags": 0,
+        "minValue": 75.0,
+        "defaultValue": 100.0,
+        "maxValue": 125.0,
+        "axisNameID": 257
+      }
+    ],
+    "instances": []
+  }
+}

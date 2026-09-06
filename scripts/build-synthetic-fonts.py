@@ -1,17 +1,25 @@
 #!/usr/bin/env python3
-"""Build tiny, readable TTX fixtures for avar2, HVAR and VARC.
+"""Build tiny, readable TTX fixtures for the variation tables.
 
 These are not production fonts. They exist so the repository always has
-fontTools-generated XML examples for recent variation structures, even before
-external fixtures are downloaded.
+fontTools-generated XML examples for the structures this project models:
+
+vf-demo     a two-axis variable font compiled with varLib from in-memory
+            masters: fvar with a named instance, avar version 1 (non-linear
+            map), gvar with an intermediate master and a composite glyph,
+            cvar, HVAR, STAT, glyf/hmtx/cmap/name/post
+avar2-demo  avar version 2 with VarIdxMap and VarStore
+hvar-demo   HVAR with a VarStore and explicit AdvWidthMap
+varc-demo   VARC with AxisIndicesList and a VarCompositeGlyph
 """
 from __future__ import annotations
 
+import array
 from collections import OrderedDict
 from pathlib import Path
 
 from fontTools import varLib
-from fontTools.designspaceLib import AxisDescriptor, AxisMappingDescriptor
+from fontTools.designspaceLib import AxisDescriptor, AxisMappingDescriptor, DesignSpaceDocument, InstanceDescriptor, SourceDescriptor
 from fontTools.fontBuilder import FontBuilder
 from fontTools.pens.ttGlyphPen import TTGlyphPen
 from fontTools.ttLib import TTFont, newTable
@@ -45,18 +53,100 @@ def base_font(family: str, glyph_order: list[str], axes: list[tuple[str, int, in
     return fb
 
 
-def save(fb: FontBuilder, stem: str, tables: list[str]) -> None:
+def save_font(font: TTFont, stem: str, tables: list[str]) -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     ttf = OUT / f"{stem}.ttf"
     ttx = OUT / f"{stem}.ttx"
     full_ttx = OUT / f"{stem}.full.ttx"
-    fb.font.save(ttf)
+    font.save(ttf)
     compiled = TTFont(ttf)
     compiled.saveXML(ttx, tables=tables)
     compiled.saveXML(full_ttx)
-    print(ttf.relative_to(ROOT))
-    print(ttx.relative_to(ROOT))
-    print(full_ttx.relative_to(ROOT))
+    for p in (ttf, ttx, full_ttx):
+        print(p.relative_to(ROOT))
+
+
+def save(fb: FontBuilder, stem: str, tables: list[str]) -> None:
+    save_font(fb.font, stem, tables)
+
+
+# ---------------------------------------------------------------------------
+# vf-demo: a real varLib build
+
+
+def _master(wght: float, wdth: float) -> TTFont:
+    """One master. wght/wdth are *design* coordinates (see the axis maps below)."""
+    order = [".notdef", "stem", "arch", "archstem"]
+    fb = FontBuilder(1000, isTTF=True)
+    fb.setupGlyphOrder(order)
+    glyphs: dict = {}
+    pen = TTGlyphPen(glyphs)
+    glyphs[".notdef"] = pen.glyph()
+    # stem: a rectangle whose width follows weight.
+    pen = TTGlyphPen(glyphs)
+    w = 60 + wght
+    pen.moveTo((100, 0)); pen.lineTo((100 + w, 0)); pen.lineTo((100 + w, 700)); pen.lineTo((100, 700)); pen.closePath()
+    glyphs["stem"] = pen.glyph()
+    # arch: a quadratic curve whose height follows width, so gvar has off-curve deltas.
+    pen = TTGlyphPen(glyphs)
+    pen.moveTo((50, 0)); pen.qCurveTo((200, 300 + wdth), (350, 0)); pen.closePath()
+    glyphs["arch"] = pen.glyph()
+    # archstem: a composite of the two, with a component offset that varies.
+    pen = TTGlyphPen(glyphs)
+    pen.addComponent("stem", (1, 0, 0, 1, wdth, 0))
+    pen.addComponent("arch", (1, 0, 0, 1, 0, 0))
+    glyphs["archstem"] = pen.glyph()
+    fb.setupGlyf(glyphs)
+    fb.setupHorizontalMetrics({n: (500 + int(wght), 50) for n in order})
+    fb.setupHorizontalHeader(ascent=800, descent=-200)
+    fb.setupCharacterMap({0x7C: "stem", 0x41: "arch", 0x42: "archstem"})
+    fb.setupNameTable({"familyName": "VF Demo", "styleName": "Regular"})
+    fb.setupOS2(sTypoAscender=800, sTypoDescender=-200, usWinAscent=800, usWinDescent=200)
+    fb.setupPost()
+    fb.setupMaxp()
+    cvt = newTable("cvt ")
+    cvt.values = array.array("h", [int(wght), 50])
+    fb.font["cvt "] = cvt
+    return fb.font
+
+
+def build_vf() -> None:
+    doc = DesignSpaceDocument()
+    weight = AxisDescriptor()
+    weight.name, weight.tag = "Weight", "wght"
+    weight.minimum, weight.default, weight.maximum = 100, 400, 900
+    # Non-linear user->design map so avar version 1 is emitted.
+    weight.map = [(100, 0), (400, 40), (600, 50), (900, 100)]
+    width = AxisDescriptor()
+    width.name, width.tag = "Width", "wdth"
+    width.minimum, width.default, width.maximum = 75, 100, 125
+    doc.addAxis(weight)
+    doc.addAxis(width)
+    masters = [
+        ("Light", 0, 100),
+        ("Regular", 40, 100),
+        ("Medium", 70, 100),  # intermediate master -> gvar tuples with min/max
+        ("Black", 100, 100),
+        ("Condensed", 40, 75),
+        ("Extended", 40, 125),
+    ]
+    for name, wght, wdth in masters:
+        src = SourceDescriptor()
+        src.name = name
+        src.font = _master(wght, wdth)
+        src.location = {"Weight": wght, "Width": wdth}
+        doc.addSource(src)
+    inst = InstanceDescriptor()
+    inst.styleName = "Bold"
+    inst.postScriptFontName = "VFDemo-Bold"
+    inst.location = {"Weight": 80, "Width": 100}
+    doc.addInstance(inst)
+    vf, _, _ = varLib.build(doc, optimize=True)
+    save_font(vf, "vf-demo", ["fvar", "avar", "gvar", "cvar", "HVAR", "STAT"])
+
+
+# ---------------------------------------------------------------------------
+# focused fixtures
 
 
 def build_varc() -> None:
@@ -124,6 +214,7 @@ def build_avar2() -> None:
 
 
 def main() -> None:
+    build_vf()
     build_avar2()
     build_hvar()
     build_varc()

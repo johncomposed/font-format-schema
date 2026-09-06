@@ -1,16 +1,16 @@
 from __future__ import annotations
 
 import argparse
-import json
-from pathlib import Path
 
 from .common import dump_json
 from .designspace.reader import inspect as inspect_designspace, validate as validate_designspace
 from .fixtures import collect_fonttools, download_fonts, dump_fonts
 from .jsonvalidate import validate_json
 from .schema.generate import generate_all
-from .sources import status as source_status, subtree_init, subtree_update, sync_cache
+from .sources import status as source_status, sync_cache
+from .spec.ufospec import refresh as refresh_ufo_spec_docs
 from .ttx.dump import dump_font
+from .ttx.tojson import ttx_file_to_json
 from .ttx.validate import validate as validate_ttx
 from .ufo.reader import inspect as inspect_ufo, validate as validate_ufo
 from .xmlast import xml_file_to_ast
@@ -26,7 +26,11 @@ def main() -> None:
     p = argparse.ArgumentParser(prog="fontschema")
     sp = p.add_subparsers(dest="cmd", required=True)
 
-    sp.add_parser("generate")
+    sp.add_parser("generate", help="write all schemas and example JSON")
+
+    spec = sp.add_parser("spec", help="upstream specification extraction")
+    spsp = spec.add_subparsers(dest="spec_cmd", required=True)
+    spsp.add_parser("extract", help="parse vendor/ufo-spec markdown tables into sources/ufo-spec-docs.json")
 
     schema = sp.add_parser("schema")
     schsp = schema.add_subparsers(dest="schema_cmd", required=True)
@@ -36,13 +40,12 @@ def main() -> None:
     ssp = sources.add_subparsers(dest="sources_cmd", required=True)
     ssp.add_parser("status")
     ssp.add_parser("sync")
-    ssp.add_parser("subtree-init")
-    ssp.add_parser("subtree-update")
 
     ttx = sp.add_parser("ttx")
     tsp = ttx.add_subparsers(dest="ttx_cmd", required=True)
     d = tsp.add_parser("dump"); d.add_argument("font"); d.add_argument("--out", required=True); d.add_argument("--tables", nargs="*")
-    x = tsp.add_parser("xmljson"); x.add_argument("xml"); x.add_argument("--out")
+    x = tsp.add_parser("xmljson", help="TTX/XML -> generic XML AST JSON"); x.add_argument("xml"); x.add_argument("--out")
+    j = tsp.add_parser("tojson", help="TTX -> typed JSON (schemas/ttx.schema.json)"); j.add_argument("ttx"); j.add_argument("--out")
     v = tsp.add_parser("validate"); v.add_argument("path")
 
     ds = sp.add_parser("designspace")
@@ -62,17 +65,18 @@ def main() -> None:
     args = p.parse_args()
     if args.cmd == "generate":
         for path in generate_all(): print(path)
+    elif args.cmd == "spec":
+        print(refresh_ufo_spec_docs())
     elif args.cmd == "schema":
         result = validate_json(args.schema, args.data); _emit(result); raise SystemExit(1 if result["errors"] else 0)
     elif args.cmd == "sources":
         if args.sources_cmd == "status": _emit(source_status())
         elif args.sources_cmd == "sync": sync_cache()
-        elif args.sources_cmd == "subtree-init": subtree_init()
-        elif args.sources_cmd == "subtree-update": subtree_update()
     elif args.cmd == "ttx":
         if args.ttx_cmd == "dump":
             for path in dump_font(args.font, args.out, args.tables): print(path)
         elif args.ttx_cmd == "xmljson": _emit(xml_file_to_ast(args.xml), args.out)
+        elif args.ttx_cmd == "tojson": _emit(ttx_file_to_json(args.ttx), args.out)
         elif args.ttx_cmd == "validate":
             result = validate_ttx(args.path); _emit(result); raise SystemExit(1 if result["errors"] else 0)
     elif args.cmd == "designspace":

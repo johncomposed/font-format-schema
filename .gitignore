@@ -1,11 +1,12 @@
+
+*.pyc
+.DS_Store
+.cache/
+.pytest_cache/
 .venv/
 __pycache__/
-.pytest_cache/
-.cache/
-.DS_Store
-*.pyc
 fixtures/downloaded/
 generated/ttx/fonts/
 generated/ttx/fonttools-fixtures/
-vendor/
+node_modules/
 tmp

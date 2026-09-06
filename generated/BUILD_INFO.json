@@ -1,10 +1,10 @@
 {
-  "targetFontToolsVersion": "4.64.0",
-  "bootstrapGeneratedWith": "4.63.0",
-  "status": "refresh-on-first-build",
+  "fontToolsVersion": "4.64.0",
+  "ufoSpecDocs": "sources/ufo-spec-docs.json (commit recorded inside)",
   "refresh": [
+    "uv run python scripts/build-synthetic-fonts.py",
     "uv run fontschema generate",
-    "uv run python scripts/build-synthetic-fonts.py"
+    "npm run generate"
   ],
-  "note": "The assembly environment contained fontTools 4.63.0 and could not fetch 4.64.0. Source/runtime pins target 4.64.0; checked-in generated snapshots preserve the actual bootstrap generator version instead of relabeling it."
+  "note": "All checked-in schemas, example JSON, TypeScript and Zod output were produced with the pinned fontTools runtime from uv.lock. `uv run pytest` fails if schemas/ is stale relative to the generator; CI also diffs generated/typescript and generated/zod."
 }

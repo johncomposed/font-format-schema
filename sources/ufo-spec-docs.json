@@ -1,0 +1,1480 @@
+{
+  "source": "https://github.com/unified-font-object/ufo-spec",
+  "commit": "ffb351f0248a4670e9223bb7d13c8be443eb392c",
+  "pages": {
+    "fontinfo": {
+      "Bit Numbers": {
+        "headings": [
+          "Bit Numbers"
+        ],
+        "attributes": {
+          "foo": {
+            "type": "USHORT",
+            "description": "Bit 0: Left Bit 1: Right Bit 2: Up Bit 3: Down"
+          },
+          "fictionalFontSpecFoo": {
+            "type": "list",
+            "description": "A list of bit numbers indicating the bits that should be set in `foo`. The bit numbers are listed in the fictional font specification. Corresponds to the foo field."
+          }
+        },
+        "children": {}
+      },
+      "Generic Identification Information": {
+        "headings": [
+          "Specification",
+          "Generic Identification Information"
+        ],
+        "attributes": {
+          "familyName": {
+            "type": "string",
+            "description": "Family name. *Note: The specification is agnostic about how this value relates to `openTypeNamePreferredFamilyName`.*"
+          },
+          "styleName": {
+            "type": "string",
+            "description": "Style name. *Note: The specification is agnostic about how this value relates to `openTypeNamePreferredSubfamilyName`.*"
+          },
+          "styleMapFamilyName": {
+            "type": "string",
+            "description": "Family name used for bold, italic and bold italic style mapping."
+          },
+          "styleMapStyleName": {
+            "type": "string",
+            "description": "Style map style. The possible values are *regular*, *italic*, *bold* and *bold italic*. These are case sensitive."
+          },
+          "versionMajor": {
+            "type": "integer",
+            "description": "Major version."
+          },
+          "versionMinor": {
+            "type": "non-negative integer",
+            "description": "Minor version."
+          },
+          "year": {
+            "type": "integer",
+            "description": "The year the font was created. This attribute is deprecated as of version 2. Its presence should not be relied upon by authoring tools. However, it may occur in a font's info so authoring tools should preserve it if present."
+          }
+        },
+        "children": {}
+      },
+      "Generic Legal Information": {
+        "headings": [
+          "Specification",
+          "Generic Identification Information",
+          "Generic Legal Information"
+        ],
+        "attributes": {
+          "copyright": {
+            "type": "string",
+            "description": "Copyright statement."
+          },
+          "trademark": {
+            "type": "string",
+            "description": "Trademark statement."
+          }
+        },
+        "children": {}
+      },
+      "Generic Dimension Information": {
+        "headings": [
+          "Specification",
+          "Generic Identification Information",
+          "Generic Dimension Information"
+        ],
+        "attributes": {
+          "unitsPerEm": {
+            "type": "non-negative integer or float",
+            "description": "Units per em."
+          },
+          "descender": {
+            "type": "integer or float",
+            "description": "Descender value. *Note: The specification is agnostic about the relationship to the more specific vertical metric values.*"
+          },
+          "xHeight": {
+            "type": "integer or float",
+            "description": "x-height value."
+          },
+          "capHeight": {
+            "type": "integer or float",
+            "description": "Cap height value."
+          },
+          "ascender": {
+            "type": "integer or float",
+            "description": "Ascender value. *Note: The specification is agnostic about the relationship to the more specific vertical metric values.*"
+          },
+          "italicAngle": {
+            "type": "integer or float",
+            "description": "Italic angle. This must be an angle in counter-clockwise degrees from the vertical."
+          }
+        },
+        "children": {}
+      },
+      "Generic Miscellaneous Information": {
+        "headings": [
+          "Specification",
+          "Generic Identification Information",
+          "Generic Miscellaneous Information"
+        ],
+        "attributes": {
+          "note": {
+            "type": "string",
+            "description": "Arbitrary note about the font."
+          }
+        },
+        "children": {}
+      },
+      "OpenType gasp Table Fields": {
+        "headings": [
+          "Specification",
+          "Generic Identification Information",
+          "OpenType gasp Table Fields"
+        ],
+        "attributes": {
+          "openTypeGaspRangeRecords": {
+            "type": "list",
+            "description": "A list of gasp Range Records. These must be sorted in ascending order based on the `rangeMaxPPEM` value of the record."
+          }
+        },
+        "children": {}
+      },
+      "gasp Range Record Format": {
+        "headings": [
+          "Specification",
+          "Generic Identification Information",
+          "OpenType gasp Table Fields",
+          "gasp Range Record Format"
+        ],
+        "attributes": {
+          "rangeMaxPPEM": {
+            "type": "non-negative integer",
+            "description": "The upper limit of the range, in PPEM. If any records are in the list, the final record should use 65535 (0xFFFF) as defined in the OpenType gasp specification. Corresponds to the rangeMaxPPEM field of the GASPRANGE record in the OpenType gasp table."
+          },
+          "rangeGaspBehavior": {
+            "type": "list",
+            "description": "A list of bit numbers indicating the flags to be set. The bit numbers are defined below. Corresponds to the rangeGaspBehavior field of the GASPRANGE record in the OpenType gasp table."
+          }
+        },
+        "children": {}
+      },
+      "OpenType head Table Fields": {
+        "headings": [
+          "Specification",
+          "Generic Identification Information",
+          "OpenType head Table Fields"
+        ],
+        "attributes": {
+          "openTypeHeadCreated": {
+            "type": "string",
+            "description": "Creation date. Expressed as a string of the format \"YYYY/MM/DD HH:MM:SS\". \"YYYY/MM/DD\" is year/month/day. The month must be in the range 1-12 and the day must be in the range 1-end of month. \"HH:MM:SS\" is hour:minute:second. The hour must be in the range 0:23. The minute and second must each be in the range 0-59. The timezone is UTC."
+          },
+          "openTypeHeadLowestRecPPEM": {
+            "type": "non-negative integer",
+            "description": "Smallest readable size in pixels. Corresponds to the OpenType head table `lowestRecPPEM` field."
+          },
+          "openTypeHeadFlags": {
+            "type": "list",
+            "description": "A list of bit numbers indicating the flags. The bit numbers are listed in the OpenType head specification. Corresponds to the OpenType head table `flags` field."
+          }
+        },
+        "children": {}
+      },
+      "OpenType hhea Table Fields": {
+        "headings": [
+          "Specification",
+          "Generic Identification Information",
+          "OpenType hhea Table Fields"
+        ],
+        "attributes": {
+          "openTypeHheaAscender": {
+            "type": "integer",
+            "description": "Ascender value. Corresponds to the OpenType hhea table `Ascender` field."
+          },
+          "openTypeHheaDescender": {
+            "type": "integer",
+            "description": "Descender value. Corresponds to the OpenType hhea table `Descender` field."
+          },
+          "openTypeHheaLineGap": {
+            "type": "integer",
+            "description": "Line gap value. Corresponds to the OpenType hhea table `LineGap` field."
+          },
+          "openTypeHheaCaretSlopeRise": {
+            "type": "integer",
+            "description": "Caret slope rise value. Corresponds to the OpenType hhea table `caretSlopeRise` field."
+          },
+          "openTypeHheaCaretSlopeRun": {
+            "type": "integer",
+            "description": "Caret slope run value. Corresponds to the OpenType hhea table `caretSlopeRun` field."
+          },
+          "openTypeHheaCaretOffset": {
+            "type": "integer",
+            "description": "Caret offset value. Corresponds to the OpenType hhea table `caretOffset` field."
+          }
+        },
+        "children": {}
+      },
+      "OpenType Name Table Fields": {
+        "headings": [
+          "Specification",
+          "Generic Identification Information",
+          "OpenType Name Table Fields"
+        ],
+        "attributes": {
+          "openTypeNameDesigner": {
+            "type": "string",
+            "description": "Designer name. Corresponds to the OpenType name table name ID 9."
+          },
+          "openTypeNameDesignerURL": {
+            "type": "string",
+            "description": "URL for the designer. Corresponds to the OpenType name table name ID 12."
+          },
+          "openTypeNameManufacturer": {
+            "type": "string",
+            "description": "Manufacturer name. Corresponds to the OpenType name table name ID 8."
+          },
+          "openTypeNameManufacturerURL": {
+            "type": "string",
+            "description": "Manufacturer URL. Corresponds to the OpenType name table name ID 11."
+          },
+          "openTypeNameLicense": {
+            "type": "string",
+            "description": "License text. Corresponds to the OpenType name table name ID 13."
+          },
+          "openTypeNameLicenseURL": {
+            "type": "string",
+            "description": "URL for the license. Corresponds to the OpenType name table name ID 14."
+          },
+          "openTypeNameVersion": {
+            "type": "string",
+            "description": "Version string. Corresponds to the OpenType name table name ID 5."
+          },
+          "openTypeNameUniqueID": {
+            "type": "string",
+            "description": "Unique ID string. Corresponds to the OpenType name table name ID 3."
+          },
+          "openTypeNameDescription": {
+            "type": "string",
+            "description": "Description of the font. Corresponds to the OpenType name table name ID 10."
+          },
+          "openTypeNamePreferredFamilyName": {
+            "type": "string",
+            "description": "Preferred family name. Corresponds to the OpenType name table name ID 16."
+          },
+          "openTypeNamePreferredSubfamilyName": {
+            "type": "string",
+            "description": "Preferred subfamily name. Corresponds to the OpenType name table name ID 17."
+          },
+          "openTypeNameCompatibleFullName": {
+            "type": "string",
+            "description": "Compatible full name. Corresponds to the OpenType name table name ID 18."
+          },
+          "openTypeNameSampleText": {
+            "type": "string",
+            "description": "Sample text. Corresponds to the OpenType name table name ID 19."
+          },
+          "openTypeNameWWSFamilyName": {
+            "type": "string",
+            "description": "WWS family name. Corresponds to the OpenType name table name ID 21."
+          },
+          "openTypeNameWWSSubfamilyName": {
+            "type": "string",
+            "description": "WWS Subfamily name. Corresponds to the OpenType name table name ID 22."
+          },
+          "openTypeNameRecords": {
+            "type": "list",
+            "description": "A list of name records. This name record storage area is intended for records that require platform, encoding and or language localization."
+          }
+        },
+        "children": {}
+      },
+      "Name Record Format": {
+        "headings": [
+          "Specification",
+          "Generic Identification Information",
+          "OpenType Name Table Fields",
+          "Name Record Format"
+        ],
+        "attributes": {
+          "nameID": {
+            "type": "non-negative integer",
+            "description": "The name ID."
+          },
+          "platformID": {
+            "type": "non-negative integer",
+            "description": "The platform ID."
+          },
+          "encodingID": {
+            "type": "non-negative integer",
+            "description": "The encoding ID."
+          },
+          "languageID": {
+            "type": "non-negative integer",
+            "description": "The language ID."
+          },
+          "string": {
+            "type": "string",
+            "description": "The string value for the record."
+          }
+        },
+        "children": {}
+      },
+      "OpenType OS/2 Table Fields": {
+        "headings": [
+          "Specification",
+          "Generic Identification Information",
+          "OpenType OS/2 Table Fields"
+        ],
+        "attributes": {
+          "openTypeOS2WidthClass": {
+            "type": "non-negative integer",
+            "description": "Width class value. Must be in the range 1-9. Corresponds to the OpenType OS/2 table `usWidthClass` field."
+          },
+          "openTypeOS2WeightClass": {
+            "type": "non-negative integer",
+            "description": "Weight class value. Corresponds to the OpenType OS/2 table `usWeightClass` field."
+          },
+          "openTypeOS2Selection": {
+            "type": "list",
+            "description": "A list of bit numbers indicating the bits that should be set in fsSelection. The bit numbers are listed in the OpenType OS/2 specification. Corresponds to the OpenType OS/2 table `selection` field. **Note:** Bits 0 (italic), 5 (bold) and 6 (regular) must not be set here. These bits should be taken from the generic *styleMapStyleName* attribute."
+          },
+          "openTypeOS2VendorID": {
+            "type": "string",
+            "description": "Four character identifier for the creator of the font. Corresponds to the OpenType OS/2 table `achVendID` field."
+          },
+          "openTypeOS2Panose": {
+            "type": "list",
+            "description": "The list must contain 10 non-negative integers that represent the setting for each category in the Panose specification. The integers correspond with the option numbers in each of the Panose categories. This corresponds to the OpenType OS/2 table `Panose` field."
+          },
+          "openTypeOS2FamilyClass": {
+            "type": "list",
+            "description": "Two integers representing the IBM font class and font subclass of the font. The first number, representing the class ID, must be in the range 0-14. The second number, representing the subclass, must be in the range 0-15. The numbers are listed in the OpenType OS/2 specification. Corresponds to the OpenType OS/2 table `sFamilyClass` field."
+          },
+          "openTypeOS2UnicodeRanges": {
+            "type": "list",
+            "description": "A list of bit numbers that are supported Unicode ranges in the font. The bit numbers are listed in the OpenType OS/2 specification. Corresponds to the OpenType OS/2 table `ulUnicodeRange1`, `ulUnicodeRange2`, `ulUnicodeRange3` and `ulUnicodeRange4` fields."
+          },
+          "openTypeOS2CodePageRanges": {
+            "type": "list",
+            "description": "A list of bit numbers that are supported code page ranges in the font. The bit numbers are listed in the OpenType OS/2 specification. Corresponds to the OpenType OS/2 table `ulCodePageRange1` and `ulCodePageRange2` fields."
+          },
+          "openTypeOS2TypoAscender": {
+            "type": "integer",
+            "description": "Ascender value. Corresponds to the OpenType OS/2 table `sTypoAscender` field."
+          },
+          "openTypeOS2TypoDescender": {
+            "type": "integer",
+            "description": "Descender value. Corresponds to the OpenType OS/2 table `sTypoDescender` field."
+          },
+          "openTypeOS2TypoLineGap": {
+            "type": "integer",
+            "description": "Line gap value. Corresponds to the OpenType OS/2 table `sTypoLineGap` field."
+          },
+          "openTypeOS2WinAscent": {
+            "type": "non-negative integer",
+            "description": "Ascender value. Corresponds to the OpenType OS/2 table `usWinAscent` field."
+          },
+          "openTypeOS2WinDescent": {
+            "type": "non-negative integer",
+            "description": "Descender value. Corresponds to the OpenType OS/2 table `usWinDescent` field."
+          },
+          "openTypeOS2Type": {
+            "type": "list",
+            "description": "A list of bit numbers indicating the embedding type. The bit numbers are listed in the OpenType OS/2 specification. Corresponds to the OpenType OS/2 table `fsType` field."
+          },
+          "openTypeOS2SubscriptXSize": {
+            "type": "integer",
+            "description": "Subscript horizontal font size. Corresponds to the OpenType OS/2 table `ySubscriptXSize` field."
+          },
+          "openTypeOS2SubscriptYSize": {
+            "type": "integer",
+            "description": "Subscript vertical font size. Corresponds to the OpenType OS/2 table `ySubscriptYSize` field."
+          },
+          "openTypeOS2SubscriptXOffset": {
+            "type": "integer",
+            "description": "Subscript x offset. Corresponds to the OpenType OS/2 table `ySubscriptXOffset` field."
+          },
+          "openTypeOS2SubscriptYOffset": {
+            "type": "integer",
+            "description": "Subscript y offset. Corresponds to the OpenType OS/2 table `ySubscriptYOffset` field."
+          },
+          "openTypeOS2SuperscriptXSize": {
+            "type": "integer",
+            "description": "Superscript horizontal font size. Corresponds to the OpenType OS/2 table `ySuperscriptXSize` field."
+          },
+          "openTypeOS2SuperscriptYSize": {
+            "type": "integer",
+            "description": "Superscript vertical font size. Corresponds to the OpenType OS/2 table `ySuperscriptYSize` field."
+          },
+          "openTypeOS2SuperscriptXOffset": {
+            "type": "integer",
+            "description": "Superscript x offset. Corresponds to the OpenType OS/2 table `ySuperscriptXOffset` field."
+          },
+          "openTypeOS2SuperscriptYOffset": {
+            "type": "integer",
+            "description": "Superscript y offset. Corresponds to the OpenType OS/2 table `ySuperscriptYOffset` field."
+          },
+          "openTypeOS2StrikeoutSize": {
+            "type": "integer",
+            "description": "Strikeout size. Corresponds to the OpenType OS/2 table `yStrikeoutSize` field."
+          },
+          "openTypeOS2StrikeoutPosition": {
+            "type": "integer",
+            "description": "Strikeout position. Corresponds to the OpenType OS/2 table `yStrikeoutPosition` field."
+          }
+        },
+        "children": {}
+      },
+      "OpenType vhea Table Fields": {
+        "headings": [
+          "Specification",
+          "Generic Identification Information",
+          "OpenType vhea Table Fields"
+        ],
+        "attributes": {
+          "openTypeVheaVertTypoAscender": {
+            "type": "integer",
+            "description": "Ascender value. Corresponds to the OpenType vhea table `vertTypoAscender` field."
+          },
+          "openTypeVheaVertTypoDescender": {
+            "type": "integer",
+            "description": "Descender value. Corresponds to the OpenType vhea table `vertTypoDescender` field."
+          },
+          "openTypeVheaVertTypoLineGap": {
+            "type": "integer",
+            "description": "Line gap value. Corresponds to the OpenType vhea table `vertTypoLineGap` field."
+          },
+          "openTypeVheaCaretSlopeRise": {
+            "type": "integer",
+            "description": "Caret slope rise value. Corresponds to the OpenType vhea table `caretSlopeRise` field."
+          },
+          "openTypeVheaCaretSlopeRun": {
+            "type": "integer",
+            "description": "Caret slope run value. Corresponds to the OpenType vhea table `caretSlopeRun` field."
+          },
+          "openTypeVheaCaretOffset": {
+            "type": "integer",
+            "description": "Caret offset value. Corresponds to the OpenType vhea table `caretOffset` field."
+          }
+        },
+        "children": {}
+      },
+      "PostScript Specific Data": {
+        "headings": [
+          "Specification",
+          "Generic Identification Information",
+          "PostScript Specific Data"
+        ],
+        "attributes": {
+          "postscriptFontName": {
+            "type": "string",
+            "description": "Name to be used for the `FontName` field in Type 1/CFF table."
+          },
+          "postscriptFullName": {
+            "type": "string",
+            "description": "Name to be used for the `FullName` field in Type 1/CFF table."
+          },
+          "postscriptSlantAngle": {
+            "type": "integer or float",
+            "description": "Artificial slant angle. This must be an angle in counter-clockwise degrees from the vertical. This value is *not* the same as the italic angle. Font authoring tools may use this value to set the FontMatrix in Type 1/CFF table."
+          },
+          "postscriptUniqueID": {
+            "type": "integer",
+            "description": "A unique ID number as defined in the Type 1/CFF specification."
+          },
+          "postscriptUnderlineThickness": {
+            "type": "integer or float",
+            "description": "Underline thickness value. Corresponds to the Type 1/CFF/post table `UnderlineThickness` field."
+          },
+          "postscriptUnderlinePosition": {
+            "type": "integer or float",
+            "description": "Underline position value. Corresponds to the Type 1/CFF/post table `UnderlinePosition` field. *Note: This value is ambiguous as post/CFF2 defines this position from the top, and Type 1/CFF defines it from the middle of the underline. The result of this value depends on which definition a compiler uses.*"
+          },
+          "postscriptIsFixedPitch": {
+            "type": "boolean",
+            "description": "Indicates if the font is monospaced. An authoring tool could calculate this automatically, but the designer may wish to override this setting. This corresponds to the Type 1/CFF `isFixedPitched` field"
+          },
+          "postscriptBlueValues": {
+            "type": "list",
+            "description": "A list of up to 14 integers or floats specifying the values that should be in the Type 1/CFF BlueValues field. This list must contain an even number of numbers following the rules defined in the Type 1/CFF specification."
+          },
+          "postscriptOtherBlues": {
+            "type": "list",
+            "description": "A list of up to 10 integers or floats specifying the values that should be in the Type 1/CFF OtherBlues field. This list must contain an even number of numbers following the rules defined in the Type 1/CFF specification."
+          },
+          "postscriptFamilyBlues": {
+            "type": "list",
+            "description": "A list of up to 14 integers or floats specifying the values that should be in the Type 1/CFF FamilyBlues field. This list must contain an even number of numbers following the rules defined in the Type 1/CFF specification."
+          },
+          "postscriptFamilyOtherBlues": {
+            "type": "list",
+            "description": "A list of up to 10 integers or floats specifying the values that should be in the Type 1/CFF FamilyOtherBlues field. This list must contain an even number of numbers following the rules defined in the Type 1/CFF specification."
+          },
+          "postscriptStemSnapH": {
+            "type": "list",
+            "description": "List of horizontal stems sorted in the order specified in the Type 1/CFF specification. Up to 12 integers or floats are possible. This corresponds to the Type 1/CFF `StemSnapH` field."
+          },
+          "postscriptStemSnapV": {
+            "type": "list",
+            "description": "List of vertical stems sorted in the order specified in the Type 1/CFF specification. Up to 12 integers or floats are possible. This corresponds to the Type 1/CFF `StemSnapV` field."
+          },
+          "postscriptBlueFuzz": {
+            "type": "integer or float",
+            "description": "BlueFuzz value. This corresponds to the Type 1/CFF `BlueFuzz` field."
+          },
+          "postscriptBlueShift": {
+            "type": "integer or float",
+            "description": "BlueShift value. This corresponds to the Type 1/CFF `BlueShift` field."
+          },
+          "postscriptBlueScale": {
+            "type": "float",
+            "description": "BlueScale value. This corresponds to the Type 1/CFF `BlueScale` field."
+          },
+          "postscriptForceBold": {
+            "type": "boolean",
+            "description": "Indicates how the Type 1/CFF `ForceBold` field should be set."
+          },
+          "postscriptDefaultWidthX": {
+            "type": "integer or float",
+            "description": "Default width for glyphs."
+          },
+          "postscriptNominalWidthX": {
+            "type": "integer or float",
+            "description": "Nominal width for glyphs."
+          },
+          "postscriptWeightName": {
+            "type": "string",
+            "description": "A string indicating the overall weight of the font. This corresponds to the Type 1/CFF Weight field. It should have a reasonable value that reflects the `openTypeOS2WeightClass` value."
+          },
+          "postscriptDefaultCharacter": {
+            "type": "string",
+            "description": "The name of the glyph that should be used as the default character in PFM files."
+          },
+          "postscriptWindowsCharacterSet": {
+            "type": "integer",
+            "description": "The Windows character set. The values are defined below."
+          }
+        },
+        "children": {}
+      },
+      "Macintosh FOND Resource Data": {
+        "headings": [
+          "Specification",
+          "Generic Identification Information",
+          "Macintosh FOND Resource Data"
+        ],
+        "attributes": {
+          "macintoshFONDFamilyID": {
+            "type": "integer",
+            "description": "Family ID number. Corresponds to the ffFamID in the FOND resource."
+          },
+          "macintoshFONDName": {
+            "type": "string",
+            "description": "Font name for the FOND resource."
+          }
+        },
+        "children": {}
+      },
+      "WOFF Data": {
+        "headings": [
+          "Specification",
+          "Generic Identification Information",
+          "WOFF Data"
+        ],
+        "attributes": {
+          "woffMajorVersion": {
+            "type": "non-negative integer",
+            "description": "Major version of the font."
+          },
+          "woffMinorVersion": {
+            "type": "non-negative integer",
+            "description": "Minor version of the font."
+          },
+          "woffMetadataUniqueID": {
+            "type": "dictionary",
+            "description": "Identification string. Corresponds to the WOFF `uniqueid`. The dictionary must follow the WOFF Metadata Unique ID Record structure."
+          },
+          "woffMetadataVendor": {
+            "type": "dictionary",
+            "description": "Font vendor. Corresponds to the WOFF `vendor` element. The dictionary must follow the the WOFF Metadata Vendor Record structure."
+          },
+          "woffMetadataCredits": {
+            "type": "dictionary",
+            "description": "Font credits. Corresponds to the WOFF `credits` element. The dictionary must follow the WOFF Metadata Credits Record structure."
+          },
+          "woffMetadataDescription": {
+            "type": "dictionary",
+            "description": "Font description. Corresponds to the WOFF `description` element. The dictionary must follow the WOFF Metadata Description Record structure."
+          },
+          "woffMetadataLicense": {
+            "type": "dictionary",
+            "description": "Font license. Corresponds to the WOFF `license` element. The dictionary must follow the WOFF Metadata License Record structure."
+          },
+          "woffMetadataCopyright": {
+            "type": "dictionary",
+            "description": "Font copyright. Corresponds to the WOFF `copyright` element. The dictionary must follow the WOFF Metadata Copyright Record structure."
+          },
+          "woffMetadataTrademark": {
+            "type": "dictionary",
+            "description": "Font trademark. Corresponds to the WOFF `trademark` element. The dictionary must follow the WOFF Metadata Trademark Record structure."
+          },
+          "woffMetadataLicensee": {
+            "type": "dictionary",
+            "description": "Font licensee. Corresponds to the WOFF `licensee` element. The dictionary must follow the WOFF Metadata Licensee Record structure."
+          },
+          "woffMetadataExtensions": {
+            "type": "list",
+            "description": "List of metadata extension records. The dictionaries must follow the WOFF Metadata Extension Record structure. There must be at least one extension record in the list."
+          }
+        },
+        "children": {}
+      },
+      "WOFF Metadata Unique ID Record": {
+        "headings": [
+          "Specification",
+          "Generic Identification Information",
+          "WOFF Data",
+          "WOFF Metadata Unique ID Record"
+        ],
+        "attributes": {
+          "id": {
+            "type": "string",
+            "description": "The id. This is required."
+          }
+        },
+        "children": {}
+      },
+      "WOFF Metadata Vendor Record": {
+        "headings": [
+          "Specification",
+          "Generic Identification Information",
+          "WOFF Data",
+          "WOFF Metadata Vendor Record"
+        ],
+        "attributes": {
+          "name": {
+            "type": "string",
+            "description": "Font vendor. Corresponds to the WOFF `vendor` element `name` attribute. This is required."
+          },
+          "url": {
+            "type": "string",
+            "description": "Font vendor URL. Corresponds to the WOFF `vendor` element `url` attribute. This is optional."
+          },
+          "dir": {
+            "type": "string",
+            "description": "Writing direction. The options are *ltr* and *rtl*. Corresponds to the WOFF `vendor` element `dir` attribute. This is optional."
+          },
+          "class": {
+            "type": "string",
+            "description": "Class tokens. Corresponds to the WOFF `vendor` element `class` attribute. This is optional."
+          }
+        },
+        "children": {}
+      },
+      "WOFF Metadata Credits Record": {
+        "headings": [
+          "Specification",
+          "Generic Identification Information",
+          "WOFF Data",
+          "WOFF Metadata Credits Record"
+        ],
+        "attributes": {
+          "credits": {
+            "type": "list",
+            "description": "Font credits. Corresponds to the WOFF `credits` element. The items in the list must follow the WOFF Credit Record format. The list must contain at least one credit record."
+          }
+        },
+        "children": {}
+      },
+      "WOFF Metadata Credit Record": {
+        "headings": [
+          "Specification",
+          "Generic Identification Information",
+          "WOFF Data",
+          "WOFF Metadata Credit Record"
+        ],
+        "attributes": {
+          "name": {
+            "type": "string",
+            "description": "The name for the credit. Corresponds to the WOFF `credit` element `name` attribute. This is required."
+          },
+          "url": {
+            "type": "string",
+            "description": "The url for the credit. Corresponds to the WOFF `credit` element `url` attribute. This is optional."
+          },
+          "role": {
+            "type": "string",
+            "description": "The role for the credit. Corresponds to the WOFF `credit` element `role` attribute. This is optional."
+          },
+          "dir": {
+            "type": "string",
+            "description": "Writing direction. The options are *ltr* and *rtl*. Corresponds to the WOFF `credit` element `dir` attribute. This is optional."
+          },
+          "class": {
+            "type": "string",
+            "description": "Class tokens. Corresponds to the WOFF `credit` element `class` attribute. This is optional."
+          }
+        },
+        "children": {}
+      },
+      "WOFF Metadata Description Record": {
+        "headings": [
+          "Specification",
+          "Generic Identification Information",
+          "WOFF Data",
+          "WOFF Metadata Description Record"
+        ],
+        "attributes": {
+          "url": {
+            "type": "string",
+            "description": "A URL for the description. Corresponds to the WOFF `description` element `url` attribute. This is optional."
+          },
+          "text": {
+            "type": "list",
+            "description": "A list of WOFF Metadata Text Records for the description. This list must contain at least one text record."
+          }
+        },
+        "children": {}
+      },
+      "WOFF Metadata License Record": {
+        "headings": [
+          "Specification",
+          "Generic Identification Information",
+          "WOFF Data",
+          "WOFF Metadata License Record"
+        ],
+        "attributes": {
+          "url": {
+            "type": "string",
+            "description": "A URL for the license. Corresponds to the WOFF `license` element `url` attribute. This is optional."
+          },
+          "id": {
+            "type": "string",
+            "description": "Ad ID for the license. Corresponds to the WOFF `license` element `id` attribute. This is optional."
+          },
+          "text": {
+            "type": "list",
+            "description": "A list of WOFF Metadata Text Records for the description. The list is permitted to be empty."
+          }
+        },
+        "children": {}
+      },
+      "WOFF Metadata Copyright Record": {
+        "headings": [
+          "Specification",
+          "Generic Identification Information",
+          "WOFF Data",
+          "WOFF Metadata Copyright Record"
+        ],
+        "attributes": {
+          "text": {
+            "type": "list",
+            "description": "A list of WOFF Metadata Text Records for the copyright. This list must contain at least one text record."
+          }
+        },
+        "children": {}
+      },
+      "WOFF Metadata Trademark Record": {
+        "headings": [
+          "Specification",
+          "Generic Identification Information",
+          "WOFF Data",
+          "WOFF Metadata Trademark Record"
+        ],
+        "attributes": {
+          "text": {
+            "type": "list",
+            "description": "A list of WOFF Metadata Text Records for the trademark. This list must contain at least one text record."
+          }
+        },
+        "children": {}
+      },
+      "WOFF Metadata Licensee Record": {
+        "headings": [
+          "Specification",
+          "Generic Identification Information",
+          "WOFF Data",
+          "WOFF Metadata Licensee Record"
+        ],
+        "attributes": {
+          "name": {
+            "type": "string",
+            "description": "The licensee. Corresponds to the WOFF `licensee` element `name` attribute. This is required."
+          },
+          "dir": {
+            "type": "string",
+            "description": "Writing direction. The options are *ltr* and *rtl*. Corresponds to the WOFF `vendor` element `dir` attribute. This is optional."
+          },
+          "class": {
+            "type": "string",
+            "description": "Class tokens. Corresponds to the WOFF `licensee` element `class` attribute. This is optional."
+          }
+        },
+        "children": {}
+      },
+      "WOFF Metadata Text Record": {
+        "headings": [
+          "Specification",
+          "Generic Identification Information",
+          "WOFF Data",
+          "WOFF Metadata Text Record"
+        ],
+        "attributes": {
+          "text": {
+            "type": "string",
+            "description": "The text for the record. This is required."
+          },
+          "language": {
+            "type": "string",
+            "description": "Language. Corresponds to the WOFF `text` element `xml:lang` attribute. This is optional."
+          },
+          "dir": {
+            "type": "string",
+            "description": "Writing direction. The options are *ltr* and *rtl*. Corresponds to the WOFF `text` element `dir` attribute. This is optional."
+          },
+          "class": {
+            "type": "string",
+            "description": "Class tokens. Corresponds to the WOFF `text` element `class` attribute. This is optional."
+          }
+        },
+        "children": {}
+      },
+      "WOFF Metadata Extension Record": {
+        "headings": [
+          "Specification",
+          "Generic Identification Information",
+          "WOFF Data",
+          "WOFF Metadata Extension Record"
+        ],
+        "attributes": {
+          "id": {
+            "type": "string",
+            "description": "The id for the extension. This is optional."
+          },
+          "names": {
+            "type": "list",
+            "description": "List of WOFF Metadata Extension Name Records."
+          },
+          "items": {
+            "type": "list",
+            "description": "List of WOFF Metadata Extension Item Records. The list must contain at least one item record."
+          }
+        },
+        "children": {}
+      },
+      "WOFF Metadata Extension Item Record": {
+        "headings": [
+          "Specification",
+          "Generic Identification Information",
+          "WOFF Data",
+          "WOFF Metadata Extension Item Record"
+        ],
+        "attributes": {
+          "id": {
+            "type": "string",
+            "description": "The id of the item record."
+          },
+          "names": {
+            "type": "list",
+            "description": "List of WOFF Metadata Extension Name Records. The list must contain at least one name record."
+          },
+          "values": {
+            "type": "list",
+            "description": "List of WOFF Metadata Extension Value Records. The list must contain at least one value record."
+          }
+        },
+        "children": {}
+      },
+      "WOFF Metadata Extension Name Record": {
+        "headings": [
+          "Specification",
+          "Generic Identification Information",
+          "WOFF Data",
+          "WOFF Metadata Extension Name Record"
+        ],
+        "attributes": {
+          "text": {
+            "type": "string",
+            "description": "The name of the name record. This is required."
+          },
+          "language": {
+            "type": "string",
+            "description": "The language of the name record. This is optional."
+          },
+          "dir": {
+            "type": "string",
+            "description": "Writing direction. The options are *ltr* and *rtl*. Corresponds to the WOFF extension `name` element `dir` attribute. This is optional."
+          },
+          "class": {
+            "type": "string",
+            "description": "Class tokens. Corresponds to the WOFF extension `name` element `class` attribute. This is optional."
+          }
+        },
+        "children": {}
+      },
+      "WOFF Metadata Extension Value Record": {
+        "headings": [
+          "Specification",
+          "Generic Identification Information",
+          "WOFF Data",
+          "WOFF Metadata Extension Value Record"
+        ],
+        "attributes": {
+          "text": {
+            "type": "string",
+            "description": "The value of the value record. This is required."
+          },
+          "language": {
+            "type": "string",
+            "description": "The language of the value record. This is optional."
+          },
+          "dir": {
+            "type": "string",
+            "description": "Writing direction. The options are *ltr* and *rtl*. Corresponds to the WOFF extension `value` element `dir` attribute. This is optional."
+          },
+          "class": {
+            "type": "string",
+            "description": "Class tokens. Corresponds to the WOFF extension `value` element `class` attribute. This is optional."
+          }
+        },
+        "children": {}
+      },
+      "Guidelines": {
+        "headings": [
+          "Specification",
+          "Generic Identification Information",
+          "Guidelines"
+        ],
+        "attributes": {
+          "guidelines": {
+            "type": "list",
+            "description": "A list of guideline definitions that apply to all glyphs in all layers in the font. This attribute is optional."
+          }
+        },
+        "children": {}
+      },
+      "Guideline Format": {
+        "headings": [
+          "Specification",
+          "Generic Identification Information",
+          "Guidelines",
+          "Guideline Format"
+        ],
+        "attributes": {
+          "x": {
+            "type": "integer or float",
+            "description": "The 'x' coordinate. Optional if `y` is provided and `angle` is not provided. See below for details.",
+            "default": "None"
+          },
+          "y": {
+            "type": "integer or float",
+            "description": "The 'y' coordinate. Optional if `x` is provided and `angle` is not provided. See below for details.",
+            "default": "None"
+          },
+          "angle": {
+            "type": "integer or float",
+            "description": "The angle of the guideline. This must be an angle between 0 and 360 degrees in a counter-clockwise direction from the horizontal. If `x` or `y` are not specified, `angle` must not be specified. See below for details.",
+            "default": "None."
+          },
+          "name": {
+            "type": "string",
+            "description": "An arbitrary name for the guideline. This attribute is optional.",
+            "default": "no name"
+          },
+          "color": {
+            "type": "string",
+            "description": "The color that should be applied to the guideline. The format follows the color definition standard. This attribute is optional.",
+            "default": "no color"
+          },
+          "identifier": {
+            "type": "string",
+            "description": "Unique identifier for the guideline. This attribute is not required and should only be added to guidelines as needed. However, once an identifier has been assigned to a guideline it must not be unnecessarily removed or changed. Identifiers may be changed in incoming guidelines during editing operations such as \"paste,\" but they should be maintained unless a duplicate identifier will be created. The identifier value must be unique within the fontinfo.plist guidelines list that the guideline belongs to but it is not required to be unique among the identifiers assigned to guidelines in glyphs. The identifier specification is detailed in the conventions.",
+            "default": "no identifier"
+          }
+        },
+        "children": {}
+      }
+    },
+    "glif": {
+      "glyph": {
+        "headings": [
+          "Specification",
+          "glyph: The top level element.",
+          "Attributes"
+        ],
+        "attributes": {
+          "name": {
+            "description": "The name of the glyph. It must be at least one character long. There is no maximum name length. Names must not contain control characters. Different font specifications, such as OpenType, often have their own glyph name restrictions. Authoring tools should not make assumptions about the validity of a glyph's name for a particular font specification."
+          },
+          "format": {
+            "description": "The major format version. 2 for this version."
+          },
+          "formatMinor": {
+            "description": "The minor format version. Optional if the minor version is 0, must be present if the minor version is not 0."
+          }
+        },
+        "children": {
+          "advance": {
+            "description": "May occur at most once."
+          },
+          "unicode": {
+            "description": "May occur any number of times."
+          },
+          "note": {
+            "description": "May occur at most once."
+          },
+          "image": {
+            "description": "May occur at most once."
+          },
+          "guideline": {
+            "description": "May occur any number of times."
+          },
+          "anchor": {
+            "description": "May occur any number of times."
+          },
+          "outline": {
+            "description": "May occur at most once."
+          },
+          "lib": {
+            "description": "May occur at most once."
+          }
+        }
+      },
+      "advance": {
+        "headings": [
+          "Specification",
+          "advance: Horizontal and vertical metrics.",
+          "Attributes"
+        ],
+        "attributes": {
+          "width": {
+            "type": "integer or float",
+            "description": "The advance width. Optional if *height* is defined.",
+            "default": "0"
+          },
+          "height": {
+            "type": "integer or float",
+            "description": "The vertical advance. Optional if *width* is defined.",
+            "default": "0"
+          }
+        },
+        "children": {}
+      },
+      "unicode": {
+        "headings": [
+          "Specification",
+          "unicode: Unicode code point.",
+          "Attributes"
+        ],
+        "attributes": {
+          "hex": {
+            "type": "string",
+            "description": "A unicode code point as a hexadecimal number. The string is case-insensitive and must contain the hex value without a prefix."
+          }
+        },
+        "children": {}
+      },
+      "image": {
+        "headings": [
+          "Specification",
+          "image: An image reference.",
+          "Attributes"
+        ],
+        "attributes": {
+          "fileName": {
+            "type": "string",
+            "description": "The image file name, including any file extension, not an absolute or relative path in the file system.",
+            "default": "None"
+          },
+          "xScale": {
+            "type": "integer or float",
+            "description": "See below.",
+            "default": "1"
+          },
+          "xyScale": {
+            "type": "integer or float",
+            "description": "See below.",
+            "default": "0"
+          },
+          "yxScale": {
+            "type": "integer or float",
+            "description": "See below.",
+            "default": "0"
+          },
+          "yScale": {
+            "type": "integer or float",
+            "description": "See below.",
+            "default": "1"
+          },
+          "xOffset": {
+            "type": "integer or float",
+            "description": "See below.",
+            "default": "0"
+          },
+          "yOffset": {
+            "type": "integer or float",
+            "description": "See below.",
+            "default": "0"
+          },
+          "color": {
+            "type": "string",
+            "description": "The color that should be applied to the image. The format follows the color definition standard. This attribute is optional.",
+            "default": "no color"
+          }
+        },
+        "children": {}
+      },
+      "guideline": {
+        "headings": [
+          "Specification",
+          "guideline: A reference guideline.",
+          "Attributes"
+        ],
+        "attributes": {
+          "x": {
+            "type": "integer or float",
+            "description": "The 'x' coordinate. Optional if `y` is provided and `angle` is not provided. See below for details.",
+            "default": "None"
+          },
+          "y": {
+            "type": "integer or float",
+            "description": "The 'y' coordinate. Optional if `x` is provided and `angle` is not provided. See below for details.",
+            "default": "None"
+          },
+          "angle": {
+            "type": "integer or float",
+            "description": "The angle of the guideline. This must be an angle between 0 and 360 degrees in a counter-clockwise direction from the horizontal. If `x` or `y` are not specified, `angle` must not be specified. See below for details.",
+            "default": "None"
+          },
+          "name": {
+            "type": "string",
+            "description": "An arbitrary name for the guideline. This attribute is optional. It must be at least one character long. There is no maximum name length. A name must not contain control characters.",
+            "default": "no name"
+          },
+          "color": {
+            "type": "string",
+            "description": "The color that should be applied to the guideline. The format follows the color definition standard. This attribute is optional.",
+            "default": "no color"
+          },
+          "identifier": {
+            "type": "string",
+            "description": "Unique identifier for the guideline. This attribute is not required and should only be added to guidelines as needed. However, once an identifier has been assigned to a guideline it must not be unnecessarily removed or changed. Identifiers may be changed in incoming guidelines during editing operations such as \"paste,\" but they should be maintained unless a duplicate identifier will be created. The identifier value must be unique within all identifiers (including identifiers for elements other than guidelines) in the glyph that the guideline belongs to but it is not required to be unique among the identifiers assigned in other glyphs or in fontinfo.plist. The identifier specification is detailed in the conventions.",
+            "default": "no identifier"
+          }
+        },
+        "children": {}
+      },
+      "anchor": {
+        "headings": [
+          "Specification",
+          "anchor: A reference position.",
+          "Attributes"
+        ],
+        "attributes": {
+          "x": {
+            "type": "integer or float",
+            "description": "The 'x' coordinate.",
+            "default": "None"
+          },
+          "y": {
+            "type": "integer or float",
+            "description": "The 'y' coordinate.",
+            "default": "None"
+          },
+          "name": {
+            "type": "string",
+            "description": "An arbitrary name for the anchor. This attribute is optional. It must be at least one character long. There is no maximum name length. A name must not contain control characters.",
+            "default": "no name"
+          },
+          "color": {
+            "type": "string",
+            "description": "The color that should be applied to the anchor. The format follows the color definition standard. This attribute is optional.",
+            "default": "no color"
+          },
+          "identifier": {
+            "type": "string",
+            "description": "Unique identifier for the anchor. This attribute is not required and should only be added to anchors as needed. However, once an identifier has been assigned to an anchor it must not be unnecessarily removed or changed. Identifiers may be changed in incoming anchors during editing operations such as \"paste,\" but they should be maintained unless a duplicate identifier will be created. The identifier value must be unique within all identifiers (including identifiers for elements other than anchors) in the glyph that the anchor belongs to but it is not required to be unique among the identifiers assigned in other glyphs or in fontinfo.plist. The identifier specification is detailed in the conventions.",
+            "default": "no identifier"
+          }
+        },
+        "children": {}
+      },
+      "outline": {
+        "headings": [
+          "Specification",
+          "outline: Outline description.",
+          "Child Elements"
+        ],
+        "attributes": {},
+        "children": {
+          "component": {
+            "description": "May occur any number of times."
+          },
+          "contour": {
+            "description": "May occur any number of times."
+          }
+        }
+      },
+      "component": {
+        "headings": [
+          "Specification",
+          "component: Insert another glyph as part of the outline.",
+          "Attributes"
+        ],
+        "attributes": {
+          "base": {
+            "type": "string",
+            "description": "Name of the base glyph",
+            "default": "None"
+          },
+          "xScale": {
+            "type": "integer or float",
+            "description": "See below.",
+            "default": "1"
+          },
+          "xyScale": {
+            "type": "integer or float",
+            "description": "See below.",
+            "default": "0"
+          },
+          "yxScale": {
+            "type": "integer or float",
+            "description": "See below.",
+            "default": "0"
+          },
+          "yScale": {
+            "type": "integer or float",
+            "description": "See below.",
+            "default": "1"
+          },
+          "xOffset": {
+            "type": "integer or float",
+            "description": "See below.",
+            "default": "0"
+          },
+          "yOffset": {
+            "type": "integer or float",
+            "description": "See below.",
+            "default": "0"
+          },
+          "identifier": {
+            "type": "string",
+            "description": "Unique identifier for the component. This attribute is not required and should only be added to components as needed. However, once an identifier has been assigned to a component it must not be unnecessarily removed or changed. Identifiers may be changed in incoming components during editing operations such as \"paste,\" but they should be maintained unless a duplicate identifier will be created. The identifier value must be unique within all identifiers (including identifiers for elements other than components) in the glyph that the component belongs to but it is not required to be unique among the identifiers assigned in other glyphs, in any layerinfo.plist or in fontinfo.plist. The identifier specification is detailed in the conventions.",
+            "default": "no identifier"
+          }
+        },
+        "children": {}
+      },
+      "contour": {
+        "headings": [
+          "Specification",
+          "contour: Contour description.",
+          "Attributes"
+        ],
+        "attributes": {
+          "identifier": {
+            "type": "string",
+            "description": "Unique identifier for the contour. This attribute is not required and should only be added to contours as needed. However, once an identifier has been assigned to a contour it must not be unnecessarily removed or changed. Identifiers may be changed in incoming contours during editing operations such as \"paste\" and component decomposition, but they should be maintained unless a duplicate identifier will be created. Identifiers should also be retained when possible during outline manipulation operations such as path direction changes and remove overlap. The identifier value must be unique within all identifiers (including identifiers for elements other than contours) in the glyph that the contour belongs to but it is not required to be unique among the identifiers assigned in other glyphs, in any layerinfo.plist or in fontinfo.plist. The identifier specification is detailed in the conventions.",
+            "default": "no identifier"
+          }
+        },
+        "children": {
+          "point": {
+            "description": "May occur any number of times."
+          }
+        }
+      },
+      "point": {
+        "headings": [
+          "Specification",
+          "point: An attributed coordinate pair.",
+          "Attributes"
+        ],
+        "attributes": {
+          "x": {
+            "type": "integer or float",
+            "description": "The 'x' coordinate.",
+            "default": "None"
+          },
+          "y": {
+            "type": "integer or float",
+            "description": "The 'y' coordinate.",
+            "default": "None"
+          },
+          "type": {
+            "type": "string",
+            "description": "The point and/or segment type. The options are detailed below.",
+            "default": "offcurve"
+          },
+          "smooth": {
+            "type": "string",
+            "description": "This attribute must only be given when `type` indicates the point is on-curve. When set to `yes`, it signifies that a smooth curvature should be maintained at this point, either as a `curve point` or a `tangent point` in Fontographer terms. This attribute may be set for all point types except `offcurve`.",
+            "default": "no"
+          },
+          "name": {
+            "type": "string",
+            "description": "Arbitrary name or label for this point. The name does not have to be unique within a contour, nor within an outline. It must be at least one character long. There is no maximum name length. A name must not contain control characters.",
+            "default": "no name"
+          },
+          "identifier": {
+            "type": "string",
+            "description": "Unique identifier for the point. This attribute is not required and should only be added to points as needed. However, once an identifier has been assigned to a point it must not be unnecessarily removed or changed. Identifiers may be changed in incoming points during editing operations such as \"paste\" and component decomposition, but they should be maintained unless a duplicate identifier will be created. Identifiers should also be retained when possible during outline manipulation operations such as path direction changes and remove overlap. The identifier value must be unique within all identifiers (including identifiers for elements other than poinys) in the glyph that the point belongs to but it is not required to be unique among the identifiers assigned in other glyphs, in any layerinfo.plist or in fontinfo.plist. The identifier specification is detailed in the conventions.",
+            "default": "no identifier"
+          },
+          "move": {
+            "description": "A point of this type must be the first in a `contour`. The reverse is not true: a `contour` does not necessarily start with a `move` point. When a `contour` **does** start with a `move` point, it signifies the beginning of an **open** contour. A **closed** contour does **not** start with a `move` and is defined as a cyclic list of points, with no predominant start point. There is always a *next point* and a *previous point*. For this purpose the list of points can be seen as endless in both directions. The actual list of points can be rotated arbitrarily (by removing the first N points and appending them at the end) while still describing the same outline."
+          },
+          "line": {
+            "description": "Draw a straight line from the previous point to this point. The previous point must be a `move`, a `line`, a `curve` or a `qcurve`. It must not be an `offcurve`."
+          },
+          "offcurve": {
+            "description": "This point is part of a curve segment that goes up to the next point that is either a `curve` or a `qcurve`."
+          },
+          "curve": {
+            "description": "Draw a cubic bezier curve from the last non-*offcurve* point to this point. The number of *offcurve* points can be zero, one or two. If the number of `offcurve` points is zero, a straight line is drawn. If it is one, a quadratic curve is drawn. If it is two, a regular cubic bezier is drawn."
+          },
+          "qcurve": {
+            "description": "Similar to curve, but uses quadratic curves, using the TrueType \"implied on-curve points\" principle. The number of *offcurve* points preceding this point can be zero, in which case a straight line is drawn from the last non-*offcurve* point to this point."
+          }
+        },
+        "children": {}
+      },
+      "lib": {
+        "headings": [
+          "Specification",
+          "lib: Custom data storage.",
+          "Common Key Registry",
+          "public.truetype.instructions",
+          "TrueType Instructions Dict"
+        ],
+        "attributes": {
+          "formatVersion": {
+            "type": "string",
+            "description": "format version. Currently \"1\", the first public version."
+          },
+          "id": {
+            "type": "string",
+            "description": "Hash of glyph outlines. This is computed when the glyph is hinted. It is used to determine if the glyph outline has been changed since the glyph was hinted: if it has, then the hint dict for the glyph should be deleted. See \"Hint ID Computation\" below."
+          },
+          "assembly": {
+            "type": "string",
+            "description": "TrueType instructions assembly as a string. The assembly is represented by a single string of fontTools TrueType instructions assembly with optional line formatting between instructions."
+          },
+          "hintSetList": {
+            "type": "list",
+            "description": "List of hint sets. A hint set is a dict containing a list of hints, and a unique point name which identifies the point after which the hint set is applied."
+          },
+          "flexList": {
+            "type": "string",
+            "description": "List of unique point names. Each point name identifies the point at which a flex hint starts."
+          },
+          "pointTag": {
+            "type": "string",
+            "description": "unique point name. Must match a point 'name' attribute."
+          },
+          "stems": {
+            "type": "list of strings",
+            "description": "list of stem strings. Each stem string starts with either 'hstem\" or \"vstem\" and is a followed by a series of white-space delimited stem coordinate values. A stem coordinate value is an absolute coordinate. There must be an even number of stem coordinates: each pair of values defines a lower and upper edge of a stem hint. The stems must be sorted in ascending order of lower edge values. 'hstem' strings must be sorted before 'vstem' strings."
+          },
+          "public.truetype.roundOffsetToGrid": {
+            "type": "boolean",
+            "description": "This key is used in a component object-level dictionary and, when set to true, indicates bit 2 (ROUND_XY_TO_GRID) listed in the OpenType glyf Composite Glyph Description should be set for the component in the Component Glyph flags in TrueType binaries. Authoring tools may ignore this data. This data is optional."
+          },
+          "public.truetype.useMyMetrics": {
+            "type": "boolean",
+            "description": "This key is used in a component object-level dictionary and, when set to true, indicates bit 9 (USE_MY_METRICS) listed in the OpenType glyf Composite Glyph Description should be set for the component in the Component Glyph flags in TrueType binaries. This data is optional."
+          }
+        },
+        "children": {}
+      }
+    },
+    "metainfo": {
+      "Specification": {
+        "headings": [
+          "Specification"
+        ],
+        "attributes": {
+          "creator": {
+            "type": "string",
+            "description": "The application or library that created the UFO. This should follow a reverse domain naming scheme. For example, *org.robofab.ufoLib*. Optional."
+          },
+          "formatVersion": {
+            "type": "non-negative integer",
+            "description": "The major version number of the UFO format. 3 for UFO 3. Required."
+          },
+          "formatVersionMinor": {
+            "type": "non-negative integer",
+            "description": "The minor version number of the UFO format. Optional if the minor version is 0, must be present if the minor version is not 0."
+          }
+        },
+        "children": {}
+      }
+    },
+    "layercontents": {},
+    "layerinfo": {
+      "Specification": {
+        "headings": [
+          "Specification"
+        ],
+        "attributes": {
+          "color": {
+            "type": "color definition",
+            "description": "The color that should be used for all glyphs in the layer. This attribute is optional.",
+            "default": "None"
+          },
+          "lib": {
+            "type": "dictionary",
+            "description": "A lib specific to the layer. To avoid naming conflicts, keys should use the Reverse Domain Naming Scheme defined for lib.plist.",
+            "default": "None"
+          }
+        },
+        "children": {}
+      }
+    },
+    "lib": {
+      "public.truetype.instructions": {
+        "headings": [
+          "Specification",
+          "Common Key Registry",
+          "public.truetype.instructions"
+        ],
+        "attributes": {
+          "formatVersion": {
+            "description": "Format version. Set to \"1\"."
+          },
+          "controlValue": {
+            "description": "TrueType instructions control values as a dictionary of control values keyed by index. This is optional."
+          },
+          "controlValueProgram": {
+            "description": "TrueType preprogram assembly as a string. This is optional."
+          },
+          "fontProgram": {
+            "description": "TrueType font program assembly as a string. This is optional."
+          },
+          "maxFunctionDefs": {
+            "description": "Number of function definitions, used by TrueType instructions, stored in the `maxp` in OpenType table as an integer. This is optional."
+          },
+          "maxInstructionDefs": {
+            "description": "Number of instruction definitions, used by TrueType instructions, stored in the `maxp` in OpenType table as an integer. This is optional."
+          },
+          "maxStackElements": {
+            "description": "Maximum stack depth, used by TrueType instructions, stored in the `maxp` in OpenType table as an integer. This is optional."
+          },
+          "maxStorage": {
+            "description": "Maximum number of storage area locations, used by TrueType instructions, stored in the `maxp` in OpenType table. This is optional."
+          },
+          "maxSizeOfInstructions": {
+            "description": "Maximum byte count for glyph instructions, used by TrueType instructions, stored in the `maxp` in OpenType table as an integer. This is optional."
+          },
+          "maxTwilightPoints": {
+            "description": "Maximum points used in zone 0, stored in the `maxp` in OpenType table as an integer. This is optional."
+          },
+          "maxZones": {
+            "description": "Number of zones used by TrueType instructions, stored in the `maxp` in OpenType table as an integer. This is optional."
+          }
+        },
+        "children": {}
+      }
+    },
+    "groups": {},
+    "kerning": {},
+    "contents": {}
+  }
+}

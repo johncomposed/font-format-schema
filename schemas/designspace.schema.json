@@ -1,0 +1,672 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:font-format-schema:designspace",
+  "title": "Designspace document",
+  "description": "JSON model of a Designspace 5 document, structured after fontTools.designspaceLib descriptors.",
+  "$ref": "#/$defs/DesignspaceDocument",
+  "$defs": {
+    "Location": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "number"
+      },
+      "description": "Axis name -> value."
+    },
+    "PlistValue": {
+      "description": "Any property list value."
+    },
+    "PlistDict": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/PlistValue"
+      }
+    },
+    "AxisLabel": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Label name (the default language name)."
+        },
+        "userValue": {
+          "type": "number",
+          "description": "Value of the label on the axis, in user coordinates."
+        },
+        "userMinimum": {
+          "type": "number",
+          "description": "Start of the range the label covers (STAT format 2)."
+        },
+        "userMaximum": {
+          "type": "number",
+          "description": "End of the range the label covers (STAT format 2)."
+        },
+        "elidable": {
+          "type": "boolean",
+          "default": false,
+          "description": "Label can be elided from names (STAT flag ELIDABLE_AXIS_VALUE_NAME)."
+        },
+        "olderSibling": {
+          "type": "boolean",
+          "default": false,
+          "description": "STAT flag OLDER_SIBLING_FONT_ATTRIBUTE."
+        },
+        "linkedUserValue": {
+          "type": "number",
+          "description": "Value this label links to (STAT format 3), e.g. Regular -> Bold."
+        },
+        "labelNames": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Localised names keyed by language tag (xml:lang), e.g. {'en': 'Weight'}."
+        }
+      },
+      "required": [
+        "name",
+        "userValue"
+      ],
+      "additionalProperties": false,
+      "description": "<label> inside <axis>: a STAT axis value."
+    },
+    "ContinuousAxis": {
+      "type": "object",
+      "properties": {
+        "tag": {
+          "type": "string",
+          "minLength": 4,
+          "maxLength": 4,
+          "description": "Four character OpenType axis tag."
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Axis name used in locations, rules and mappings."
+        },
+        "labelNames": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Localised names keyed by language tag (xml:lang), e.g. {'en': 'Weight'}."
+        },
+        "hidden": {
+          "type": "boolean",
+          "default": false,
+          "description": "Hide the axis in UIs (fvar HIDDEN_AXIS flag)."
+        },
+        "map": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "prefixItems": [
+              {
+                "type": "number",
+                "description": "input (user)"
+              },
+              {
+                "type": "number",
+                "description": "output (design)"
+              }
+            ],
+            "minItems": 2,
+            "maxItems": 2,
+            "items": false
+          },
+          "description": "<map input= output=/> pairs converting user space to design space (compiled to avar version 1)."
+        },
+        "axisOrdering": {
+          "type": "integer",
+          "description": "STAT axisOrdering; defaults to document order when absent."
+        },
+        "axisLabels": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/AxisLabel"
+          }
+        },
+        "minimum": {
+          "type": "number",
+          "description": "Minimum value in user space."
+        },
+        "default": {
+          "type": "number",
+          "description": "Default value in user space."
+        },
+        "maximum": {
+          "type": "number",
+          "description": "Maximum value in user space."
+        }
+      },
+      "required": [
+        "tag",
+        "name",
+        "minimum",
+        "default",
+        "maximum"
+      ],
+      "additionalProperties": false,
+      "description": "<axis> with a continuous range."
+    },
+    "DiscreteAxis": {
+      "type": "object",
+      "properties": {
+        "tag": {
+          "type": "string",
+          "minLength": 4,
+          "maxLength": 4,
+          "description": "Four character OpenType axis tag."
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Axis name used in locations, rules and mappings."
+        },
+        "labelNames": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Localised names keyed by language tag (xml:lang), e.g. {'en': 'Weight'}."
+        },
+        "hidden": {
+          "type": "boolean",
+          "default": false,
+          "description": "Hide the axis in UIs (fvar HIDDEN_AXIS flag)."
+        },
+        "map": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "prefixItems": [
+              {
+                "type": "number",
+                "description": "input (user)"
+              },
+              {
+                "type": "number",
+                "description": "output (design)"
+              }
+            ],
+            "minItems": 2,
+            "maxItems": 2,
+            "items": false
+          },
+          "description": "<map input= output=/> pairs converting user space to design space (compiled to avar version 1)."
+        },
+        "axisOrdering": {
+          "type": "integer",
+          "description": "STAT axisOrdering; defaults to document order when absent."
+        },
+        "axisLabels": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/AxisLabel"
+          }
+        },
+        "values": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 1,
+          "description": "Discrete values the axis can take (space separated in XML)."
+        },
+        "default": {
+          "type": "number",
+          "description": "Default value; must be one of `values`."
+        }
+      },
+      "required": [
+        "tag",
+        "name",
+        "values",
+        "default"
+      ],
+      "additionalProperties": false,
+      "description": "<axis values=...>: a discrete axis (Designspace 5). Discrete axes split the document into separate variable fonts."
+    },
+    "Axis": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/ContinuousAxis"
+        },
+        {
+          "$ref": "#/$defs/DiscreteAxis"
+        }
+      ]
+    },
+    "AxisMapping": {
+      "type": "object",
+      "properties": {
+        "inputLocation": {
+          "$ref": "#/$defs/Location",
+          "description": "Axis name -> user value (input side)."
+        },
+        "outputLocation": {
+          "$ref": "#/$defs/Location",
+          "description": "Axis name -> user value (output side)."
+        },
+        "description": {
+          "type": "string",
+          "description": "Optional human readable description."
+        },
+        "groupDescription": {
+          "type": "string",
+          "description": "Description of the enclosing <mappings> group."
+        }
+      },
+      "required": [
+        "inputLocation",
+        "outputLocation"
+      ],
+      "additionalProperties": false,
+      "description": "<mapping> inside <axes><mappings>: a multi-axis input/output correspondence compiled to avar version 2."
+    },
+    "LocationLabel": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "elidable": {
+          "type": "boolean",
+          "default": false
+        },
+        "olderSibling": {
+          "type": "boolean",
+          "default": false
+        },
+        "userLocation": {
+          "$ref": "#/$defs/Location",
+          "description": "Location in user coordinates."
+        },
+        "labelNames": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Localised names keyed by language tag (xml:lang), e.g. {'en': 'Weight'}."
+        }
+      },
+      "required": [
+        "name",
+        "userLocation"
+      ],
+      "additionalProperties": false,
+      "description": "<labels><label>: a named location (STAT format 4)."
+    },
+    "Source": {
+      "type": "object",
+      "properties": {
+        "filename": {
+          "type": "string",
+          "description": "Path to the source UFO, relative to the document."
+        },
+        "name": {
+          "type": "string",
+          "description": "Unique source name."
+        },
+        "layerName": {
+          "type": "string",
+          "description": "UFO layer to read; the default layer when absent."
+        },
+        "location": {
+          "$ref": "#/$defs/Location",
+          "description": "Design-space location of the master. Omitted axes take their default."
+        },
+        "familyName": {
+          "type": "string"
+        },
+        "styleName": {
+          "type": "string"
+        },
+        "localisedFamilyName": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Localised names keyed by language tag (xml:lang), e.g. {'en': 'Weight'}."
+        },
+        "copyLib": {
+          "type": "boolean",
+          "default": false
+        },
+        "copyGroups": {
+          "type": "boolean",
+          "default": false
+        },
+        "copyFeatures": {
+          "type": "boolean",
+          "default": false
+        },
+        "muteKerning": {
+          "type": "boolean",
+          "default": false
+        },
+        "muteInfo": {
+          "type": "boolean",
+          "default": false
+        },
+        "mutedGlyphNames": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Glyphs of this master excluded from interpolation."
+        }
+      },
+      "required": [
+        "location"
+      ],
+      "additionalProperties": false,
+      "description": "<source>: a master."
+    },
+    "Instance": {
+      "type": "object",
+      "properties": {
+        "filename": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "locationLabel": {
+          "type": "string",
+          "description": "Name of a <labels><label> giving the location."
+        },
+        "designLocation": {
+          "$ref": "#/$defs/Location",
+          "description": "Location in design coordinates (xvalue)."
+        },
+        "userLocation": {
+          "$ref": "#/$defs/Location",
+          "description": "Location in user coordinates (uservalue)."
+        },
+        "familyName": {
+          "type": "string"
+        },
+        "styleName": {
+          "type": "string"
+        },
+        "postScriptFontName": {
+          "type": "string"
+        },
+        "styleMapFamilyName": {
+          "type": "string"
+        },
+        "styleMapStyleName": {
+          "enum": [
+            "regular",
+            "italic",
+            "bold",
+            "bold italic"
+          ]
+        },
+        "localisedFamilyName": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Localised names keyed by language tag (xml:lang), e.g. {'en': 'Weight'}."
+        },
+        "localisedStyleName": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Localised names keyed by language tag (xml:lang), e.g. {'en': 'Weight'}."
+        },
+        "localisedStyleMapFamilyName": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Localised names keyed by language tag (xml:lang), e.g. {'en': 'Weight'}."
+        },
+        "localisedStyleMapStyleName": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Localised names keyed by language tag (xml:lang), e.g. {'en': 'Weight'}."
+        },
+        "glyphs": {
+          "type": "object",
+          "additionalProperties": {},
+          "description": "Deprecated per-glyph instance overrides (Designspace 3)."
+        },
+        "kerning": {
+          "type": "boolean",
+          "default": true,
+          "description": "Interpolate kerning."
+        },
+        "info": {
+          "type": "boolean",
+          "default": true,
+          "description": "Interpolate font info."
+        },
+        "lib": {
+          "$ref": "#/$defs/PlistDict"
+        }
+      },
+      "additionalProperties": false,
+      "description": "<instance>: a static instance / named instance."
+    },
+    "Condition": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Axis name."
+        },
+        "minimum": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "maximum": {
+          "type": [
+            "number",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "additionalProperties": false,
+      "description": "<condition>: a closed range on one axis; an open bound is null."
+    },
+    "Rule": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "conditionSets": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/Condition"
+            },
+            "description": "All conditions in a set must hold (AND)."
+          },
+          "description": "Any set may trigger the rule (OR)."
+        },
+        "subs": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "prefixItems": [
+              {
+                "type": "string",
+                "description": "source glyph"
+              },
+              {
+                "type": "string",
+                "description": "replacement glyph"
+              }
+            ],
+            "minItems": 2,
+            "maxItems": 2,
+            "items": false
+          }
+        }
+      },
+      "required": [
+        "conditionSets",
+        "subs"
+      ],
+      "additionalProperties": false,
+      "description": "<rule>: glyph substitutions active in parts of the design space (compiled to GSUB FeatureVariations)."
+    },
+    "RangeAxisSubset": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Axis name."
+        },
+        "userMinimum": {
+          "type": "number"
+        },
+        "userDefault": {
+          "type": "number"
+        },
+        "userMaximum": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "additionalProperties": false,
+      "description": "<axis-subset> keeping a (sub)range of an axis in the variable font."
+    },
+    "ValueAxisSubset": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Axis name."
+        },
+        "userValue": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "name",
+        "userValue"
+      ],
+      "additionalProperties": false,
+      "description": "<axis-subset uservalue=...> pinning an axis to one value."
+    },
+    "VariableFont": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "filename": {
+          "type": "string"
+        },
+        "axisSubsets": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "$ref": "#/$defs/RangeAxisSubset"
+              },
+              {
+                "$ref": "#/$defs/ValueAxisSubset"
+              }
+            ]
+          }
+        },
+        "lib": {
+          "$ref": "#/$defs/PlistDict"
+        }
+      },
+      "required": [
+        "name",
+        "axisSubsets"
+      ],
+      "additionalProperties": false,
+      "description": "<variable-font>: one variable font to build from the document."
+    },
+    "DesignspaceDocument": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string",
+          "description": "File system path (informational)."
+        },
+        "formatVersion": {
+          "type": "string",
+          "pattern": "^\\d+(\\.\\d+)?$",
+          "description": "Document format, e.g. '5.2'."
+        },
+        "axes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Axis"
+          }
+        },
+        "axisMappings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/AxisMapping"
+          }
+        },
+        "locationLabels": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/LocationLabel"
+          }
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Source"
+          }
+        },
+        "variableFonts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/VariableFont"
+          }
+        },
+        "instances": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Instance"
+          }
+        },
+        "rules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Rule"
+          }
+        },
+        "rulesProcessingLast": {
+          "type": "boolean",
+          "default": false,
+          "description": "Apply rules after other substitutions (<rules processing='last'>)."
+        },
+        "lib": {
+          "$ref": "#/$defs/PlistDict"
+        }
+      },
+      "required": [
+        "formatVersion",
+        "axes",
+        "sources"
+      ],
+      "additionalProperties": false,
+      "description": "<designspace>: a Designspace 5 document."
+    }
+  }
+}

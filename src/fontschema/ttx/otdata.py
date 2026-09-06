@@ -128,9 +128,15 @@ def _schema_for_type(type_name: str, defs: set[str], field_name: str) -> dict[st
 def otdata_json_schema(meta: dict[str, Any]) -> dict[str, Any]:
     defs = set(meta["definitions"])
     out_defs: dict[str, Any] = {}
+    all_repeats = {f.get("repeat") for fields in meta["definitions"].values() for f in fields if f.get("repeat")}
     for name, fields in meta["definitions"].items():
         props: dict[str, Any] = {}
         required: list[str] = []
+        # Count fields are implied by array lengths and TTX writes them as
+        # comments (also when the array lives in a sub-table, e.g. STAT's
+        # DesignAxisCount); EntryFormat/MappingCount belong to packed data that
+        # custom converters serialise as <Map> records instead.
+        count_fields = all_repeats | {f["name"] for f in fields if f["name"].endswith("Count") or f["name"] == "EntryFormat"}
         for f in fields:
             schema = _schema_for_type(f.get("type") or "", defs, f.get("name") or "")
             if f.get("repeat") not in (None, ""):
@@ -138,8 +144,14 @@ def otdata_json_schema(meta: dict[str, Any]) -> dict[str, Any]:
             if f.get("description"):
                 schema = {**schema, "description": f["description"]}
             props[f["name"]] = schema
-            if not f.get("aux"):
+            # TTX omits null offsets, count fields and fields handled by custom
+            # converters, so only plain scalars are required in the JSON projection.
+            is_scalar = "$ref" not in schema and schema.get("type") in ("number", "string")
+            if not f.get("aux") and f["name"] not in count_fields and is_scalar:
                 required.append(f["name"])
+            if f["name"] in count_fields:
+                schema["x-implied-by-array-length"] = True
+                props[f["name"]] = schema
         out_defs[name] = {
             "type": "object",
             "properties": props,

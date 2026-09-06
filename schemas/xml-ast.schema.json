@@ -2,9 +2,9 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:font-format-schema:xml-ast",
   "title": "Ordered XML AST",
-  "$ref": "#/$defs/element",
+  "$ref": "#/$defs/XmlElement",
   "$defs": {
-    "element": {
+    "XmlElement": {
       "type": "object",
       "required": [
         "tag",
@@ -27,7 +27,7 @@
         "children": {
           "type": "array",
           "items": {
-            "$ref": "#/$defs/element"
+            "$ref": "#/$defs/XmlElement"
           }
         }
       },
