@@ -1,0 +1,16 @@
+[submodule "vendor/ufo-spec"]
+	path = vendor/ufo-spec
+	url = https://github.com/unified-font-object/ufo-spec.git
+	shallow = true
+[submodule "vendor/variable-components-in-ufo"]
+	path = vendor/variable-components-in-ufo
+	url = https://github.com/fontra/variable-components-in-ufo.git
+	shallow = true
+[submodule "vendor/boring-expansion-spec"]
+	path = vendor/boring-expansion-spec
+	url = https://github.com/harfbuzz/boring-expansion-spec.git
+	shallow = true
+[submodule "vendor/fonttools"]
+	path = vendor/fonttools
+	url = https://github.com/fonttools/fonttools.git
+	shallow = true
